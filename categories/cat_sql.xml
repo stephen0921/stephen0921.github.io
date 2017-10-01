@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about sql)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_sql.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sun, 01 Oct 2017 01:11:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Learn some SQL</title><link>https://stephen0921.github.io/posts/2017-08-11-sqlite/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Learn some SQL&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+  SQL(structured query language)可以理解为一种标准语言，不管底层最终的database是MySQL还是sqlite，都是支持这个标准语言的。虽然在脚本语言中，有DBI(database interface) module，比如Perl里的DBIx::Class，为用户操作数据库提供了便利的wrapper，但是了解一些基本的SQL操作，很有必要。
+推荐两个非常棒的SQL教学视频，比如:&lt;a href="https://www.youtube.com/watch?v=QjICgmk31js&amp;amp;list=PLGLfVvz_LVvTsslWD1HBQEjBbmAaAF9Xy&amp;amp;index=1"&gt;sqlite3 tutorial&lt;/a&gt; 和 &lt;a href="https://www.youtube.com/watch?v=yPu6qV5byu4&amp;amp;list=PLSBBbFozymr309Vzn5cmG2kxGKV6pHnKP&amp;amp;index=5"&gt;MySQL&lt;/a&gt; 。
+&lt;/p&gt;
+
+&lt;p&gt;
+再回到我最近看的MojoExample源代码上来。Schema::Result::Blog.pm，有一段代码是这样:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nn"&gt;__PACKAGE__&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;has_many&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+  &lt;span class="s"&gt;"blog_tags"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s"&gt;"Schema::Result::BlogTag"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s"&gt;"foreign.blog"&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;"self.id"&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;cascade_copy&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cascade_delete&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+就是说一个Blog有多个BlogTag，table blog_tags的column成员blog映射到table blogs的column成员id上。
+再来看Schema::Result::BlogTag.pm的一段:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nn"&gt;__PACKAGE__&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;belongs_to&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+  &lt;span class="s"&gt;"blog"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s"&gt;"Schema::Result::Blog"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;"blog"&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;is_deferrable&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;on_delete&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;"CASCADE"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;on_update&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;"CASCADE"&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+这个代码不够友好，参考这个帖子&lt;a href="http://blog.johngoulah.com/2009/05/versioning-with-dbic/"&gt;versioning-with-dbic&lt;/a&gt; 后，我们把这一段改一下:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nn"&gt;__PACKAGE__&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;belongs_to&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+  &lt;span class="s"&gt;"blog"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="s"&gt;"Schema::Result::Blog"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s"&gt;"foreign.id"&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;"self.blog"&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+  &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;is_deferrable&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;on_delete&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;"CASCADE"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;on_update&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;"CASCADE"&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+这样就清晰多了，table blogs的column成员id映射到table blog_tags的column成员blog上。
+&lt;/p&gt;
+
+&lt;p&gt;
+进到MojoExample目录下，看一下现有的数据库长什么样:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sqlite3 test.db
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+发几个命令熟悉一下，最后一条是JOIN命令，另外还有LEFT JOIN，RIGHT JOIN等，去w3school上看吧。
+&lt;/p&gt;
+&lt;img src="https://stephen0921.github.io/images/sqlite3.png" class="img-thumbnail" width="60%"&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-11-sqlite/</guid><pubDate>Fri, 11 Aug 2017 09:19:11 GMT</pubDate></item></channel></rss>
