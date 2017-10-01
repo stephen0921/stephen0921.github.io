@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Some tips and notes need to write here.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yao He's Awesome Site (old posts, page 2) | Yao He's Awesome Site</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/index-2.html">
+<link rel="prev" href="index-3.html" type="text/html">
+<link rel="next" href="index-1.html" type="text/html">
+<!--[if lt IE 9]>
+            <script src="assets/js/html5shiv.min.js"></script>
+            <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="archive.html">Archive</a></li>
+                <li class="withripple"><a href="categories/">Tags</a></li>
+                <li class="withripple"><a href="rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+
+    <div class="postindex well post-material ">
+    
+        <article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-08-01-irun-msie/" class="u-url">irun MSIE tips</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/2017-08-01-irun-msie/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-08-01T12:56:41+08:00" title="2017-08-01 12:56">2017-08-01 12:56</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">irun MSIE</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+前一阵子折腾MSIE的验证环境，现在环境比较稳定了，也是时候来总结一下了。
+</p>
+
+<p>
+MSIE的全称是Multi-Snapshot Incremental Elaboration，是cadence的irun工具的一个feature。使用这个feature可以节约仿真的编译时间，其本质就是把一些子模块编译好，顶层编译的时候直接把编译好的子模块的database拿过来，节省了elaboration的时间。
+</p>
+
+<p>
+举一个例子，比如下面的一个验证环境。
+</p>
+
+<img src="images/msie.png" class="img-thumbnail" width="60%"><p>
+其中，相对稳定基本不变的部分是cpu，其他的比如dut和tb_top会经常改变。那么cpu部分就可以提前编译好，作为一个database，官方叫法是primary snapshot。"挖掉"cpu的dut也可以作为一个primary snapshot。
+</p>
+
+<p>
+具体的irun命令是:
+</p>
+<div class="highlight"><pre><span></span><span class="nf">cpu_compile</span><span class="o">:</span>
+	irun <span class="k">$(</span>MSIE_PRIM_OPT<span class="k">)</span> -top cpu -name cpu -f cpu.f -nclibdirname <span class="k">$(</span>WORKDIR<span class="k">)</span>/cpu -l cpu_compile.log -incrpath tb_top.u_dut.u_cpu
+
+<span class="nf">dut_compile</span><span class="o">:</span>
+	irun <span class="k">$(</span>MSIE_PRIM_OPT<span class="k">)</span> -top dut -name dut -f dut_no_cpu.f -nclibdirname <span class="k">$(</span>WORKDIR<span class="k">)</span>/dut_no_cpu -l dut_compile.log -incrbind cpu -incrpath tb_top.u_dut
+
+<span class="nf">tb_compile</span><span class="o">:</span>
+	irun <span class="k">$(</span>MSIE_INCR_OPT<span class="k">)</span> -top tb_top -f tb_top_no_dut.f  -l tb_compile.log -primname dut@<span class="k">$(</span>WORKDIR<span class="k">)</span>/dut_no_cpu -primname cpu@<span class="k">$(</span>WORKDIR<span class="k">)</span>/cpu
+</pre></div>
+
+<p>
+如果是后仿，还要做sdf反标，就要在compile每一个primary snapshot的时候把sdf文件吃进去，option是-sdf_cmd_file xx.cmd。sdf的拆分需要根据partition情况使用工具ncsdfc来完成。
+</p>
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-07-26-perl-misc3/" class="u-url">Perl tips series 3</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/2017-07-26-perl-misc3/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-07-26T10:59:30+08:00" title="2017-07-26 10:59">2017-07-26 10:59</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">perl OOP 浅尝辄止二</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+perl中，继承类的实现，如下。
+</p>
+<div class="highlight"><pre><span></span><span class="k">package</span> <span class="nn">CD::PIANO</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">base</span> <span class="sx">qw(CD)</span><span class="p">;</span>
+
+<span class="k">sub</span> <span class="nf">init</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="nv">$self</span><span class="o">-&gt;</span><span class="nn">SUPER::</span><span class="n">init</span><span class="p">(</span><span class="s">'piano song'</span><span class="p">);</span>
+    <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">player</span><span class="p">}</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">sub</span> <span class="nf">play</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s">"Welcome to a wonderful world!\n"</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s">"Played by $self-&gt;{player}\n"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="mi">1</span><span class="p">;</span>
+</pre></div>
+
+<ul class="org-ul">
+<li>关键字base，来传达继承于哪个类;
+</li>
+<li>这个package的名字叫"CD::PIANO"，既反映了继承关系，也同时反映了文件存储的位置，放在了目录CD下面，和目录CD并列的是CD.pm;
+</li>
+<li>关键字SUPER，来调用父类的函数;
+</li>
+<li>函数print_me的实现在其父类CD中;
+</li>
+<li>和其他语言不同，perl的继承类可以没有自己的new函数，把其父类的new函数继承来就可以了;
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">FindBin</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">lib</span> <span class="s">"$FindBin::Bin"</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">CD::PIANO</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$piano</span> <span class="o">=</span> <span class="nn">CD::PIANO</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+
+<span class="nv">$piano</span><span class="o">-&gt;</span><span class="n">init</span><span class="p">(</span><span class="s">'Someone'</span><span class="p">);</span>
+
+<span class="nv">$piano</span><span class="o">-&gt;</span><span class="n">play</span><span class="p">;</span>
+
+<span class="nv">$piano</span><span class="o">-&gt;</span><span class="n">print_me</span><span class="p">;</span>
+</pre></div>
+
+<p>
+运行结果如下:
+</p>
+<div class="highlight"><pre><span></span>Welcome to a wonderful world!
+Played by Someone
+<span class="nv">music</span> <span class="o">=</span> piano song
+</pre></div>
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-07-25-perl-misc2/" class="u-url">Perl tips series 2</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/2017-07-25-perl-misc2/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-07-25T15:17:40+08:00" title="2017-07-25 15:17">2017-07-25 15:17</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">perl OOP 浅尝辄止一</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+在perl中，至少是perl5中，class是通过package来实现的，如下。
+</p>
+<div class="highlight"><pre><span></span><span class="k">package</span> <span class="nn">CD</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">strict</span><span class="p">;</span>
+<span class="k">sub</span> <span class="nf">new</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$class</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="nb">bless</span> <span class="nv">$self</span><span class="p">,</span> <span class="nv">$class</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">sub</span> <span class="nf">init</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">music</span><span class="p">}</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">sub</span> <span class="nf">print_me</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s">"music = $self-&gt;{music}\n"</span><span class="p">;</span>
+<span class="p">}</span> 
+<span class="mi">1</span><span class="p">;</span>
+</pre></div>
+
+<p>
+有几个注意的点:
+</p>
+<ul class="org-ul">
+<li>bless是把hash ref和class关联起来，每一个objet其实就是一个hash ref;
+</li>
+<li>注意$class和$self不要混淆了，$class就是new的时候传进来的类名字，$self是hash ref;
+</li>
+<li>package 最后的返回1，必不可少;
+</li>
+</ul>
+<p>
+我们来使用这个类，如下:
+</p>
+<div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">FindBin</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">lib</span> <span class="s">"$FindBin::Bin"</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">CD</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$cd</span> <span class="o">=</span> <span class="nn">CD</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+
+<span class="nv">$cd</span><span class="o">-&gt;</span><span class="n">init</span><span class="p">(</span><span class="s">'ABC'</span><span class="p">);</span>
+
+<span class="nv">$cd</span><span class="o">-&gt;</span><span class="n">print_me</span><span class="p">;</span>
+</pre></div>
+
+<ul class="org-ul">
+<li>为了让perl解释器能够找到我们的类，通过FindBin来指出路径;
+</li>
+<li>构建一个类的对象时，千万不能写成CD::new，要定位好久才发现，CD::new其实是选择了namespace的CD这个package里的new，并不是执行一个class的new函数;
+</li>
+</ul>
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-07-14-perl-misc1/" class="u-url">Perl tips series 1</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/2017-07-14-perl-misc1/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-07-14T16:17:40+08:00" title="2017-07-14 16:17">2017-07-14 16:17</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">print中内嵌函数</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+有的时候，我们想要print一些信息，但是又要对信息处理后打印，我们不得不分成两部分来做。
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">@array</span> <span class="o">=</span> <span class="sx">qw(abc de fgh)</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$tmp</span> <span class="o">=</span> <span class="nb">join</span> <span class="s">':'</span><span class="p">,</span> <span class="nv">@array</span><span class="p">;</span>
+
+<span class="k">print</span> <span class="s">"$tmp\n"</span><span class="p">;</span>
+</pre></div>
+
+<p>
+如果特别想省去$tmp这个临时变量，可以像下面的方式来写。
+</p>
+
+<div class="highlight"><pre><span></span><span class="nv">@array</span> <span class="o">=</span> <span class="sx">qw(abc de fgh)</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">"@{[join ':',@array]}"</span><span class="p">;</span>
+</pre></div>
+
+<p>
+@{[code]}这种写法是把code的执行结果先转成array reference，然后在变成array，很巧妙的写法！
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">按照文件的创建时间排序</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+这个需求的出发场景是，比如一个工具生成autohref.txt文件，等再run一次，工具生成autohref1.txt，以此类推。
+如果我想对最新的autohref*.txt文件进行处理，一般的方法是找匹配/autohref(\d+)\.txt/的文件，同时$1是最大的。
+但是，如果用户删除了其中一个autohref4.txt，那么下次run这个工具，就有可能破坏了这个前提。所以，去找最新的这个文件是比较保险的。
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">@files</span> <span class="o">=</span> <span class="nb">glob</span> <span class="s">'./autohref*.txt'</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">@files_in_order</span> <span class="o">=</span> <span class="nb">sort</span> <span class="p">{(</span><span class="nb">stat</span> <span class="nv">$b</span><span class="p">)[</span><span class="mi">10</span><span class="p">]</span> <span class="sr">&lt;=&gt;</span> <span class="p">(</span><span class="nb">stat</span> <span class="nv">$a</span><span class="p">)[</span><span class="mi">10</span><span class="p">]}</span> <span class="nv">@files</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$latest_file</span> <span class="o">=</span> <span class="nb">shift</span> <span class="nv">@files_in_order</span><span class="p">;</span>
+</pre></div>
+
+<p>
+函数stat的用法，<a href="http://perldoc.perl.org/functions/stat.html">来这里看</a> 。
+</p>
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-07-13-perl-misc0/" class="u-url">Perl tips series 0</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/2017-07-13-perl-misc0/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-07-13T19:00:43+08:00" title="2017-07-13 19:00">2017-07-13 19:00</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">删除文件中重复的行</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+使用一行命令就能实现，连编辑器都不用打开。
+</p>
+<div class="highlight"><pre><span></span>perl -ne <span class="s1">'print unless $a{$_}++'</span> file.txt
+</pre></div>
+<p>
+上一行命令中，-n表示对于每一行执行命令，-e后跟具体的命令。
+$_存的是每一行的内容，hash变量%a里存的是每一个行出现的次数，因为是先判断后++，类似于c语言中的i++。所以，只会打印第一次出现的行内容。
+unless可以看作是if的反过来。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">正则表达式debugger</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+无意中发现一个特别棒的perl module，用来debug正则表达式，那就是Regexp::Debugger。
+</p>
+<div class="highlight"><pre><span></span>perl -E <span class="s2">"use Regexp::Debugger; 'abbc' =~ /(a|b)b+c/x"</span>
+</pre></div>
+
+<p>
+shell里运行上面的命令，可以看到下面的画面，真是赞啊！
+</p>
+<img src="images/reg.png" class="img-thumbnail" width="60%">
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-07-07-perl-comment/" class="u-url">写perl的注释和说明</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/2017-07-07-perl-comment/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-07-07T16:53:44+08:00" title="2017-07-07 16:53">2017-07-07 16:53</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">perl里的注释</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+为了让代码更具有可读性，注释必不可少。
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$h</span><span class="p">;</span> <span class="c1"># $h is hash reference </span>
+</pre></div>
+
+<p>
+在perl里面有更漂亮的注释或者文档写法，就是POD格式，一些主流的编辑器都能识别这个格式。比如vim，emacs，sublime。
+</p>
+
+<img src="images/pod_emacs.png" class="img-thumbnail" width="60%"><p>
+在perl程序中，以“=”开头，一些关键字比如head1，head2然后紧跟着一个空行，都被认为是pod格式的说明注释，可以看到"my $err = '';"这一段也被注释掉了，因为perl默认会去找关键字“=cut”作为pod注释的结束标志。
+</p>
+
+<p>
+我们在shell里运行这个文件，比如我们把它命名为pod.pl。
+</p>
+<div class="highlight"><pre><span></span>perldoc pod.pl
+</pre></div>
+
+<p>
+我们能得到我们的注释和说明如下：
+</p>
+<img src="images/pod_sh.png" class="img-thumbnail" width="60%"><p>
+另外使用其他工具，比如pod2text，pod2html，pod2latex等，可以把我们的注释转成多种格式。
+</p>
+<img src="images/pod_trans.png" class="img-thumbnail" width="60%">
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-07-04-file-glob/" class="u-url">perl中的glob函数</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/2017-07-04-file-glob/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-07-04T16:53:44+08:00" title="2017-07-04 16:53">2017-07-04 16:53</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">glob帮助我们快速操作文件</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+当我们想对某目录下的文件做操作的时候，使用glob函数是非常方便的。
+比如我们想把当前路径的test目录下的所有以.txt结尾的文件列出来：
+</p>
+<div class="highlight"><pre><span></span><span class="nv">@files</span> <span class="o">=</span> <span class="nb">glob</span> <span class="s">'./test/*.txt'</span><span class="p">;</span>
+<span class="k">print</span> <span class="nv">@files</span><span class="p">;</span>
+</pre></div>
+<p>
+或者我们可以这样隐式的写法：
+</p>
+<div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="sr">&lt;'./test/*.txt'&gt;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">print</span> <span class="s">"$_\n"</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+再也不要自己去开发轮子，处理满足某一个条件的多个文件了，Yeah！
+</p>
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-06-29-nikola-coming/" class="u-url">Nikola is Coming</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/2017-06-29-nikola-coming/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-06-29T17:24:01+08:00" title="2017-06-29 17:24">2017-06-29 17:24</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Nikola is Coming</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Cool!
+</p>
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/sv-oop/" class="u-url">OOP in Systemverilog</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/sv-oop/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-06-27T13:19:39-04:00" title="2017-06-27 13:19">2017-06-27 13:19</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">system verilog中的面向对象</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+下面的代码中，bad_tr继承tr，所以bad_tr具有了成员变量num和good的同时，也有自己的变量bad。
+</p>
+<div class="highlight"><pre><span></span>class tr;
+   bit num;
+   bit good;
+
+   function new();
+      num = 0;
+      good = 0;
+   endfunction // new
+
+endclass // tr
+
+class bad_tr extends tr;
+   bit bad;
+
+   function new();
+      super.new();
+      bad = 1;
+   endfunction // new
+
+endclass // bad_tr
+</pre></div>
+
+
+<p>
+下面的代码，在initial块中create了两个对象，分别是m_tr和m_bad_tr，并且m_tr指向了其子类对象m_bad_tr。当想做downcast时，也就是说比如让m_bad_tr1指向tr的子类时，要用$cast函数。
+</p>
+<div class="highlight"><pre><span></span>tr     m_tr;
+bad_tr m_bad_tr;
+
+bad_tr m_bad_tr1;
+
+initial begin
+   m_tr = new();
+   m_bad_tr = new();
+   m_tr = m_bad_tr;
+
+   if ($cast(m_bad_tr1, m_tr))
+     $display("Successful!");
+   else
+     $display("Can not assign!");
+
+end
+</pre></div>
+</div>
+</div>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/uvm-summary-mpseqr/" class="u-url">Why we use p_sequencer in UVM?</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/uvm-summary-mpseqr/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-06-19T13:19:02-04:00" title="2017-06-19 13:19">2017-06-19 13:19</time></a></span>
+                    <span class="commentline">        
+</span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">p_sequencer</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+经常会看到在sequence和virtual sequence中，使用了宏`uvm_declare_p_sequencer。那么，为什么我们要使用p_sequencer呢？
+</p>
+<div class="highlight"><pre><span></span>class base_vseq extends uvm_sequence;
+  function new(string name="base_vseq");
+    super.new(name);
+  endfunction
+
+  `uvm_object_utils(base_vseq)
+  `uvm_declare_p_sequencer(uart_ctrl_virtual_sequencer)
+ endclass
+</pre></div>
+<p>
+从继承的关系上，uvm_sequence_item-&gt;uvm_sequence_base-&gt;uvm_sequence，uvm_sequence_item中有一个成员变量m_sequencer（喂喂喂，怎么说m_sequencer了？嗯嗯，别急，往后看），当我们在test的run_phase中start一个sequence的时候，其实就是给m_sequencer赋值了，把我们环境的sequencer赋给m_sequencer。m_sequencer是不带parameter的。
+</p>
+<div class="highlight"><pre><span></span>class uvm_sequence_item extends uvm_transaction;
+
+  local      int                m_sequence_id = -1;
+  protected  bit                m_use_sequence_info;
+  protected  int                m_depth = -1;
+
+  protected  uvm_sequencer_base m_sequencer;
+</pre></div>
+<p>
+把宏`uvm_declare_p_sequencer展开看，就是把m_sequencer赋值给了p_sequencer，当然了，m_sequncer所指向的对象，一定要是p_sequencer或者p_sequencer的子类，否者cast函数会报错的。
+</p>
+<div class="highlight"><pre><span></span>`define uvm_declare_p_sequencer(SEQUENCER) \
+  SEQUENCER p_sequencer;\
+  virtual function void m_set_p_sequencer();\
+    super.m_set_p_sequencer(); \
+    if( !$cast(p_sequencer, m_sequencer)) \
+	`uvm_fatal("DCLPSQ", \
+	$sformatf("%m %s Error casting p_sequencer, please verify that this sequence/sequence item is intended to execute on this type of sequencer", get_full_name())) \
+  endfunction 
+</pre></div>
+<p>
+那么，费了这么多事，要做什么呢？其实就是传递配置。因为sequence和component不一样，component是在build_phase环节就有了，而sequence是在run_phase阶段才会第一次出现，sequence想要去从环境上拿到配置信息，一定要通过它的m_sequencer，但是m_sequencer是不带parameter的，和我们start的时候一定不match，所以UVM就事先在定义sequence的时候，把p_sequencer这个带parameter的sequencer准备好，方便后面的使用。
+</p>
+<div class="highlight"><pre><span></span>virtual task body();
+      response_queue_error_report_disabled = 1;
+      start_addr = `TX_FIFO_REG;
+      while (num_of_wr) begin
+	`uvm_info(get_type_name(), $sformatf("Starting %0d Writes...", num_of_wr), UVM_LOW)
+	for (int i = 0; i &lt; num_of_wr; i++) begin
+	  if (p_sequencer.tful) begin
+	    num_of_wr -= i;
+	    `uvm_info("UART_APB_SEQLIB", $sformatf("Breaking from apb_to_uart_wr since tfifo is not empty yet, pending num_of_wr = %d", num_of_wr), UVM_LOW)
+	    #10000;
+	    break;
+	  end
+	  `uvm_do_with(req, 
+	    { req.addr == start_addr;
+	      req.direction == APB_WRITE;
+	      req.delay == del; } )
+	  #200;
+	  if (i == num_of_wr - 1)
+	     num_of_wr = 0;
+	end
+      end
+    endtask
+</pre></div>
+<p>
+上面这段代码就是sequence的片段，可以看到直接访问了p_sequencer的变量tful，如果写成m_sequencer.tful，是一定不成的。
+</p>
+</div>
+</div>
+        </div>
+        </article>
+</div>
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-3.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-1.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+        </div>
+</div>
+
+
+            <script src="assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>If Else in Perl | Yao He's Awesome Site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/posts/if-else-in-perl/">
+<!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.min.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="prev" href="../makefile-basic/" title="Makefile Basic" type="text/html">
+<link rel="next" href="../fibonacci-intro/" title="Fibonacci Introduction" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="If Else in Perl">
+<meta property="og:url" content="https://stephen0921.github.io/posts/if-else-in-perl/">
+<meta property="og:description" content='If Else in Perl
+
+
+if-elsif-else这样的语句在我们的code里再常见不过了。
+
+my $name = "John";
+
+sub name_solute {
+    my $item = shift;
+    my $ret;
+    if ($item eq "Tom") {
+	$ret = "Hi Tom.";
+    }
+    elsif ($item eq "J'>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-03-20T13:04:49-04:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="../../archive.html">Archive</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
+                <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">If Else in Perl</a></h1>
+<hr>
+<div class="metadata">
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-03-20T13:04:49-04:00" itemprop="datePublished" title="2017-03-20 13:04">2017-03-20 13:04</time></a>
+            </span>
+                <span class="commentline">        
+</span>
+        </div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">If Else in Perl</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+if-elsif-else这样的语句在我们的code里再常见不过了。
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s">"John"</span><span class="p">;</span>
+
+<span class="k">sub</span> <span class="nf">name_solute</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$item</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">my</span> <span class="nv">$ret</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$item</span> <span class="ow">eq</span> <span class="s">"Tom"</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$ret</span> <span class="o">=</span> <span class="s">"Hi Tom."</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">elsif</span> <span class="p">(</span><span class="nv">$item</span> <span class="ow">eq</span> <span class="s">"Jerry"</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$ret</span> <span class="o">=</span> <span class="s">"Run! Run!"</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">elsif</span> <span class="p">(</span><span class="nv">$item</span> <span class="ow">eq</span> <span class="s">"Lucy"</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$ret</span> <span class="o">=</span> <span class="s">"Where is Lily?"</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+	<span class="nv">$ret</span> <span class="o">=</span> <span class="s">"I do not know you."</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">my</span> <span class="nv">$solute</span> <span class="o">=</span> <span class="n">name_solute</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span>
+</pre></div>
+
+<p>
+如果我们换一种方式，比如三元式，可能更好看一点。
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$solute</span> <span class="o">=</span> 
+    <span class="nv">$name</span> <span class="ow">eq</span> <span class="s">"Tom"</span>   <span class="p">?</span>  <span class="s">"Hi Tom."</span>             <span class="p">:</span>
+    <span class="nv">$name</span> <span class="ow">eq</span> <span class="s">"Jerry"</span> <span class="p">?</span>  <span class="s">"Run! Run!"</span>           <span class="p">:</span>
+    <span class="nv">$name</span> <span class="ow">eq</span> <span class="s">"Lucy"</span>  <span class="p">?</span>  <span class="s">"Where is Lily?"</span>      <span class="p">:</span>
+			<span class="s">"I do not know you."</span>  <span class="p">;</span>
+</pre></div>
+
+<p>
+另外提一种比较好的数据结构，可以用来实现比较复杂的逻辑或者小环境。
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$ref_var</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s">"name"</span>               <span class="o">=&gt;</span>  <span class="p">[</span><span class="o">[]</span><span class="p">,</span><span class="o">\&amp;</span><span class="n">name_proc</span><span class="p">]</span> <span class="p">,</span>
+     <span class="s">"address"</span>            <span class="o">=&gt;</span>  <span class="p">[</span><span class="o">[]</span><span class="p">,</span><span class="o">\&amp;</span><span class="n">addr_proc</span><span class="p">]</span> <span class="p">,</span>
+     <span class="s">"mail"</span>               <span class="o">=&gt;</span>  <span class="p">[</span><span class="o">[]</span><span class="p">,</span><span class="o">\&amp;</span><span class="n">mail_proc</span><span class="p">]</span> 
+     <span class="p">};</span>
+
+ <span class="nb">push</span><span class="p">(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">name</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">},</span> <span class="s">"John Smith"</span><span class="p">);</span>
+ <span class="nb">push</span><span class="p">(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">address</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">},</span> <span class="s">"Beijing, China"</span><span class="p">);</span>
+ <span class="nb">push</span><span class="p">(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">mail</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">},</span> <span class="s">"john\@gmail.com"</span><span class="p">);</span>
+
+ <span class="o">&amp;</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">name</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">name</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span> <span class="p">);</span>
+ <span class="o">&amp;</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">address</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">address</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span> <span class="p">);</span>
+ <span class="o">&amp;</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">mail</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">mail</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span> <span class="p">);</span>
+
+ <span class="k">sub</span> <span class="nf">name_proc</span> <span class="p">{</span>
+     <span class="k">my</span> <span class="nv">$item</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+     <span class="k">print</span> <span class="s">"Hello, $item\n"</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="k">sub</span> <span class="nf">addr_proc</span> <span class="p">{</span>
+     <span class="k">my</span> <span class="nv">$item</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+     <span class="k">print</span> <span class="s">"He lives in $item\n"</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="k">sub</span> <span class="nf">mail_proc</span> <span class="p">{</span>
+     <span class="k">my</span> <span class="nv">$item</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+     <span class="k">print</span> <span class="s">"You can contact to $item\n"</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+
+<p>
+首先，$ref-var是一个hash的<a href="https://perldoc.perl.org/perlreftut.html">reference</a> ，它的各个key所对应的都是一个list的reference。每一个list里面，又分成一个空的list的reference，用来存input变量，以及一个函数指针。这个结构不错呦，我也是从大神那搬过来的，O(∩<sub>∩</sub>)O哈哈~
+</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="previous">
+                <a href="../makefile-basic/" rel="prev" title="Makefile Basic">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../fibonacci-intro/" rel="next" title="Fibonacci Introduction">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+        </div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

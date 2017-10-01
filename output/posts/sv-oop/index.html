@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OOP in Systemverilog | Yao He's Awesome Site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/posts/sv-oop/">
+<!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.min.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="prev" href="../uvm-summary-mpseqr/" title="Why we use p_sequencer in UVM?" type="text/html">
+<link rel="next" href="../2017-06-29-nikola-coming/" title="Nikola is Coming" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="OOP in Systemverilog">
+<meta property="og:url" content="https://stephen0921.github.io/posts/sv-oop/">
+<meta property="og:description" content="system verilog中的面向对象
+
+
+下面的代码中，bad_tr继承tr，所以bad_tr具有了成员变量num和good的同时，也有自己的变量bad。
+
+class tr;
+   bit num;
+   bit good;
+
+   function new();
+      num = 0;
+      good = 0;
+   endfunction // new
+
+endclass /">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-06-27T13:19:39-04:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="../../archive.html">Archive</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
+                <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">OOP in Systemverilog</a></h1>
+<hr>
+<div class="metadata">
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-06-27T13:19:39-04:00" itemprop="datePublished" title="2017-06-27 13:19">2017-06-27 13:19</time></a>
+            </span>
+                <span class="commentline">        
+</span>
+        </div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">system verilog中的面向对象</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+下面的代码中，bad_tr继承tr，所以bad_tr具有了成员变量num和good的同时，也有自己的变量bad。
+</p>
+<div class="highlight"><pre><span></span>class tr;
+   bit num;
+   bit good;
+
+   function new();
+      num = 0;
+      good = 0;
+   endfunction // new
+
+endclass // tr
+
+class bad_tr extends tr;
+   bit bad;
+
+   function new();
+      super.new();
+      bad = 1;
+   endfunction // new
+
+endclass // bad_tr
+</pre></div>
+
+
+<p>
+下面的代码，在initial块中create了两个对象，分别是m_tr和m_bad_tr，并且m_tr指向了其子类对象m_bad_tr。当想做downcast时，也就是说比如让m_bad_tr1指向tr的子类时，要用$cast函数。
+</p>
+<div class="highlight"><pre><span></span>tr     m_tr;
+bad_tr m_bad_tr;
+
+bad_tr m_bad_tr1;
+
+initial begin
+   m_tr = new();
+   m_bad_tr = new();
+   m_tr = m_bad_tr;
+
+   if ($cast(m_bad_tr1, m_tr))
+     $display("Successful!");
+   else
+     $display("Can not assign!");
+
+end
+</pre></div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="previous">
+                <a href="../uvm-summary-mpseqr/" rel="prev" title="Why we use p_sequencer in UVM?">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../2017-06-29-nikola-coming/" rel="next" title="Nikola is Coming">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+        </div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

@@ -1,0 +1,47 @@
+#+OPTIONS: ^:nil
+#+BEGIN_COMMENT
+.. title: 写perl的注释和说明
+.. slug: 2017-07-07-perl-comment
+.. date: 2017-07-07 16:53:44 UTC+08:00
+.. tag: 
+.. category: perl
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* perl里的注释
+
+为了让代码更具有可读性，注释必不可少。
+#+BEGIN_SRC perl
+  my $h; # $h is hash reference 
+#+END_SRC
+
+在perl里面有更漂亮的注释或者文档写法，就是POD格式，一些主流的编辑器都能识别这个格式。比如vim，emacs，sublime。
+
+#+BEGIN_HTML
+<img src="/../images/pod_emacs.png" class="img-thumbnail" width="60%">
+#+END_HTML
+
+在perl程序中，以“=”开头，一些关键字比如head1，head2然后紧跟着一个空行，都被认为是pod格式的说明注释，可以看到"my $err = '';"这一段也被注释掉了，因为perl默认会去找关键字“=cut”作为pod注释的结束标志。
+
+我们在shell里运行这个文件，比如我们把它命名为pod.pl。
+#+BEGIN_SRC sh
+  perldoc pod.pl
+#+END_SRC
+
+我们能得到我们的注释和说明如下：
+#+BEGIN_HTML
+<img src="../../images/pod_sh.png"
+class="img-thumbnail"
+width="60%"
+</img>
+#+END_HTML
+
+另外使用其他工具，比如pod2text，pod2html，pod2latex等，可以把我们的注释转成多种格式。
+#+BEGIN_HTML
+<img src="../../images/pod_trans.png"
+class="img-thumbnail"
+width="60%"
+</img>
+#+END_HTML

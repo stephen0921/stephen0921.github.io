@@ -1,0 +1,160 @@
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">JSON Validator</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+XML表达信息比较详尽，格式清晰。其实做代码的generator等脚本的时候，也会通过JSON来传递用户的定制参数的。比如cfg.json的内容如下:
+</p>
+
+<div class="highlight"><pre><span></span>{
+    &quot;timescale&quot;:&quot;1ns/1ps&quot;,
+    &quot;dut&quot;:{
+	&quot;name&quot;:&quot;mydut&quot;,
+	&quot;top_file&quot;:&quot;~/mydut.v&quot;,
+	&quot;filelist&quot;:&quot;~/mydut.f&quot;
+    },
+    &quot;tbp&quot;:&quot;demo&quot;,
+    &quot;env&quot;:{
+	&quot;name&quot;:&quot;bus&quot;,
+	&quot;agent&quot;:[
+	    {
+		&quot;name&quot;:&quot;abc&quot;,
+		&quot;active&quot;:1,
+		&quot;off&quot;:0,
+		&quot;interface&quot;:{
+		    &quot;ifclk&quot;:&quot;clk&quot;,
+		    &quot;ifrst&quot;:&quot;rst&quot;,
+		    &quot;signal&quot;:[
+			{
+			    &quot;name&quot;:&quot;ahb_burst&quot;,
+			    &quot;bind&quot;:&quot;ahb_burst_o&quot;
+			},
+			{
+			    &quot;name&quot;:&quot;ahb_valid&quot;,
+			    &quot;bind&quot;:&quot;ahb_valid_o&quot;
+			}
+		    ]
+		}
+	    }
+	]
+    }   
+}
+</pre></div>
+
+<p>
+同样的，如何在第一时间去check用户输入的json信息是否是正确的？这时候就用到了json-schema文件作为一种validation的标准。假设top.schema.json的内容如下:
+</p>
+<div class="highlight"><pre><span></span>{
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;properties&quot;:{
+	&quot;timescale&quot;:{
+	    &quot;type&quot;: &quot;string&quot;
+	},
+	&quot;dut&quot;:{
+	    &quot;type&quot;:&quot;object&quot;,
+	    &quot;properties&quot;:{
+		&quot;name&quot;:{
+		    &quot;type&quot;:&quot;string&quot;
+		},
+		&quot;top_file&quot;:{
+		    &quot;type&quot;:&quot;string&quot;
+		},
+		&quot;filelist&quot;:{
+		    &quot;type&quot;:&quot;string&quot;
+		}
+	    },
+	    &quot;required&quot;:[&quot;name&quot;,&quot;top_file&quot;,&quot;filelist&quot;]
+	},
+	&quot;env&quot;:{
+	    &quot;type&quot;:&quot;object&quot;,
+	    &quot;properties&quot;:{
+		&quot;name&quot;:{
+		    &quot;type&quot;:&quot;string&quot;
+		},
+		&quot;agent&quot;:{
+		    &quot;type&quot;:&quot;array&quot;,
+		    &quot;items&quot;:{
+			&quot;type&quot;:&quot;object&quot;,
+			&quot;properties&quot;:{
+			    &quot;name&quot;:{
+				&quot;type&quot;:&quot;string&quot;
+			    },
+			    &quot;active&quot;:{
+				&quot;type&quot;:&quot;integer&quot;
+			    },
+			    &quot;off&quot;:{
+				&quot;type&quot;:&quot;integer&quot;
+			    },
+			    &quot;interface&quot;:{
+				&quot;type&quot;:&quot;object&quot;,
+				&quot;properties&quot;:{
+				    &quot;ifclk&quot;:{
+					&quot;type&quot;:&quot;string&quot;
+				    },
+				    &quot;ifrst&quot;:{
+					&quot;type&quot;:&quot;string&quot;
+				    },
+				    &quot;signal&quot;:{
+					&quot;type&quot;:&quot;array&quot;,
+					&quot;items&quot;:{
+					    &quot;type&quot;:&quot;object&quot;,
+					    &quot;properties&quot;:{
+						&quot;name&quot;:{
+						    &quot;type&quot;:&quot;string&quot;
+						},
+						&quot;bind&quot;:{
+						    &quot;type&quot;:&quot;string&quot;
+						}
+					    },
+					    &quot;required&quot;:[&quot;name&quot;]
+					},
+					&quot;minItems&quot;:1
+				    }
+				},
+				&quot;required&quot;:[&quot;signal&quot;]
+			    }
+			},
+			&quot;required&quot;:[&quot;name&quot;]
+		    },
+		    &quot;minItems&quot;:1
+		}
+	    }
+	}                       
+    },
+    &quot;required&quot;:[&quot;dut&quot;]
+}
+</pre></div>
+
+<p>
+我们用perl来处理JSON文件的validation过程，如下:
+</p>
+<div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">JSON</span> <span class="sx">qw(decode_json)</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">JSON::Validator</span> <span class="sx">qw(validate_json)</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$validator</span> <span class="o">=</span> <span class="nn">JSON::Validator</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+
+<span class="nb">open</span><span class="p">(</span><span class="n">FILE</span><span class="p">,</span> <span class="s">&quot;top.schema.json&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">&quot;Can not open file top.schema.json&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">@lines</span> <span class="o">=</span> <span class="sr">&lt;FILE&gt;</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$schema</span> <span class="o">=</span> <span class="n">decode_json</span><span class="p">(</span><span class="nb">join</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">,</span><span class="nv">@lines</span><span class="p">));</span>
+
+<span class="nb">close</span><span class="p">(</span><span class="n">FILE</span><span class="p">);</span> 
+<span class="nv">$validator</span><span class="o">-&gt;</span><span class="n">schema</span><span class="p">(</span><span class="nv">$schema</span><span class="p">);</span>
+
+<span class="nb">open</span><span class="p">(</span><span class="n">FILE</span><span class="p">,</span> <span class="s">&quot;cfg.json&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">&quot;Can not open file cfg.json&quot;</span><span class="p">;</span>
+<span class="nv">@lines</span> <span class="o">=</span> <span class="sr">&lt;FILE&gt;</span><span class="p">;</span>
+<span class="nb">close</span><span class="p">(</span><span class="n">FILE</span><span class="p">);</span>
+<span class="k">my</span> <span class="nv">$json_to_be_validated</span> <span class="o">=</span> <span class="n">decode_json</span><span class="p">(</span><span class="nb">join</span><span class="p">(</span><span class="s">&quot;\n&quot;</span><span class="p">,</span><span class="nv">@lines</span><span class="p">));</span>
+
+<span class="c1"># Validate your data</span>
+<span class="nv">@errors</span> <span class="o">=</span> <span class="nv">$validator</span><span class="o">-&gt;</span><span class="n">validate</span><span class="p">(</span><span class="nv">$json_to_be_validated</span><span class="p">);</span>
+
+<span class="c1"># Do something if any errors was found</span>
+<span class="nb">die</span> <span class="s">&quot;@errors&quot;</span> <span class="k">if</span> <span class="nv">@errors</span><span class="p">;</span>
+</pre></div>
+
+<p>
+通过对比可以发现虽然json数据格式简单，但是json的validation格式很不友好，比XML的DTD格式杂乱的多。
+</p>
+</div>
+</div>

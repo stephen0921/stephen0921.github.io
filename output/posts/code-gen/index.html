@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Generation | Yao He's Awesome Site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/posts/code-gen/">
+<!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.min.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="prev" href="../perl-template/" title="Perl Template" type="text/html">
+<link rel="next" href="../makefile-basic/" title="Makefile Basic" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="Code Generation">
+<meta property="og:url" content="https://stephen0921.github.io/posts/code-gen/">
+<meta property="og:description" content="Code Generation
+
+
+生成代码或者小环境，我比较喜欢的方法，我总结如下。
+
+
+用JSON格式文件控制输入变量
+
+使用Template Toolkit，控制展示出来的代码样式
+
+
+
+
+闲言少叙，我们举一个例子。
+假设一个场景，我们需要根据很多简单的逻辑表达式，来生成一个verilog的module。
+
+
+
+我们把这个任务划分成几部分考虑。
+
+
+逻辑表达式需要怎么样的格式呢？
+
+需要哪些">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-03-17T13:02:25-04:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="../../archive.html">Archive</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
+                <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Code Generation</a></h1>
+<hr>
+<div class="metadata">
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-03-17T13:02:25-04:00" itemprop="datePublished" title="2017-03-17 13:02">2017-03-17 13:02</time></a>
+            </span>
+                <span class="commentline">        
+</span>
+        </div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Code Generation</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+生成代码或者小环境，我比较喜欢的方法，我总结如下。
+</p>
+<ul class="org-ul">
+<li>用JSON格式文件控制输入变量
+</li>
+<li>使用Template Toolkit，控制展示出来的代码样式
+</li>
+</ul>
+<p>
+闲言少叙，我们举一个例子。
+假设一个场景，我们需要根据很多简单的逻辑表达式，来生成一个verilog的module。
+</p>
+
+<p>
+我们把这个任务划分成几部分考虑。
+</p>
+<ul class="org-ul">
+<li>逻辑表达式需要怎么样的格式呢？
+</li>
+<li>需要哪些变量控制我们最后生成的module的样式？
+</li>
+<li>用怎么样的方式，把这个流程串起来，同时能便于以后的维护呢？逻辑表达式的变化，要可以重新生成代码，同时不需要手动去修改。
+</li>
+</ul>
+<p>
+第一个问题，逻辑表达式需要怎么样的格式？因为我对Emacs比较情有独钟，恰好我觉得使用<a href="http://orgmode.org">org-mode</a> 来书写简单的组合逻辑特别合适。先看一下下面的贴图感受一下。 
+</p>
+
+<img src="../../images/org.png" class="img-thumbnail" width="60%"><p>
+上图是Emacs编辑器显示出来的，其实里面纯文本，是这样的：
+</p>
+
+<img src="../../images/org_text.png" class="img-thumbnail" width="60%"><p>
+处理这个不是很复杂，可以看作对树形节点的处理。
+</p>
+
+<p>
+第二个问题，需要哪些变量控制我们最后生成的module的样式？我想到的有这么几个变量，我用JSON格式写出来：
+</p>
+<div class="highlight"><pre><span></span>{
+    "prefix_name":"demo",
+    "org_file":"doc/demo.org",
+    "outputs":"ap_disp_light_sleep_req,ap_light_sleep_req"
+}
+</pre></div>
+<p>
+可能你会说，其实可以通过命令行的option来把变量加进去一下，比如：
+</p>
+<div class="highlight"><pre><span></span>run.pl -prefix_name demo -org_file doc/demo.org -outputs ap_disp_light_sleep_req,ap_light_sleep_req
+</pre></div>
+<p>
+确实可以，但是这样我们的脚本对于option的处理不灵活，如果以后加的option更多，我们的命令也就越来越长。
+</p>
+
+<p>
+第三个问题，用怎么样的方式，把这个流程串起来，同时能便于以后的维护呢？这就是核心了，Perl脚本来做这些工作。
+</p>
+<div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">JSON</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Template</span><span class="p">;</span>
+<span class="o">...</span>
+<span class="k">sub</span> <span class="nf">read_json</span> <span class="p">{</span>
+<span class="o">...</span>
+<span class="p">}</span>
+<span class="k">sub</span> <span class="nf">template_proc</span> <span class="p">{</span>
+<span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>
+我们的模板文件其实，比较简单：
+</p>
+<div class="highlight"><pre><span></span>module [% prefix_name %]_ref_model (
+[%- FOREACH item IN inputs.sort %]
+  input [% item %],
+[%- END %]
+[%- cnt =0 -%]
+[%- total_cnt = outputs.size %]
+[%- FOREACH item IN outputs.sort %]
+  [%- cnt = cnt + 1 %]
+  [%- IF (cnt == total_cnt) %]
+  output wire [% item %]
+  [%- ELSE %]
+  output wire [% item %],
+  [%- END%]
+[%- END %]
+);
+[%- FOREACH item IN wires.sort %]
+  wire [% item %];
+[%- END %]
+
+[%- FOREACH item IN lines_info_ref %]
+  [%- IF (item.leafs.size == 0) %]
+  [%- ELSE %]
+  assign [% item.name %] = [% item.contents.join(' ') %];
+  [%- END %]
+[%- END %]
+endmodule
+</pre></div>
+
+<p>
+<a href="https://github.com/stephen0921/org_verilog/blob/master/bin/org_verilog.pl">perl的源代码可以来这里找</a> 。Enjoy yourself!
+</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="previous">
+                <a href="../perl-template/" rel="prev" title="Perl Template">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../makefile-basic/" rel="next" title="Makefile Basic">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+        </div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

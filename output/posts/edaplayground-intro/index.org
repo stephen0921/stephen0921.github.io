@@ -1,0 +1,35 @@
+#+BEGIN_COMMENT
+.. title: Edaplayground Introduction
+.. slug: edaplayground-intro
+.. date: 2017-06-09 13:16:05 UTC-04:00
+.. tag: misc
+.. category:
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* 免费的仿真器
+如果你能访问google的话，大概也就能访问[[https://www.edaplayground.com/][edaplayground]] 。很多的情况下，我想试写一些验证代码，但是个人PC上没有仿真器，那么edaplayground就派上用场了。最好是登录使用，这样可以保存代码了，以便将来再调试。当然也可以使用google账户或者facebook账户。
+
+自己编辑过的代码，可以share给别人来看。
+[[http://www.edaplayground.com/x/5xF7][my simple test]]
+
+#+BEGIN_HTML
+<img src="../../images/edaplayground.png" class="img-thumbnail" width="60%" >
+#+END_HTML
+
+可以看到，左边的选项里，我们可以选择语言、UVM/OVM库、仿真器种类，基本满足日常的简单环境和case的调试。还有很多很多代码例子，我们不用从头去搭建。
+
+#+BEGIN_HTML
+<img src="../../images/edaplaygroundexample.png" class="img-thumbnail" width="60%" >
+#+END_HTML
+
+我们选择一个example，然后点击左上角的run，是不是很容易啊？
+
+#+BEGIN_HTML
+<img src="../../images/edaplaygroundrun.png" class="img-thumbnail" width="60%" >
+#+END_HTML
+
+另外，推荐一个使用edaplayground来学习UVM的网站，[[http://cluelogic.com/category/uvm/][这个]] 真的是很详细，很容易上手！
+

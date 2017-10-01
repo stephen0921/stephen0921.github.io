@@ -1,0 +1,61 @@
+#+OPTIONS: ^:nil
+#+BEGIN_COMMENT
+.. title: Perl tips series 3
+.. slug: 2017-07-26-perl-misc3
+.. date: 2017-07-26 10:59:30 UTC+08:00
+.. tag: 
+.. category: perl
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* perl OOP 浅尝辄止二
+perl中，继承类的实现，如下。
+#+BEGIN_SRC perl
+package CD::PIANO;
+use base qw(CD);
+
+sub init {
+    my $self = shift;
+    $self->SUPER::init('piano song');
+    $self->{player} = shift;
+    return $self;
+}
+
+sub play {
+    my $self = shift;
+    print "Welcome to a wonderful world!\n";
+    print "Played by $self->{player}\n";
+}
+
+1;
+#+END_SRC
+
+- 关键字base，来传达继承于哪个类;
+- 这个package的名字叫"CD::PIANO"，既反映了继承关系，也同时反映了文件存储的位置，放在了目录CD下面，和目录CD并列的是CD.pm;
+- 关键字SUPER，来调用父类的函数;
+- 函数print_me的实现在其父类CD中;
+- 和其他语言不同，perl的继承类可以没有自己的new函数，把其父类的new函数继承来就可以了;
+#+BEGIN_SRC perl
+use FindBin;
+use lib "$FindBin::Bin";
+use CD::PIANO;
+
+my $piano = CD::PIANO->new;
+
+$piano->init('Someone');
+
+$piano->play;
+
+$piano->print_me;
+
+#+END_SRC
+
+运行结果如下:
+#+BEGIN_SRC sh
+Welcome to a wonderful world!
+Played by Someone
+music = piano song
+#+END_SRC
+

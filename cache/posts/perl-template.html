@@ -1,0 +1,63 @@
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">关于print的一些事</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+某一些情况下，我们想要根据一些变量，然后生成一大段文本或者是代码。比较直接的代码风格就是：
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s">&quot;John&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$day</span> <span class="o">=</span> <span class="s">&quot;Friday&quot;</span><span class="p">;</span>
+
+<span class="k">print</span> <span class="s">&quot;Dear $name,\n&quot;</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">&quot;Please come to my office on $day.\n&quot;</span><span class="p">;</span>
+</pre></div>
+
+<p>
+幸好，我们还可以少打一些“print”，如果我们这样来写：
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s">&quot;John&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$day</span> <span class="o">=</span> <span class="s">&quot;Friday&quot;</span><span class="p">;</span>
+
+<span class="k">print</span> <span class="s">&lt;&lt;</span><span class="dl">END</span><span class="s">;</span>
+<span class="s">Dear $name,</span>
+<span class="s">Please come to my office on $day.</span>
+<span class="dl">END</span>
+</pre></div>
+
+<p>
+如果文本的内容更多，那么在我们的脚本里就会出现需要“print”的大段信息，不如我们单独把这些信息放到另外一个文件里，我们管它叫模板文件,比如“letter.tt”：
+</p>
+<div class="highlight"><pre><span></span>Dear [% name %],
+Please come to my office on [% day %].
+</pre></div>
+
+<p>
+然后，我们在我们的Perl脚本里去处理这个模板，然后最后输出到“letter.txt”中：
+</p>
+<div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">Template</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Cwd</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$dir</span> <span class="o">=</span> <span class="n">cwd</span><span class="p">();</span>
+<span class="k">my</span> <span class="nv">$config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">INCLUDE_PATH</span> <span class="o">=&gt;</span> <span class="nv">$dir</span>
+<span class="p">};</span>
+
+<span class="k">my</span> <span class="nv">$tpl_name</span> <span class="o">=</span> <span class="s">&quot;letter.tt&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$tpl</span> <span class="o">=</span> <span class="nn">Template</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">$config</span><span class="p">);</span>
+<span class="nb">chdir</span><span class="p">(</span><span class="nv">$dir</span><span class="p">);</span>
+
+<span class="k">my</span> <span class="nv">$var_ref</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">name</span> <span class="o">=&gt;</span> <span class="s">&quot;John&quot;</span><span class="p">,</span>
+    <span class="n">day</span>  <span class="o">=&gt;</span> <span class="s">&quot;Friday&quot;</span>
+<span class="p">};</span>
+
+<span class="k">my</span> <span class="nv">$out_file</span> <span class="o">=</span> <span class="s">&quot;letter.txt&quot;</span><span class="p">;</span>
+
+<span class="nv">$tpl</span><span class="o">-&gt;</span><span class="n">process</span><span class="p">(</span><span class="s">&quot;$tpl_name&quot;</span><span class="p">,</span> <span class="nv">$var_ref</span><span class="p">,</span> <span class="s">&quot;$dir/$out_file&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="nb">die</span> <span class="nv">$tpl</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">();</span>
+</pre></div>
+<p>
+把模板代码单独放到另外一个文件，便于以后的维护。即使维护的人，不懂Perl，但是模板本身具有极强的易读性。更多关于Template Toolkit的介绍，<a href="http://www.template-toolkit.org/">在这里</a>。
+当然，如果需要使用Template Toolkit的话，需要通过CPAN来额外安装，这一部分我会再另外写blog做介绍，今天先到此。
+</p>
+</div>
+</div>

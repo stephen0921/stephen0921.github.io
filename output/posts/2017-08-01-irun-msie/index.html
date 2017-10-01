@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>irun MSIE tips | Yao He's Awesome Site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/posts/2017-08-01-irun-msie/">
+<!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.min.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="prev" href="../2017-07-26-perl-misc3/" title="Perl tips series 3" type="text/html">
+<link rel="next" href="../2017-08-02-xml-validator/" title="XML Validator" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="irun MSIE tips">
+<meta property="og:url" content="https://stephen0921.github.io/posts/2017-08-01-irun-msie/">
+<meta property="og:description" content="irun MSIE
+
+
+前一阵子折腾MSIE的验证环境，现在环境比较稳定了，也是时候来总结一下了。
+
+
+
+MSIE的全称是Multi-Snapshot Incremental Elaboration，是cadence的irun工具的一个feature。使用这个feature可以节约仿真的编译时间，其本质就是把一些子模块编译好，顶层编译的时候直接把编译好的子模块的database拿过来，节省了ela">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-08-01T12:56:41+08:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="../../archive.html">Archive</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
+                <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">irun MSIE tips</a></h1>
+<hr>
+<div class="metadata">
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-08-01T12:56:41+08:00" itemprop="datePublished" title="2017-08-01 12:56">2017-08-01 12:56</time></a>
+            </span>
+                <span class="commentline">        
+</span>
+        </div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">irun MSIE</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+前一阵子折腾MSIE的验证环境，现在环境比较稳定了，也是时候来总结一下了。
+</p>
+
+<p>
+MSIE的全称是Multi-Snapshot Incremental Elaboration，是cadence的irun工具的一个feature。使用这个feature可以节约仿真的编译时间，其本质就是把一些子模块编译好，顶层编译的时候直接把编译好的子模块的database拿过来，节省了elaboration的时间。
+</p>
+
+<p>
+举一个例子，比如下面的一个验证环境。
+</p>
+
+<img src="../../images/msie.png" class="img-thumbnail" width="60%"><p>
+其中，相对稳定基本不变的部分是cpu，其他的比如dut和tb_top会经常改变。那么cpu部分就可以提前编译好，作为一个database，官方叫法是primary snapshot。"挖掉"cpu的dut也可以作为一个primary snapshot。
+</p>
+
+<p>
+具体的irun命令是:
+</p>
+<div class="highlight"><pre><span></span><span class="nf">cpu_compile</span><span class="o">:</span>
+	irun <span class="k">$(</span>MSIE_PRIM_OPT<span class="k">)</span> -top cpu -name cpu -f cpu.f -nclibdirname <span class="k">$(</span>WORKDIR<span class="k">)</span>/cpu -l cpu_compile.log -incrpath tb_top.u_dut.u_cpu
+
+<span class="nf">dut_compile</span><span class="o">:</span>
+	irun <span class="k">$(</span>MSIE_PRIM_OPT<span class="k">)</span> -top dut -name dut -f dut_no_cpu.f -nclibdirname <span class="k">$(</span>WORKDIR<span class="k">)</span>/dut_no_cpu -l dut_compile.log -incrbind cpu -incrpath tb_top.u_dut
+
+<span class="nf">tb_compile</span><span class="o">:</span>
+	irun <span class="k">$(</span>MSIE_INCR_OPT<span class="k">)</span> -top tb_top -f tb_top_no_dut.f  -l tb_compile.log -primname dut@<span class="k">$(</span>WORKDIR<span class="k">)</span>/dut_no_cpu -primname cpu@<span class="k">$(</span>WORKDIR<span class="k">)</span>/cpu
+</pre></div>
+
+<p>
+如果是后仿，还要做sdf反标，就要在compile每一个primary snapshot的时候把sdf文件吃进去，option是-sdf_cmd_file xx.cmd。sdf的拆分需要根据partition情况使用工具ncsdfc来完成。
+</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="previous">
+                <a href="../2017-07-26-perl-misc3/" rel="prev" title="Perl tips series 3">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../2017-08-02-xml-validator/" rel="next" title="XML Validator">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+        </div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

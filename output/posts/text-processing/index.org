@@ -1,0 +1,122 @@
+#+BEGIN_COMMENT
+.. title: Text Processing
+.. slug: text-processing
+.. date: 2017-03-11 12:57:32 UTC-04:00
+.. tag: perl
+.. category:
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* 文本处理思路梳理
+在日常的工作中，经常会遇到处理log或者文本的一些工作。但一时又想不到如果解决，提笔忘脚本。由此，我总结一些小的方法，给自己梳理一下思路，同时帮助别人。
+
+按照文本处理的复杂程度，我们来决定用什么方法处理：
+- 如果文本本身size不大，只是关键字的替换或者列操作等，那么就用编辑器处理了，比如vim或者Emacs。
+- 不想用编辑器打开文本，并且需要集成到其他脚本或者Makefile中，操作多是单行的，便于以后重复使用，推荐sed或者awk。
+- 需要处理比较复杂，或者要生成一些代码，推荐使用Perl。
+
+先说第一种情况，比如下面的代码。想要在下面的前四行代码，每行后面增加一些注释，比如"they are inputs"。
+#+BEGIN_SRC verilog
+  input a;
+  input b;
+  input c;
+  input d;
+  output e;
+#+END_SRC
+
+先以vim为例，按ESC进入命令模式，在第一行按下“ma”，第四行按下“mb”，标记了我们想要操作的区域。然后按“:”，输入命令“'a,'bs/;$/; \/\/ they are inputs”；
+“'a”和“'b”就是我们刚才标记的起点和终点，格式“s/xx/yy/”表示将“xx”替换成“yy”。注意这里，如果“yy”中包含“/”，需要使用反斜线进行转义。
+
+#+BEGIN_HTML
+<img src="../../images/text_processing1_vim.gif" class="img-thumbnail" width="60%" >
+#+END_HTML
+
+如果是Emacs，在第一行，组合键C-S-SPACE[fn:1]标记区域的开始，光标来到在第五行的开头，可以看到我们选中了前四行，然后M-%，进行替换，最后的!表示全部替换。
+
+#+BEGIN_HTML
+<img src="../../images/text_processing1_emacs.gif" class="img-thumbnail" width="60%" >
+#+END_HTML
+
+再说第二种情况，文本比较大，不想打开，想把里面包含“delete me please!”的行都删掉。可以使用sed。
+#+BEGIN_SRC sh
+sed -e '/delete me please!/d' text.txt -i
+#+END_SRC
+-e表示执行的命令，其中“/xx/d”表示去匹配xx然后删除，-i表示处理结果写会到原文件。
+
+最后是第三种情况，比如有一个文本文件如下：
+#+BEGIN_SRC verilog
+module a;
+   input i_a;
+   input i_a_not_this;
+   
+   output o_a;
+endmodule // a
+
+module b;
+   input i_b;
+   input i_b_not_this;
+   
+   output o_b;
+endmodule // b
+#+END_SRC
+我们想要把module b里的第一个input信号的名字换成module a里的第一个input信号的名字，这样比较适合Perl来做。
+#+BEGIN_SRC perl
+my $in_a_module = 0;
+my $in_b_module = 0;
+my $input_a;
+my $end = 0;
+
+while (my $line = <>) {
+    if ($in_b_module == 1) {
+	if ((defined ($input_a)) && ($end == 0)) {
+	    $line =~s/input(\s+)\w+/input$1$input_a/;
+	    $line .= " // The line above is changed.\n";
+	    $end = 1;
+	}
+	if ($line =~/endmodule/) {
+	    $in_b_module = 0;
+	}
+    } else {
+	if ($in_a_module == 1) {
+	    if ($line =~/input\s+(\w+)/) {
+		if (! defined $input_a) {
+		    $input_a = $1;
+		} else {
+       		}
+	    }
+	    if ($line =~/endmodule/) {
+		$in_a_module = 0;
+	    }
+	} else {
+	    if ($line =~/module a/) {
+		$in_a_module = 1;
+	    }
+	    if ($line =~/module b/) {
+		$in_b_module = 1;
+	    }
+	}
+    }
+    print $line;
+}
+#+END_SRC
+运行的结果是：
+#+BEGIN_SRC verilog
+module a;
+   input i_a;
+   input i_a_not_this;
+   
+   output o_a;
+endmodule // a
+
+module b;
+   input i_a;
+   input i_b_not_this;
+   
+   output o_b;
+endmodule // b
+#+END_SRC
+
+
+[fn:1] C表示ctrl键，S表示shift键，SPACE表示空格键，中间的-表示同时按。

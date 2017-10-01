@@ -1,0 +1,49 @@
+#+BEGIN_COMMENT
+.. title: Fibonacci Introduction
+.. slug: fibonacci-intro
+.. date: 2017-03-24 13:06:01 UTC-04:00
+.. tag: misc
+.. category:
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* 有趣的Fibonacci数列
+
+#+BEGIN_SRC sh
+0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765,10946,...
+#+END_SRC
+
+这样的数字序列满足公式F_{n} = F_{n-1} + F_{n-2}，其中F_{n}表示第n个数字，这就是大名鼎鼎的[[http://www.mathsisfun.com/numbers/fibonacci-sequence.html][Fibonacci数列]]。 
+如果把每一个数字的当作正方形的边长，然后把这些正方形堆砌在一起，就可以绘制出美丽的螺旋曲线。
+
+#+BEGIN_HTML
+<img src="../../images/fibonacci-spiral.gif" class="img-thumbnail" width="60%" >
+#+END_HTML
+如果把这个序列变化成函数，比如系数依然满足F_{n}(z) = F_{n-1}(z) + F_{n-2}(z)。也就是说这样的函数：
+f(z)      = 0 + z + z^{2} + 2z^{3} + 3z^{4} + 5z^{5} + 8z^{6} + ...
+
+那么我们能知道：
+
+zf(z)     =     0 + z^{2} + z^{3}  + 2z^{4} + 3z^{5} + 5z^{5} + ...
+
+z^{2}f(z) =             0 + z^{3}  +  z^{4} + 2z^{5} + 3z^{5} + ...
+
+由此我们得到关系式：
+
+f(z) = z + zf(z) + z^{2}f(z)
+
+进一步推导，
+
+#+BEGIN_HTML
+<img src="../../images/fibonacci.png" class="img-thumbnail" width="60%" >
+#+END_HTML
+
+
+
+
+
+
+
+     

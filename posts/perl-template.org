@@ -1,0 +1,65 @@
+#+BEGIN_COMMENT
+.. title: Perl Template
+.. slug: perl-template
+.. date: 2017-03-13 12:58:29 UTC-04:00
+.. tag: perl
+.. category:
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* 关于print的一些事
+
+某一些情况下，我们想要根据一些变量，然后生成一大段文本或者是代码。比较直接的代码风格就是：
+#+BEGIN_SRC perl
+  my $name = "John";
+  my $day = "Friday";
+
+  print "Dear $name,\n";
+  print "Please come to my office on $day.\n";
+#+END_SRC
+
+幸好，我们还可以少打一些“print”，如果我们这样来写：
+#+BEGIN_SRC perl
+  my $name = "John";
+  my $day = "Friday";
+
+  print <<END;
+  Dear $name,
+  Please come to my office on $day.
+  END
+#+END_SRC
+
+如果文本的内容更多，那么在我们的脚本里就会出现需要“print”的大段信息，不如我们单独把这些信息放到另外一个文件里，我们管它叫模板文件,比如“letter.tt”：
+#+BEGIN_SRC html
+Dear [% name %],
+Please come to my office on [% day %].
+#+END_SRC
+
+然后，我们在我们的Perl脚本里去处理这个模板，然后最后输出到“letter.txt”中：
+#+BEGIN_SRC perl
+  use Template;
+  use Cwd;
+
+  my $dir = cwd();
+  my $config = {
+      INCLUDE_PATH => $dir
+  };
+
+  my $tpl_name = "letter.tt";
+  my $tpl = Template->new($config);
+  chdir($dir);
+
+  my $var_ref = {
+      name => "John",
+      day  => "Friday"
+  };
+
+  my $out_file = "letter.txt";
+
+  $tpl->process("$tpl_name", $var_ref, "$dir/$out_file") || die $tpl->error();
+
+#+END_SRC
+把模板代码单独放到另外一个文件，便于以后的维护。即使维护的人，不懂Perl，但是模板本身具有极强的易读性。更多关于Template Toolkit的介绍，[[http://www.template-toolkit.org/][在这里]]。
+当然，如果需要使用Template Toolkit的话，需要通过CPAN来额外安装，这一部分我会再另外写blog做介绍，今天先到此。

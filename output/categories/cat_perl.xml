@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about perl)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_perl.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sun, 01 Oct 2017 00:11:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Use Openxmlformat to Generate WORD DOC</title><link>https://stephen0921.github.io/posts/2017-09-22-openxmlformat/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Generating MS-WORD doc using openxmlformat&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+使用openxmlformat格式来描述，可以用WORD打开的xml文档。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-09-22-openxmlformat/</guid><pubDate>Fri, 22 Sep 2017 03:55:32 GMT</pubDate></item><item><title>My, Our and Local in Perl</title><link>https://stephen0921.github.io/posts/2017-08-10-my-our/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;My, Our and local&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+"my"比较常见，"our"和"local"偶尔会出现。查了好多文档，比如perldoc中的perlmod说明，也是比较模糊，而且又提到"lexical"变量的说法，更是让人一头雾水。下面这个文档比较清晰，值得一读。它从Perl发展的历史角度来讲述区别，同时解释了package变量和"lexical"变量的含义。
+&lt;a href="http://perl.plover.com/FAQs/Namespaces.html"&gt;Coping with Scoping&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+举一个例子，加深理解。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;abc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;strict&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;warnings&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;$VERSION&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;get_ver&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;$VERSION&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;main&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"step 1: $abc::VERSION\n"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"step 2: "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nn"&gt;abc::&lt;/span&gt;&lt;span class="n"&gt;get_ver&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+如上面代码所示，我们想在"package abc"中使用具有全局属性的package变量"$VERSION"，但是由于用了"use strict"，所以上面一段代码编译会报如下错。
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Global symbol &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$VERSION&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; requires explicit package name &lt;span class="o"&gt;(&lt;/span&gt;did you forget to &lt;span class="nb"&gt;declare&lt;/span&gt; &lt;span class="s2"&gt;"my &lt;/span&gt;&lt;span class="nv"&gt;$VERSION&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;?&lt;span class="o"&gt;)&lt;/span&gt; at a.pl line &lt;span class="m"&gt;7&lt;/span&gt;.
+Global symbol &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$VERSION&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; requires explicit package name &lt;span class="o"&gt;(&lt;/span&gt;did you forget to &lt;span class="nb"&gt;declare&lt;/span&gt; &lt;span class="s2"&gt;"my &lt;/span&gt;&lt;span class="nv"&gt;$VERSION&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;?&lt;span class="o"&gt;)&lt;/span&gt; at a.pl line &lt;span class="m"&gt;10&lt;/span&gt;.
+Execution of a.pl aborted due to compilation errors.
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+根据提示我们可以修改成下面这样，在package abc内部使用自己的变量也要加上package名称做前缀:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;abc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;strict&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;warnings&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;$&lt;/span&gt;&lt;span class="nn"&gt;abc::&lt;/span&gt;&lt;span class="nv"&gt;VERSION&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;get_ver&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;$&lt;/span&gt;&lt;span class="nn"&gt;abc::&lt;/span&gt;&lt;span class="nv"&gt;VERSION&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;main&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"step 1: $abc::VERSION\n"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"step 2: "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nn"&gt;abc::&lt;/span&gt;&lt;span class="n"&gt;get_ver&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+为了不这样麻烦，出现了our函数，这样我们就能更优雅一点的使用package变量了:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;abc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;strict&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;warnings&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;our&lt;/span&gt; &lt;span class="nv"&gt;$VERSION&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;get_ver&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;$VERSION&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;main&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"step 1: $abc::VERSION\n"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"step 2: "&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nn"&gt;abc::&lt;/span&gt;&lt;span class="n"&gt;get_ver&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-10-my-our/</guid><pubDate>Thu, 10 Aug 2017 05:44:21 GMT</pubDate></item><item><title>JSON Validator</title><link>https://stephen0921.github.io/posts/2017-08-02-json-validator/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;JSON Validator&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+XML表达信息比较详尽，格式清晰。其实做代码的generator等脚本的时候，也会通过JSON来传递用户的定制参数的。比如cfg.json的内容如下:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{
+    "timescale":"1ns/1ps",
+    "dut":{
+	"name":"mydut",
+	"top_file":"~/mydut.v",
+	"filelist":"~/mydut.f"
+    },
+    "tbp":"demo",
+    "env":{
+	"name":"bus",
+	"agent":[
+	    {
+		"name":"abc",
+		"active":1,
+		"off":0,
+		"interface":{
+		    "ifclk":"clk",
+		    "ifrst":"rst",
+		    "signal":[
+			{
+			    "name":"ahb_burst",
+			    "bind":"ahb_burst_o"
+			},
+			{
+			    "name":"ahb_valid",
+			    "bind":"ahb_valid_o"
+			}
+		    ]
+		}
+	    }
+	]
+    }   
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+同样的，如何在第一时间去check用户输入的json信息是否是正确的？这时候就用到了json-schema文件作为一种validation的标准。假设top.schema.json的内容如下:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;{
+    "type": "object",
+    "properties":{
+	"timescale":{
+	    "type": "string"
+	},
+	"dut":{
+	    "type":"object",
+	    "properties":{
+		"name":{
+		    "type":"string"
+		},
+		"top_file":{
+		    "type":"string"
+		},
+		"filelist":{
+		    "type":"string"
+		}
+	    },
+	    "required":["name","top_file","filelist"]
+	},
+	"env":{
+	    "type":"object",
+	    "properties":{
+		"name":{
+		    "type":"string"
+		},
+		"agent":{
+		    "type":"array",
+		    "items":{
+			"type":"object",
+			"properties":{
+			    "name":{
+				"type":"string"
+			    },
+			    "active":{
+				"type":"integer"
+			    },
+			    "off":{
+				"type":"integer"
+			    },
+			    "interface":{
+				"type":"object",
+				"properties":{
+				    "ifclk":{
+					"type":"string"
+				    },
+				    "ifrst":{
+					"type":"string"
+				    },
+				    "signal":{
+					"type":"array",
+					"items":{
+					    "type":"object",
+					    "properties":{
+						"name":{
+						    "type":"string"
+						},
+						"bind":{
+						    "type":"string"
+						}
+					    },
+					    "required":["name"]
+					},
+					"minItems":1
+				    }
+				},
+				"required":["signal"]
+			    }
+			},
+			"required":["name"]
+		    },
+		    "minItems":1
+		}
+	    }
+	}                       
+    },
+    "required":["dut"]
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+我们用perl来处理JSON文件的validation过程，如下:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;JSON&lt;/span&gt; &lt;span class="sx"&gt;qw(decode_json)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;JSON::Validator&lt;/span&gt; &lt;span class="sx"&gt;qw(validate_json)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$validator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nn"&gt;JSON::Validator&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FILE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"top.schema.json"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="nb"&gt;die&lt;/span&gt; &lt;span class="s"&gt;"Can not open file top.schema.json"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;@lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sr"&gt;&amp;lt;FILE&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$schema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decode_json&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"\n"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;@lines&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+
+&lt;span class="nb"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FILE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; 
+&lt;span class="nv"&gt;$validator&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;schema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$schema&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FILE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"cfg.json"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="nb"&gt;die&lt;/span&gt; &lt;span class="s"&gt;"Can not open file cfg.json"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nv"&gt;@lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sr"&gt;&amp;lt;FILE&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nb"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FILE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$json_to_be_validated&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decode_json&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"\n"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nv"&gt;@lines&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Validate your data&lt;/span&gt;
+&lt;span class="nv"&gt;@errors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;$validator&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;validate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$json_to_be_validated&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Do something if any errors was found&lt;/span&gt;
+&lt;span class="nb"&gt;die&lt;/span&gt; &lt;span class="s"&gt;"@errors"&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nv"&gt;@errors&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+通过对比可以发现虽然json数据格式简单，但是json的validation格式很不友好，比XML的DTD格式杂乱的多。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-02-json-validator/</guid><pubDate>Wed, 02 Aug 2017 07:42:41 GMT</pubDate></item><item><title>XML Validator</title><link>https://stephen0921.github.io/posts/2017-08-02-xml-validator/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;XML Validator&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+当我在做uvm环境的generator脚本的时候，是通过XML来传递用户的定制参数的。比如cfg.xml的内容如下:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;?xml version="1.0" encoding="UTF-8" ?&amp;gt;
+&amp;lt;!DOCTYPE top
+SYSTEM "top.dtd.xml"
+&amp;gt;
+  &amp;lt;top&amp;gt;
+    &amp;lt;timescale value="1ns/1ps" /&amp;gt;
+    &amp;lt;dut name="mydut" top_file="~/mydut.v" filelist="~/mydut.f" /&amp;gt;
+    &amp;lt;tbp name="demo" /&amp;gt;
+    &amp;lt;env name="bus" &amp;gt;
+      &amp;lt;agent name="abc" active="1" off="0" &amp;gt;
+	&amp;lt;interface name="aa" &amp;gt;
+	  &amp;lt;ifclk name="clk" /&amp;gt;
+	  &amp;lt;ifrst name="rst" /&amp;gt;
+	  &amp;lt;signal name="ahb_burst" bind="ahb_burst_o" /&amp;gt;
+	  &amp;lt;signal name="ahb_valid" bind="ahb_valid_o" /&amp;gt;
+	&amp;lt;/interface&amp;gt;
+      &amp;lt;/agent&amp;gt;
+    &amp;lt;/env&amp;gt;
+  &amp;lt;/top&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+那么如何在第一时间去check用户输入的xml信息是否是正确的？这时候就用到了DTD文件作为一种validation的标准。假设top.dtd.xml的内容如下:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;?xml version="1.0" encoding="UTF-8" ?&amp;gt;
+  &amp;lt;!-- The top tag is the root tag. --&amp;gt;
+&amp;lt;!ELEMENT top (timescale?,dut,tbp?,env) &amp;gt;
+
+&amp;lt;!ELEMENT timescale EMPTY &amp;gt;
+  &amp;lt;!ATTLIST timescale value CDATA #REQUIRED&amp;gt;
+
+&amp;lt;!ELEMENT dut EMPTY&amp;gt;
+  &amp;lt;!ATTLIST dut name CDATA #REQUIRED&amp;gt;
+  &amp;lt;!ATTLIST dut top_file CDATA #REQUIRED&amp;gt;
+  &amp;lt;!ATTLIST dut filelist CDATA #REQUIRED&amp;gt;
+
+
+&amp;lt;!ELEMENT tbp EMPTY&amp;gt;
+  &amp;lt;!ATTLIST tbp name CDATA #REQUIRED&amp;gt;
+
+&amp;lt;!ELEMENT env (agent+)&amp;gt;
+  &amp;lt;!ATTLIST env name CDATA #REQUIRED&amp;gt;
+
+&amp;lt;!ELEMENT agent (interface)&amp;gt;
+  &amp;lt;!ATTLIST agent name CDATA #REQUIRED&amp;gt;
+  &amp;lt;!ATTLIST agent active CDATA #REQUIRED&amp;gt;
+  &amp;lt;!ATTLIST agent off CDATA #REQUIRED&amp;gt;
+
+&amp;lt;!ELEMENT interface (ifclk*,ifrst*,signal+)&amp;gt;
+  &amp;lt;!ATTLIST interface name CDATA #REQUIRED&amp;gt;
+
+&amp;lt;!ELEMENT ifclk EMPTY&amp;gt;
+  &amp;lt;!ATTLIST ifclk name CDATA #REQUIRED&amp;gt;
+
+&amp;lt;!ELEMENT ifrst EMPTY&amp;gt;
+  &amp;lt;!ATTLIST ifrst name CDATA #REQUIRED&amp;gt;
+
+&amp;lt;!ELEMENT signal EMPTY&amp;gt;
+  &amp;lt;!ATTLIST signal name CDATA #REQUIRED&amp;gt;
+  &amp;lt;!ATTLIST signal bind CDATA #IMPLIED&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+我们用perl来处理XML文件的validation过程，如下:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;XML::LibXML&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$parser&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nn"&gt;XML::LibXML&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;$parser&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;validation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="nv"&gt;$parser&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;parse_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"cfg.xml"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-02-xml-validator/</guid><pubDate>Wed, 02 Aug 2017 02:42:41 GMT</pubDate></item><item><title>Perl tips series 3</title><link>https://stephen0921.github.io/posts/2017-07-26-perl-misc3/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;perl OOP 浅尝辄止二&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+perl中，继承类的实现，如下。
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;CD::PIANO&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;base&lt;/span&gt; &lt;span class="sx"&gt;qw(CD)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;init&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$self&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nv"&gt;$self&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="nn"&gt;SUPER::&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'piano song'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nv"&gt;$self&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;player&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$self&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;play&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$self&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"Welcome to a wonderful world!\n"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"Played by $self-&amp;gt;{player}\n"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;关键字base，来传达继承于哪个类;
+&lt;/li&gt;
+&lt;li&gt;这个package的名字叫"CD::PIANO"，既反映了继承关系，也同时反映了文件存储的位置，放在了目录CD下面，和目录CD并列的是CD.pm;
+&lt;/li&gt;
+&lt;li&gt;关键字SUPER，来调用父类的函数;
+&lt;/li&gt;
+&lt;li&gt;函数print_me的实现在其父类CD中;
+&lt;/li&gt;
+&lt;li&gt;和其他语言不同，perl的继承类可以没有自己的new函数，把其父类的new函数继承来就可以了;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;FindBin&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;lib&lt;/span&gt; &lt;span class="s"&gt;"$FindBin::Bin"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;CD::PIANO&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$piano&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nn"&gt;CD::PIANO&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;$piano&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'Someone'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="nv"&gt;$piano&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;play&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;$piano&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;print_me&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+运行结果如下:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Welcome to a wonderful world!
+Played by Someone
+&lt;span class="nv"&gt;music&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; piano song
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-07-26-perl-misc3/</guid><pubDate>Wed, 26 Jul 2017 02:59:30 GMT</pubDate></item><item><title>Perl tips series 2</title><link>https://stephen0921.github.io/posts/2017-07-25-perl-misc2/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;perl OOP 浅尝辄止一&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+在perl中，至少是perl5中，class是通过package来实现的，如下。
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;CD&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;strict&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;new&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$class&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$self&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+    &lt;span class="nb"&gt;bless&lt;/span&gt; &lt;span class="nv"&gt;$self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;$class&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;init&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$self&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nv"&gt;$self&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;music&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;$self&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;sub&lt;/span&gt; &lt;span class="nf"&gt;print_me&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$self&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"music = $self-&amp;gt;{music}\n"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; 
+&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+有几个注意的点:
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;bless是把hash ref和class关联起来，每一个objet其实就是一个hash ref;
+&lt;/li&gt;
+&lt;li&gt;注意$class和$self不要混淆了，$class就是new的时候传进来的类名字，$self是hash ref;
+&lt;/li&gt;
+&lt;li&gt;package 最后的返回1，必不可少;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+我们来使用这个类，如下:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;FindBin&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;lib&lt;/span&gt; &lt;span class="s"&gt;"$FindBin::Bin"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;use&lt;/span&gt; &lt;span class="nn"&gt;CD&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$cd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nn"&gt;CD&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nv"&gt;$cd&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;'ABC'&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="nv"&gt;$cd&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;print_me&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;为了让perl解释器能够找到我们的类，通过FindBin来指出路径;
+&lt;/li&gt;
+&lt;li&gt;构建一个类的对象时，千万不能写成CD::new，要定位好久才发现，CD::new其实是选择了namespace的CD这个package里的new，并不是执行一个class的new函数;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-07-25-perl-misc2/</guid><pubDate>Tue, 25 Jul 2017 07:17:40 GMT</pubDate></item><item><title>Perl tips series 1</title><link>https://stephen0921.github.io/posts/2017-07-14-perl-misc1/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;print中内嵌函数&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+有的时候，我们想要print一些信息，但是又要对信息处理后打印，我们不得不分成两部分来做。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sx"&gt;qw(abc de fgh)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$tmp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;join&lt;/span&gt; &lt;span class="s"&gt;':'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;@array&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"$tmp\n"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+如果特别想省去$tmp这个临时变量，可以像下面的方式来写。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;@array&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sx"&gt;qw(abc de fgh)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"@{[join ':',@array]}"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+@{[code]}这种写法是把code的执行结果先转成array reference，然后在变成array，很巧妙的写法！
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;按照文件的创建时间排序&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;p&gt;
+这个需求的出发场景是，比如一个工具生成autohref.txt文件，等再run一次，工具生成autohref1.txt，以此类推。
+如果我想对最新的autohref*.txt文件进行处理，一般的方法是找匹配/autohref(\d+)\.txt/的文件，同时$1是最大的。
+但是，如果用户删除了其中一个autohref4.txt，那么下次run这个工具，就有可能破坏了这个前提。所以，去找最新的这个文件是比较保险的。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;@files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;glob&lt;/span&gt; &lt;span class="s"&gt;'./autohref*.txt'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;@files_in_order&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;sort&lt;/span&gt; &lt;span class="p"&gt;{(&lt;/span&gt;&lt;span class="nb"&gt;stat&lt;/span&gt; &lt;span class="nv"&gt;$b&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="sr"&gt;&amp;lt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;stat&lt;/span&gt; &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;]}&lt;/span&gt; &lt;span class="nv"&gt;@files&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$latest_file&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;shift&lt;/span&gt; &lt;span class="nv"&gt;@files_in_order&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+函数stat的用法，&lt;a href="http://perldoc.perl.org/functions/stat.html"&gt;来这里看&lt;/a&gt; 。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-07-14-perl-misc1/</guid><pubDate>Fri, 14 Jul 2017 08:17:40 GMT</pubDate></item><item><title>Perl tips series 0</title><link>https://stephen0921.github.io/posts/2017-07-13-perl-misc0/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;删除文件中重复的行&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+使用一行命令就能实现，连编辑器都不用打开。
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;perl -ne &lt;span class="s1"&gt;'print unless $a{$_}++'&lt;/span&gt; file.txt
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+上一行命令中，-n表示对于每一行执行命令，-e后跟具体的命令。
+$_存的是每一行的内容，hash变量%a里存的是每一个行出现的次数，因为是先判断后++，类似于c语言中的i++。所以，只会打印第一次出现的行内容。
+unless可以看作是if的反过来。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;正则表达式debugger&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;p&gt;
+无意中发现一个特别棒的perl module，用来debug正则表达式，那就是Regexp::Debugger。
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;perl -E &lt;span class="s2"&gt;"use Regexp::Debugger; 'abbc' =~ /(a|b)b+c/x"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+shell里运行上面的命令，可以看到下面的画面，真是赞啊！
+&lt;/p&gt;
+&lt;img src="https://stephen0921.github.io/posts/2017-07-13-perl-misc0/images/reg.png" class="img-thumbnail" width="60%"&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-07-13-perl-misc0/</guid><pubDate>Thu, 13 Jul 2017 11:00:43 GMT</pubDate></item><item><title>写perl的注释和说明</title><link>https://stephen0921.github.io/posts/2017-07-07-perl-comment/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;perl里的注释&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+为了让代码更具有可读性，注释必不可少。
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;my&lt;/span&gt; &lt;span class="nv"&gt;$h&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;# $h is hash reference &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+在perl里面有更漂亮的注释或者文档写法，就是POD格式，一些主流的编辑器都能识别这个格式。比如vim，emacs，sublime。
+&lt;/p&gt;
+
+&lt;img src="https://stephen0921.github.io/posts/2017-07-07-perl-comment/images/pod_emacs.png" class="img-thumbnail" width="60%"&gt;
+
+&lt;p&gt;
+在perl程序中，以“=”开头，一些关键字比如head1，head2然后紧跟着一个空行，都被认为是pod格式的说明注释，可以看到"my $err = '';"这一段也被注释掉了，因为perl默认会去找关键字“=cut”作为pod注释的结束标志。
+&lt;/p&gt;
+
+&lt;p&gt;
+我们在shell里运行这个文件，比如我们把它命名为pod.pl。
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;perldoc pod.pl
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+我们能得到我们的注释和说明如下：
+&lt;/p&gt;
+&lt;img src="https://stephen0921.github.io/images/pod_sh.png" class="img-thumbnail" width="60%"&gt;
+
+&lt;p&gt;
+另外使用其他工具，比如pod2text，pod2html，pod2latex等，可以把我们的注释转成多种格式。
+&lt;/p&gt;
+&lt;img src="https://stephen0921.github.io/images/pod_trans.png" class="img-thumbnail" width="60%"&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-07-07-perl-comment/</guid><pubDate>Fri, 07 Jul 2017 08:53:44 GMT</pubDate></item><item><title>perl中的glob函数</title><link>https://stephen0921.github.io/posts/2017-07-04-file-glob/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;glob帮助我们快速操作文件&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+当我们想对某目录下的文件做操作的时候，使用glob函数是非常方便的。
+比如我们想把当前路径的test目录下的所有以.txt结尾的文件列出来：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;@files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;glob&lt;/span&gt; &lt;span class="s"&gt;'./test/*.txt'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="nv"&gt;@files&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+或者我们可以这样隐式的写法：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sr"&gt;&amp;lt;'./test/*.txt'&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;"$_\n"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+再也不要自己去开发轮子，处理满足某一个条件的多个文件了，Yeah！
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-07-04-file-glob/</guid><pubDate>Tue, 04 Jul 2017 08:53:44 GMT</pubDate></item></channel></rss>

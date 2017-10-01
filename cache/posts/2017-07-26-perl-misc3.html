@@ -1,0 +1,60 @@
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">perl OOP 浅尝辄止二</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+perl中，继承类的实现，如下。
+</p>
+<div class="highlight"><pre><span></span><span class="k">package</span> <span class="nn">CD::PIANO</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">base</span> <span class="sx">qw(CD)</span><span class="p">;</span>
+
+<span class="k">sub</span> <span class="nf">init</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="nv">$self</span><span class="o">-&gt;</span><span class="nn">SUPER::</span><span class="n">init</span><span class="p">(</span><span class="s">&#39;piano song&#39;</span><span class="p">);</span>
+    <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">player</span><span class="p">}</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">sub</span> <span class="nf">play</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s">&quot;Welcome to a wonderful world!\n&quot;</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s">&quot;Played by $self-&gt;{player}\n&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="mi">1</span><span class="p">;</span>
+</pre></div>
+
+<ul class="org-ul">
+<li>关键字base，来传达继承于哪个类;
+</li>
+<li>这个package的名字叫"CD::PIANO"，既反映了继承关系，也同时反映了文件存储的位置，放在了目录CD下面，和目录CD并列的是CD.pm;
+</li>
+<li>关键字SUPER，来调用父类的函数;
+</li>
+<li>函数print_me的实现在其父类CD中;
+</li>
+<li>和其他语言不同，perl的继承类可以没有自己的new函数，把其父类的new函数继承来就可以了;
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">FindBin</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">lib</span> <span class="s">&quot;$FindBin::Bin&quot;</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">CD::PIANO</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$piano</span> <span class="o">=</span> <span class="nn">CD::PIANO</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">;</span>
+
+<span class="nv">$piano</span><span class="o">-&gt;</span><span class="n">init</span><span class="p">(</span><span class="s">&#39;Someone&#39;</span><span class="p">);</span>
+
+<span class="nv">$piano</span><span class="o">-&gt;</span><span class="n">play</span><span class="p">;</span>
+
+<span class="nv">$piano</span><span class="o">-&gt;</span><span class="n">print_me</span><span class="p">;</span>
+</pre></div>
+
+<p>
+运行结果如下:
+</p>
+<div class="highlight"><pre><span></span>Welcome to a wonderful world!
+Played by Someone
+<span class="nv">music</span> <span class="o">=</span> piano song
+</pre></div>
+</div>
+</div>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UVM Example Reference 1 | Yao He's Awesome Site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/posts/2017-09-11-uvm-ref-flow1/">
+<!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.min.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="prev" href="../2017-08-30-emacs-verilog/" title="Emacs verilog mode" type="text/html">
+<link rel="next" href="../2017-09-12-emacs-tags-verdi/" title="Generate Tags for Emacs by Verdi" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="UVM Example Reference 1">
+<meta property="og:url" content="https://stephen0921.github.io/posts/2017-09-11-uvm-ref-flow1/">
+<meta property="og:description" content="UVM Example Reference 1
+
+
+uvm_ref_flow_1.2是不错的学习材料，从UT到SOC的环境都可以参考这里面的代码来写，至少可以当做代码的模板来用。
+
+
+
+和我之前一般看到的做法不同，monitor被完全实现在了transaction level，signal level的东西放在了一个叫collector的class里面。
+
+
+
+还有一个特别值得说明是，在apb_s">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-09-11T15:05:32+08:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="../../archive.html">Archive</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
+                <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">UVM Example Reference 1</a></h1>
+<hr>
+<div class="metadata">
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-09-11T15:05:32+08:00" itemprop="datePublished" title="2017-09-11 15:05">2017-09-11 15:05</time></a>
+            </span>
+                <span class="commentline">        
+</span>
+        </div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">UVM Example Reference 1</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+uvm_ref_flow_1.2是不错的学习材料，从UT到SOC的环境都可以参考这里面的代码来写，至少可以当做代码的模板来用。
+</p>
+
+<p>
+和我之前一般看到的做法不同，monitor被完全实现在了transaction level，signal level的东西放在了一个叫collector的class里面。
+</p>
+
+<p>
+还有一个特别值得说明是，在apb_slave_seq_lib.sv中的simple_response_seq通过其p_sequencer的tlm接口addr_trans_port来生成包，不错的应用方法。
+</p>
+
+<div class="highlight"><pre><span></span>class simple_response_seq extends uvm_sequence #(apb_transfer);
+   // ...
+   virtual task body();
+      `uvm_info(get_type_name(), "Starting...", UVM_MEDIUM)
+      forever begin
+	 p_sequencer.addr_trans_port.peek(util_transfer);
+	 // ...
+      end
+   endtask : body
+endclass : simple_response_seq
+</pre></div>
+
+<p>
+为了让sequencer能看到发包的情况，建立了一条tlm通道。从总线到apb_collector，再到apb_monitor，最后到apb_slave_sequencer。
+</p>
+<img src="../../images/uvm_ref_flow1.png" class="img-thumbnail" width="60%"><p>
+用事件来在同一个class的两个task之间做同步和信息传递，用peek的tlm通路来层层传递。
+</p>
+<div class="highlight"><pre><span></span>class apb_slave_sequencer extends uvm_sequencer #(apb_transfer);
+   // ...
+   uvm_blocking_peek_port#(apb_transfer) addr_trans_port;
+   // ...
+endclass : apb_slave_sequencer
+
+class apb_monitor extends uvm_monitor;
+   // ...
+   // Allows the sequencer to look at monitored data for responses
+  uvm_blocking_peek_imp#(apb_transfer,apb_monitor) addr_trans_export;
+
+  // Allows monitor to look at collector for address information
+  uvm_blocking_peek_port#(apb_transfer) addr_trans_port;
+
+  event trans_addr_grabbed;
+endclass : apb_monitor
+
+  // UVM run_phase
+task apb_monitor::run_phase(uvm_phase phase);
+  forever begin
+    addr_trans_port.peek(trans_collected);
+    `uvm_info(get_type_name(), $sformatf("Address Phase Complete: %h[%s]", trans_collected.addr, trans_collected.direction.name() ), UVM_HIGH)
+    -&gt; trans_addr_grabbed;
+  end
+endtask : run_phase
+
+// FUNCTION: peek - Allows the sequencer to peek at monitor for responses
+task apb_monitor::peek(output apb_transfer trans);
+  @trans_addr_grabbed;
+  trans = trans_collected;
+endtask : peek
+
+class apb_collector extends uvm_component;
+   // ...
+   // TLM Port - Allows sequencer access to transfer during address phase
+  uvm_blocking_peek_imp#(apb_transfer,apb_collector) addr_trans_export;
+  event addr_trans_grabbed;
+endclass : apb_collector
+
+   // UVM run_phase()
+task apb_collector::run_phase(uvm_phase phase);
+    @(posedge vif.preset);
+    `uvm_info(get_type_name(), "Detected Reset Done", UVM_LOW)
+    collect_transactions();
+endtask : run_phase
+
+// collect_transactions
+task apb_collector::collect_transactions();
+  forever begin
+    @(posedge vif.pclock iff (vif.psel != 0));
+    void'(this.begin_tr(trans_collected,"APB_COLLECTOR","UVM Debug","APB collector transaction inside collect_transactions()"));
+    trans_collected.addr = vif.paddr;
+    trans_collected.master = cfg.master_config.name;
+    trans_collected.slave = cfg.get_slave_name_by_addr(trans_collected.addr);
+    case (vif.prwd)
+      1'b0 : trans_collected.direction = APB_READ;
+      1'b1 : trans_collected.direction = APB_WRITE;
+    endcase
+      @(posedge vif.pclock);
+    if(trans_collected.direction == APB_READ)
+      trans_collected.data = vif.prdata;
+    if (trans_collected.direction == APB_WRITE)
+      trans_collected.data = vif.pwdata;
+    -&gt; addr_trans_grabbed;
+    @(posedge vif.pclock);
+    if(trans_collected.direction == APB_READ) begin
+	if(vif.pready != 1'b1)
+	  @(posedge vif.pclock);
+      trans_collected.data = vif.prdata;
+      end
+    this.end_tr(trans_collected);
+    item_collected_port.write(trans_collected);
+    `uvm_info(get_type_name(), $sformatf("Transfer collected :\n%s",
+	      trans_collected.sprint()), UVM_MEDIUM)
+      `ifdef HEAP
+      runq.push_back(trans_collected);
+      `endif
+     num_transactions++;
+    end
+endtask : collect_transactions
+
+task apb_collector::peek(output apb_transfer trans);
+  @addr_trans_grabbed;
+  trans = trans_collected;
+endtask : peek
+</pre></div>
+
+<p>
+再看一下连接关系。
+</p>
+<div class="highlight"><pre><span></span>// UVM connect_phase
+function void apb_env::connect_phase(uvm_phase phase);
+  super.connect_phase(phase);
+  // Get the virtual interface if set via get_config
+  if (!uvm_config_db#(virtual apb_if)::get(this, "", "vif", vif))
+    `uvm_error("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"})
+  bus_collector.item_collected_port.connect(bus_monitor.coll_mon_port);
+  bus_monitor.addr_trans_port.connect(bus_collector.addr_trans_export);
+  master.monitor = bus_monitor;
+  master.collector = bus_collector;
+  foreach(slaves[i]) begin
+    slaves[i].monitor = bus_monitor;
+    slaves[i].collector = bus_collector;
+    if (slaves[i].is_active == UVM_ACTIVE)
+      slaves[i].sequencer.addr_trans_port.connect(bus_monitor.addr_trans_export);
+  end
+endfunction : connect_phase
+</pre></div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="previous">
+                <a href="../2017-08-30-emacs-verilog/" rel="prev" title="Emacs verilog mode">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../2017-09-12-emacs-tags-verdi/" rel="next" title="Generate Tags for Emacs by Verdi">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+        </div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

@@ -1,0 +1,33 @@
+#+OPTIONS: ^:nil
+#+BEGIN_COMMENT
+.. title: Perl tips series 0
+.. slug: 2017-07-13-perl-misc0
+.. date: 2017-07-13 19:00:43 UTC+08:00
+.. tag: 
+.. category: perl
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* 删除文件中重复的行
+使用一行命令就能实现，连编辑器都不用打开。
+#+BEGIN_SRC sh
+  perl -ne 'print unless $a{$_}++' file.txt
+#+END_SRC
+上一行命令中，-n表示对于每一行执行命令，-e后跟具体的命令。
+$_存的是每一行的内容，hash变量%a里存的是每一个行出现的次数，因为是先判断后++，类似于c语言中的i++。所以，只会打印第一次出现的行内容。
+unless可以看作是if的反过来。
+
+* 正则表达式debugger
+无意中发现一个特别棒的perl module，用来debug正则表达式，那就是Regexp::Debugger。
+#+BEGIN_SRC sh
+  perl -E "use Regexp::Debugger; 'abbc' =~ /(a|b)b+c/x"
+#+END_SRC
+
+shell里运行上面的命令，可以看到下面的画面，真是赞啊！
+#+BEGIN_HTML
+<img src="/../images/reg.png" class="img-thumbnail" width="60%" >
+#+END_HTML
+
+

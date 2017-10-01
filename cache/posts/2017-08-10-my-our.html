@@ -1,0 +1,67 @@
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">My, Our and local</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+"my"比较常见，"our"和"local"偶尔会出现。查了好多文档，比如perldoc中的perlmod说明，也是比较模糊，而且又提到"lexical"变量的说法，更是让人一头雾水。下面这个文档比较清晰，值得一读。它从Perl发展的历史角度来讲述区别，同时解释了package变量和"lexical"变量的含义。
+<a href="http://perl.plover.com/FAQs/Namespaces.html">Coping with Scoping</a>
+</p>
+
+<p>
+举一个例子，加深理解。
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">package</span> <span class="nn">abc</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">strict</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">warnings</span><span class="p">;</span>
+
+<span class="nv">$VERSION</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+
+<span class="k">sub</span> <span class="nf">get_ver</span> <span class="p">{</span><span class="nv">$VERSION</span><span class="p">}</span>
+
+<span class="k">package</span> <span class="nn">main</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">&quot;step 1: $abc::VERSION\n&quot;</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">&quot;step 2: &quot;</span><span class="o">.</span> <span class="nn">abc::</span><span class="n">get_ver</span><span class="p">();</span>
+</pre></div>
+
+<p>
+如上面代码所示，我们想在"package abc"中使用具有全局属性的package变量"$VERSION"，但是由于用了"use strict"，所以上面一段代码编译会报如下错。
+</p>
+<div class="highlight"><pre><span></span>Global symbol <span class="s2">&quot;</span><span class="nv">$VERSION</span><span class="s2">&quot;</span> requires explicit package name <span class="o">(</span>did you forget to <span class="nb">declare</span> <span class="s2">&quot;my </span><span class="nv">$VERSION</span><span class="s2">&quot;</span>?<span class="o">)</span> at a.pl line <span class="m">7</span>.
+Global symbol <span class="s2">&quot;</span><span class="nv">$VERSION</span><span class="s2">&quot;</span> requires explicit package name <span class="o">(</span>did you forget to <span class="nb">declare</span> <span class="s2">&quot;my </span><span class="nv">$VERSION</span><span class="s2">&quot;</span>?<span class="o">)</span> at a.pl line <span class="m">10</span>.
+Execution of a.pl aborted due to compilation errors.
+</pre></div>
+
+<p>
+根据提示我们可以修改成下面这样，在package abc内部使用自己的变量也要加上package名称做前缀:
+</p>
+<div class="highlight"><pre><span></span><span class="k">package</span> <span class="nn">abc</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">strict</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">warnings</span><span class="p">;</span>
+
+<span class="nv">$</span><span class="nn">abc::</span><span class="nv">VERSION</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+
+<span class="k">sub</span> <span class="nf">get_ver</span> <span class="p">{</span><span class="nv">$</span><span class="nn">abc::</span><span class="nv">VERSION</span><span class="p">}</span>
+
+<span class="k">package</span> <span class="nn">main</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">&quot;step 1: $abc::VERSION\n&quot;</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">&quot;step 2: &quot;</span><span class="o">.</span> <span class="nn">abc::</span><span class="n">get_ver</span><span class="p">();</span>
+</pre></div>
+
+<p>
+为了不这样麻烦，出现了our函数，这样我们就能更优雅一点的使用package变量了:
+</p>
+<div class="highlight"><pre><span></span><span class="k">package</span> <span class="nn">abc</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">strict</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">warnings</span><span class="p">;</span>
+
+<span class="k">our</span> <span class="nv">$VERSION</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+
+<span class="k">sub</span> <span class="nf">get_ver</span> <span class="p">{</span><span class="nv">$VERSION</span><span class="p">}</span>
+
+<span class="k">package</span> <span class="nn">main</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">&quot;step 1: $abc::VERSION\n&quot;</span><span class="p">;</span>
+<span class="k">print</span> <span class="s">&quot;step 2: &quot;</span><span class="o">.</span> <span class="nn">abc::</span><span class="n">get_ver</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>

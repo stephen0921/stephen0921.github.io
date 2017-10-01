@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn some SQL | Yao He's Awesome Site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/posts/2017-08-11-sqlite/">
+<!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.min.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="prev" href="../2017-08-10-my-our/" title="My, Our and Local in Perl" type="text/html">
+<link rel="next" href="../2017-08-15-ieee-floating/" title="IEEE Floating Point Number" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="Learn some SQL">
+<meta property="og:url" content="https://stephen0921.github.io/posts/2017-08-11-sqlite/">
+<meta property="og:description" content="Learn some SQL
+
+
+  SQL(structured query language)可以理解为一种标准语言，不管底层最终的database是MySQL还是sqlite，都是支持这个标准语言的。虽然在脚本语言中，有DBI(database interface) module，比如Perl里的DBIx::Class，为用户操作数据库提供了便利的wrapper，但是了解一些基本的SQL操作">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-08-11T17:19:11+08:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="../../archive.html">Archive</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
+                <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Learn some SQL</a></h1>
+<hr>
+<div class="metadata">
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-08-11T17:19:11+08:00" itemprop="datePublished" title="2017-08-11 17:19">2017-08-11 17:19</time></a>
+            </span>
+                <span class="commentline">        
+</span>
+        </div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Learn some SQL</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+  SQL(structured query language)可以理解为一种标准语言，不管底层最终的database是MySQL还是sqlite，都是支持这个标准语言的。虽然在脚本语言中，有DBI(database interface) module，比如Perl里的DBIx::Class，为用户操作数据库提供了便利的wrapper，但是了解一些基本的SQL操作，很有必要。
+推荐两个非常棒的SQL教学视频，比如:<a href="https://www.youtube.com/watch?v=QjICgmk31js&amp;list=PLGLfVvz_LVvTsslWD1HBQEjBbmAaAF9Xy&amp;index=1">sqlite3 tutorial</a> 和 <a href="https://www.youtube.com/watch?v=yPu6qV5byu4&amp;list=PLSBBbFozymr309Vzn5cmG2kxGKV6pHnKP&amp;index=5">MySQL</a> 。
+</p>
+
+<p>
+再回到我最近看的MojoExample源代码上来。Schema::Result::Blog.pm，有一段代码是这样:
+</p>
+<div class="highlight"><pre><span></span><span class="nn">__PACKAGE__</span><span class="o">-&gt;</span><span class="n">has_many</span><span class="p">(</span>
+  <span class="s">"blog_tags"</span><span class="p">,</span>
+  <span class="s">"Schema::Result::BlogTag"</span><span class="p">,</span>
+  <span class="p">{</span> <span class="s">"foreign.blog"</span> <span class="o">=&gt;</span> <span class="s">"self.id"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">cascade_copy</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cascade_delete</span> <span class="o">=&gt;</span> <span class="mi">0</span> <span class="p">},</span>
+<span class="p">);</span>
+</pre></div>
+<p>
+就是说一个Blog有多个BlogTag，table blog_tags的column成员blog映射到table blogs的column成员id上。
+再来看Schema::Result::BlogTag.pm的一段:
+</p>
+<div class="highlight"><pre><span></span><span class="nn">__PACKAGE__</span><span class="o">-&gt;</span><span class="n">belongs_to</span><span class="p">(</span>
+  <span class="s">"blog"</span><span class="p">,</span>
+  <span class="s">"Schema::Result::Blog"</span><span class="p">,</span>
+  <span class="p">{</span> <span class="n">id</span> <span class="o">=&gt;</span> <span class="s">"blog"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">is_deferrable</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">on_delete</span> <span class="o">=&gt;</span> <span class="s">"CASCADE"</span><span class="p">,</span> <span class="n">on_update</span> <span class="o">=&gt;</span> <span class="s">"CASCADE"</span> <span class="p">},</span>
+<span class="p">);</span>
+</pre></div>
+<p>
+这个代码不够友好，参考这个帖子<a href="http://blog.johngoulah.com/2009/05/versioning-with-dbic/">versioning-with-dbic</a> 后，我们把这一段改一下:
+</p>
+<div class="highlight"><pre><span></span><span class="nn">__PACKAGE__</span><span class="o">-&gt;</span><span class="n">belongs_to</span><span class="p">(</span>
+  <span class="s">"blog"</span><span class="p">,</span>
+  <span class="s">"Schema::Result::Blog"</span><span class="p">,</span>
+  <span class="p">{</span> <span class="s">"foreign.id"</span> <span class="o">=&gt;</span> <span class="s">"self.blog"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">is_deferrable</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">on_delete</span> <span class="o">=&gt;</span> <span class="s">"CASCADE"</span><span class="p">,</span> <span class="n">on_update</span> <span class="o">=&gt;</span> <span class="s">"CASCADE"</span> <span class="p">},</span>
+<span class="p">);</span>
+</pre></div>
+<p>
+这样就清晰多了，table blogs的column成员id映射到table blog_tags的column成员blog上。
+</p>
+
+<p>
+进到MojoExample目录下，看一下现有的数据库长什么样:
+</p>
+<div class="highlight"><pre><span></span>sqlite3 test.db
+</pre></div>
+
+<p>
+发几个命令熟悉一下，最后一条是JOIN命令，另外还有LEFT JOIN，RIGHT JOIN等，去w3school上看吧。
+</p>
+<img src="../../images/sqlite3.png" class="img-thumbnail" width="60%">
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="previous">
+                <a href="../2017-08-10-my-our/" rel="prev" title="My, Our and Local in Perl">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../2017-08-15-ieee-floating/" rel="next" title="IEEE Floating Point Number">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+        </div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

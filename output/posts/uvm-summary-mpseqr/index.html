@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why we use p_sequencer in UVM? | Yao He's Awesome Site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/posts/uvm-summary-mpseqr/">
+<!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.min.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="prev" href="../uvm-source-code-editor/" title="Study UVM Source Code with Sublime3" type="text/html">
+<link rel="next" href="../sv-oop/" title="OOP in Systemverilog" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="Why we use p_sequencer in UVM?">
+<meta property="og:url" content="https://stephen0921.github.io/posts/uvm-summary-mpseqr/">
+<meta property="og:description" content='p_sequencer
+
+
+经常会看到在sequence和virtual sequence中，使用了宏`uvm_declare_p_sequencer。那么，为什么我们要使用p_sequencer呢？
+
+class base_vseq extends uvm_sequence;
+  function new(string name="base_vseq");
+    super.new(name)'>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-06-19T13:19:02-04:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="../../archive.html">Archive</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
+                <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Why we use p_sequencer in UVM?</a></h1>
+<hr>
+<div class="metadata">
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-06-19T13:19:02-04:00" itemprop="datePublished" title="2017-06-19 13:19">2017-06-19 13:19</time></a>
+            </span>
+                <span class="commentline">        
+</span>
+        </div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">p_sequencer</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+经常会看到在sequence和virtual sequence中，使用了宏`uvm_declare_p_sequencer。那么，为什么我们要使用p_sequencer呢？
+</p>
+<div class="highlight"><pre><span></span>class base_vseq extends uvm_sequence;
+  function new(string name="base_vseq");
+    super.new(name);
+  endfunction
+
+  `uvm_object_utils(base_vseq)
+  `uvm_declare_p_sequencer(uart_ctrl_virtual_sequencer)
+ endclass
+</pre></div>
+<p>
+从继承的关系上，uvm_sequence_item-&gt;uvm_sequence_base-&gt;uvm_sequence，uvm_sequence_item中有一个成员变量m_sequencer（喂喂喂，怎么说m_sequencer了？嗯嗯，别急，往后看），当我们在test的run_phase中start一个sequence的时候，其实就是给m_sequencer赋值了，把我们环境的sequencer赋给m_sequencer。m_sequencer是不带parameter的。
+</p>
+<div class="highlight"><pre><span></span>class uvm_sequence_item extends uvm_transaction;
+
+  local      int                m_sequence_id = -1;
+  protected  bit                m_use_sequence_info;
+  protected  int                m_depth = -1;
+
+  protected  uvm_sequencer_base m_sequencer;
+</pre></div>
+<p>
+把宏`uvm_declare_p_sequencer展开看，就是把m_sequencer赋值给了p_sequencer，当然了，m_sequncer所指向的对象，一定要是p_sequencer或者p_sequencer的子类，否者cast函数会报错的。
+</p>
+<div class="highlight"><pre><span></span>`define uvm_declare_p_sequencer(SEQUENCER) \
+  SEQUENCER p_sequencer;\
+  virtual function void m_set_p_sequencer();\
+    super.m_set_p_sequencer(); \
+    if( !$cast(p_sequencer, m_sequencer)) \
+	`uvm_fatal("DCLPSQ", \
+	$sformatf("%m %s Error casting p_sequencer, please verify that this sequence/sequence item is intended to execute on this type of sequencer", get_full_name())) \
+  endfunction 
+</pre></div>
+<p>
+那么，费了这么多事，要做什么呢？其实就是传递配置。因为sequence和component不一样，component是在build_phase环节就有了，而sequence是在run_phase阶段才会第一次出现，sequence想要去从环境上拿到配置信息，一定要通过它的m_sequencer，但是m_sequencer是不带parameter的，和我们start的时候一定不match，所以UVM就事先在定义sequence的时候，把p_sequencer这个带parameter的sequencer准备好，方便后面的使用。
+</p>
+<div class="highlight"><pre><span></span>virtual task body();
+      response_queue_error_report_disabled = 1;
+      start_addr = `TX_FIFO_REG;
+      while (num_of_wr) begin
+	`uvm_info(get_type_name(), $sformatf("Starting %0d Writes...", num_of_wr), UVM_LOW)
+	for (int i = 0; i &lt; num_of_wr; i++) begin
+	  if (p_sequencer.tful) begin
+	    num_of_wr -= i;
+	    `uvm_info("UART_APB_SEQLIB", $sformatf("Breaking from apb_to_uart_wr since tfifo is not empty yet, pending num_of_wr = %d", num_of_wr), UVM_LOW)
+	    #10000;
+	    break;
+	  end
+	  `uvm_do_with(req, 
+	    { req.addr == start_addr;
+	      req.direction == APB_WRITE;
+	      req.delay == del; } )
+	  #200;
+	  if (i == num_of_wr - 1)
+	     num_of_wr = 0;
+	end
+      end
+    endtask
+</pre></div>
+<p>
+上面这段代码就是sequence的片段，可以看到直接访问了p_sequencer的变量tful，如果写成m_sequencer.tful，是一定不成的。
+</p>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="previous">
+                <a href="../uvm-source-code-editor/" rel="prev" title="Study UVM Source Code with Sublime3">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../sv-oop/" rel="next" title="OOP in Systemverilog">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+        </div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

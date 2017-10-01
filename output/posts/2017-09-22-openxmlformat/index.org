@@ -1,0 +1,14 @@
+#+OPTIONS: ^:nil
+#+BEGIN_COMMENT
+.. title: Use Openxmlformat to Generate WORD DOC 
+.. slug: 2017-09-22-openxmlformat
+.. date: 2017-09-22 11:55:32 UTC+08:00
+.. tag: 
+.. category: perl
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Generating MS-WORD doc using openxmlformat
+  使用openxmlformat格式来描述，可以用WORD打开的xml文档。

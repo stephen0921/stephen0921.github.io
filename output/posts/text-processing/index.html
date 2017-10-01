@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html prefix="
+og: http://ogp.me/ns#
+article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text Processing | Yao He's Awesome Site</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://stephen0921.github.io/posts/text-processing/">
+<!--[if lt IE 9]>
+            <script src="../../assets/js/html5shiv.min.js"></script>
+            <script src="../../assets/js/respond.min.js"></script>
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="next" href="../perl-template/" title="Perl Template" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="Text Processing">
+<meta property="og:url" content="https://stephen0921.github.io/posts/text-processing/">
+<meta property="og:description" content="文本处理思路梳理
+
+
+在日常的工作中，经常会遇到处理log或者文本的一些工作。但一时又想不到如果解决，提笔忘脚本。由此，我总结一些小的方法，给自己梳理一下思路，同时帮助别人。
+
+
+
+按照文本处理的复杂程度，我们来决定用什么方法处理：
+
+
+如果文本本身size不大，只是关键字的替换或者列操作等，那么就用编辑器处理了，比如vim或者Emacs。
+
+不想用编辑器打开文本，并且需要集成到其他脚本或者Mak">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-03-11T12:57:32-04:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar  header-panel shadow-z-3" role="navigation"><div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-3">
+            <h1 class="title-blog">
+                <a href="https://stephen0921.github.io/">
+                        <span id="blog-title">Yao He's Awesome Site</span>
+                    </a>
+            </h1>
+          </div>
+          <div class="col-xs-9">
+            <a id="hamburger" class="btn btn-raised" href="javascript:void(0);" onclick="menuToggle();">☰</a>
+          </div>
+        </div>
+      </div>
+<!-- /.container-fluid -->
+</nav><div class="container-fluid main" id="content" role="main">
+        <div class="row">
+            <nav class="col-xs-12 col-sm-3 menu"><ul>
+<li class="withripple"><a href="../../archive.html">Archive</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
+                <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
+
+                    
+                </ul>
+<ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-md-11 content-material">
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Text Processing</a></h1>
+<hr>
+<div class="metadata">
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-03-11T12:57:32-04:00" itemprop="datePublished" title="2017-03-11 12:57">2017-03-11 12:57</time></a>
+            </span>
+                <span class="commentline">        
+</span>
+        </div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">文本处理思路梳理</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+在日常的工作中，经常会遇到处理log或者文本的一些工作。但一时又想不到如果解决，提笔忘脚本。由此，我总结一些小的方法，给自己梳理一下思路，同时帮助别人。
+</p>
+
+<p>
+按照文本处理的复杂程度，我们来决定用什么方法处理：
+</p>
+<ul class="org-ul">
+<li>如果文本本身size不大，只是关键字的替换或者列操作等，那么就用编辑器处理了，比如vim或者Emacs。
+</li>
+<li>不想用编辑器打开文本，并且需要集成到其他脚本或者Makefile中，操作多是单行的，便于以后重复使用，推荐sed或者awk。
+</li>
+<li>需要处理比较复杂，或者要生成一些代码，推荐使用Perl。
+</li>
+</ul>
+<p>
+先说第一种情况，比如下面的代码。想要在下面的前四行代码，每行后面增加一些注释，比如"they are inputs"。
+</p>
+<div class="highlight"><pre><span></span>input a;
+input b;
+input c;
+input d;
+output e;
+</pre></div>
+
+<p>
+先以vim为例，按ESC进入命令模式，在第一行按下“ma”，第四行按下“mb”，标记了我们想要操作的区域。然后按“:”，输入命令“'a,'bs/;$/; \/\/ they are inputs”；
+“'a”和“'b”就是我们刚才标记的起点和终点，格式“s/xx/yy/”表示将“xx”替换成“yy”。注意这里，如果“yy”中包含“/”，需要使用反斜线进行转义。
+</p>
+
+<img src="../../images/text_processing1_vim.gif" class="img-thumbnail" width="60%"><p>
+如果是Emacs，在第一行，组合键C-S-SPACE<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>标记区域的开始，光标来到在第五行的开头，可以看到我们选中了前四行，然后M-%，进行替换，最后的!表示全部替换。
+</p>
+
+<img src="../../images/text_processing1_emacs.gif" class="img-thumbnail" width="60%"><p>
+再说第二种情况，文本比较大，不想打开，想把里面包含“delete me please!”的行都删掉。可以使用sed。
+</p>
+<div class="highlight"><pre><span></span>sed -e <span class="s1">'/delete me please!/d'</span> text.txt -i
+</pre></div>
+<p>
+-e表示执行的命令，其中“/xx/d”表示去匹配xx然后删除，-i表示处理结果写会到原文件。
+</p>
+
+<p>
+最后是第三种情况，比如有一个文本文件如下：
+</p>
+<div class="highlight"><pre><span></span>module a;
+   input i_a;
+   input i_a_not_this;
+
+   output o_a;
+endmodule // a
+
+module b;
+   input i_b;
+   input i_b_not_this;
+
+   output o_b;
+endmodule // b
+</pre></div>
+<p>
+我们想要把module b里的第一个input信号的名字换成module a里的第一个input信号的名字，这样比较适合Perl来做。
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$in_a_module</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$in_b_module</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$input_a</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$end</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="k">my</span> <span class="nv">$line</span> <span class="o">=</span> <span class="o">&lt;&gt;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$in_b_module</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">((</span><span class="nb">defined</span> <span class="p">(</span><span class="nv">$input_a</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nv">$end</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+	    <span class="nv">$line</span> <span class="o">=~</span><span class="sr">s/input(\s+)\w+/input$1$input_a/</span><span class="p">;</span>
+	    <span class="nv">$line</span> <span class="o">.=</span> <span class="s">" // The line above is changed.\n"</span><span class="p">;</span>
+	    <span class="nv">$end</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nv">$line</span> <span class="o">=~</span><span class="sr">/endmodule/</span><span class="p">)</span> <span class="p">{</span>
+	    <span class="nv">$in_b_module</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="nv">$in_a_module</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+	    <span class="k">if</span> <span class="p">(</span><span class="nv">$line</span> <span class="o">=~</span><span class="sr">/input\s+(\w+)/</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nb">defined</span> <span class="nv">$input_a</span><span class="p">)</span> <span class="p">{</span>
+		    <span class="nv">$input_a</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="p">}</span>
+	    <span class="p">}</span>
+	    <span class="k">if</span> <span class="p">(</span><span class="nv">$line</span> <span class="o">=~</span><span class="sr">/endmodule/</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$in_a_module</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	    <span class="p">}</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	    <span class="k">if</span> <span class="p">(</span><span class="nv">$line</span> <span class="o">=~</span><span class="sr">/module a/</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$in_a_module</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="k">if</span> <span class="p">(</span><span class="nv">$line</span> <span class="o">=~</span><span class="sr">/module b/</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$in_b_module</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	    <span class="p">}</span>
+	<span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">print</span> <span class="nv">$line</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>
+运行的结果是：
+</p>
+<div class="highlight"><pre><span></span>module a;
+   input i_a;
+   input i_a_not_this;
+
+   output o_a;
+endmodule // a
+
+module b;
+   input i_a;
+   input i_b_not_this;
+
+   output o_b;
+endmodule // b
+</pre></div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef">
+<sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup><p class="footpara">
+C表示ctrl键，S表示shift键，SPACE表示空格键，中间的-表示同时按。
+</p>
+</div>
+
+
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="next">
+                <a href="../perl-template/" rel="next" title="Perl Template">Next post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
+</div>
+            </div>
+        </div>
+        <button class="btn btn-fab btn-raised btn-material-green btn-footer" data-toggle="modal" data-target="#footer-dialog">
+            <i class="mdi-communication-message"></i>
+        </button>
+        <div id="footer-dialog" class="modal fade" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Yao He's Awesome Site credits</h4>
+              </div>
+              <div class="modal-body">
+                    Contents © 2017         <a href="mailto:stephen0921@gmail.com">Yao He</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+                    
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+        </div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>
+
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+
+            $(window).on("resize", function() {
+                if($(window).width() > 767) {
+                  $("html, body").height($(window).height());
+                  $(".main, .menu").height($(window).height() - $(".header-panel").outerHeight() - 76 );
+                  $(".posts-material").height($(window).height());
+                } else {
+                  $("html, body").css('height', '');
+                  $(".main, .menu").css('height', '');
+                  $(".posts-material").css('height', '');
+                }
+            }).trigger("resize");
+
+            function menuToggle() {
+                $("nav.menu, ul").toggleClass('responsive', '');
+            }
+        </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
