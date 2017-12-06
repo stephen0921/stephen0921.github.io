@@ -15,11 +15,11 @@
  </url>
  <url>
   <loc>https://stephen0921.github.io/archive.html</loc>
-  <lastmod>2017-10-31T12:13:00Z</lastmod>
+  <lastmod>2017-12-06T15:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/categories/</loc>
-  <lastmod>2017-10-01T01:01:00Z</lastmod>
+  <lastmod>2017-12-06T15:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/categories/cat_cs/</loc>
@@ -28,6 +28,10 @@
  <url>
   <loc>https://stephen0921.github.io/categories/cat_emacs/</loc>
   <lastmod>2017-10-01T01:01:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://stephen0921.github.io/categories/cat_misc/</loc>
+  <lastmod>2017-12-06T15:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/categories/cat_perl/</loc>
@@ -63,7 +67,7 @@
  </url>
  <url>
   <loc>https://stephen0921.github.io/index-3.html</loc>
-  <lastmod>2017-10-31T12:13:00Z</lastmod>
+  <lastmod>2017-12-06T15:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/listings/</loc>
@@ -224,6 +228,10 @@
  <url>
   <loc>https://stephen0921.github.io/posts/2017-10-31-emacs-rectangle/</loc>
   <lastmod>2017-10-31T12:13:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</loc>
+  <lastmod>2017-12-06T15:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/posts/code-gen/</loc>

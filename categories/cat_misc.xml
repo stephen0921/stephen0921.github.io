@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about misc)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_misc.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Dec 2017 15:18:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Tmux introduction</title><link>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
+什么是Tmux？
+&lt;/p&gt;
+
+&lt;p&gt;
+Tmux可以理解为是一个terminal控制器，是对我们的terminal的扩展，同时我们可以利用它来建立自己的一套workflow。
+先上一张图，感受一下。
+&lt;/p&gt;
+
+&lt;img src="https://stephen0921.github.io/images/tmux.png" class="img-thumbnail" width="80%"&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</guid><pubDate>Wed, 06 Dec 2017 14:35:32 GMT</pubDate></item></channel></rss>

@@ -6,27 +6,26 @@ article: http://ogp.me/ns/article#
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Emacs column edit | Yao He's Awesome Site</title>
+<title>Tmux introduction | Yao He's Awesome Site</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="https://stephen0921.github.io/posts/2017-10-31-emacs-rectangle/">
+<link rel="canonical" href="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/">
 <!--[if lt IE 9]>
             <script src="../../assets/js/html5shiv.min.js"></script>
             <script src="../../assets/js/respond.min.js"></script>
         <![endif]--><meta name="author" content="Yao He">
-<link rel="prev" href="../2017-09-22-openxmlformat/" title="Use Openxmlformat to Generate WORD DOC" type="text/html">
-<link rel="next" href="../2017-12-06-tmux-part1/" title="Tmux introduction" type="text/html">
+<link rel="prev" href="../2017-10-31-emacs-rectangle/" title="Emacs column edit" type="text/html">
 <meta property="og:site_name" content="Yao He's Awesome Site">
-<meta property="og:title" content="Emacs column edit">
-<meta property="og:url" content="https://stephen0921.github.io/posts/2017-10-31-emacs-rectangle/">
-<meta property="og:description" content="以前一直觉得emacs的列操作不如vim好用，经过最近一段时间的深入使用，让我的看法有所改变。比如下面的代码我想多加4组agent，那么怎么做呢？
+<meta property="og:title" content="Tmux introduction">
+<meta property="og:url" content="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/">
+<meta property="og:description" content="什么是Tmux？
 
-agent0 u_agent_0(.clk1(clk),.rst1(rst));
-agent1 u_agent_1(.clk1(clk),.rst1(rst));
-agent2 u_agent_2(.clk1(clk),.rst1(rst));
-ag">
+
+
+Tmux可以理解为是一个terminal控制器，是对我们的terminal的扩展，同时我们可以利用它来建立自己的一套workflow。
+先上一张图，感受一下。">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2017-10-31T18:35:32+08:00">
+<meta property="article:published_time" content="2017-12-06T22:35:32+08:00">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -59,7 +58,7 @@ ag">
                 </ul>
 <ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
                 <div class="col-xs-12 col-md-11 content-material">
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Emacs column edit</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Tmux introduction</a></h1>
 <hr>
 <div class="metadata">
             <span class="byline author vcard">
@@ -70,7 +69,7 @@ ag">
             </span>
             <span class="dateline">
                 <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
-                    <time class="published dt-published" datetime="2017-10-31T18:35:32+08:00" itemprop="datePublished" title="2017-10-31 18:35">2017-10-31 18:35</time></a>
+                    <time class="published dt-published" datetime="2017-12-06T22:35:32+08:00" itemprop="datePublished" title="2017-12-06 22:35">2017-12-06 22:35</time></a>
             </span>
                 <span class="commentline">        
 </span>
@@ -78,68 +77,19 @@ ag">
         
         <hr></header><div class="e-content entry-content" itemprop="articleBody text">
     <p>
-以前一直觉得emacs的列操作不如vim好用，经过最近一段时间的深入使用，让我的看法有所改变。比如下面的代码我想多加4组agent，那么怎么做呢？
-</p>
-<div class="highlight"><pre><span></span>agent0 u_agent_0(.clk1(clk),.rst1(rst));
-agent1 u_agent_1(.clk1(clk),.rst1(rst));
-agent2 u_agent_2(.clk1(clk),.rst1(rst));
-agent3 u_agent_3(.clk1(clk),.rst1(rst));
-</pre></div>
-<p>
-先copy四行出来。
-</p>
-<div class="highlight"><pre><span></span>agent0 u_agent_0(.clk1(clk),.rst1(rst));
-agent1 u_agent_1(.clk1(clk),.rst1(rst));
-agent2 u_agent_2(.clk1(clk),.rst1(rst));
-agent3 u_agent_3(.clk1(clk),.rst1(rst));
-
-// the 4 lines below are copied from above
-agent0 u_agent_0(.clk1(clk),.rst1(rst));
-agent1 u_agent_1(.clk1(clk),.rst1(rst));
-agent2 u_agent_2(.clk1(clk),.rst1(rst));
-agent3 u_agent_3(.clk1(clk),.rst1(rst));
-</pre></div>
-<p>
-然后，先选中要修改的4行，然后M-C-%(或者M-x，键入query-replace-regexp, 回车)，在mini-buffer中输入被替换的表达式是
-</p>
-<div class="highlight"><pre><span></span><span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>+
-</pre></div>
-<p>
-目标表达式是 
-</p>
-<div class="highlight"><pre><span></span><span class="se">\,</span> <span class="o">(</span>+ <span class="m">4</span> <span class="se">\#</span><span class="p">&amp;</span><span class="o">)</span>
-</pre></div>
-<p>
-然后回车，就有一个交互式提示，想要替换掉的，按y，不想替换的按n，如果想全部替换的话，按！,具体命令可以按？来查询。
-如图所示。
+什么是Tmux？
 </p>
 
-<img src="../../images/emacs.PNG" class="img-thumbnail" width="60%"><p>
-经过4轮的"yynn"后就得到了下面的代码。
-</p>
-<div class="highlight"><pre><span></span>agent0 u_agent_0(.clk1(clk),.rst1(rst));
-agent1 u_agent_1(.clk1(clk),.rst1(rst));
-agent2 u_agent_2(.clk1(clk),.rst1(rst));
-agent3 u_agent_3(.clk1(clk),.rst1(rst));
-
-// the 4 lines below are copied from above, then replace
-agent4 u_agent_4(.clk1(clk),.rst1(rst));
-agent5 u_agent_5(.clk1(clk),.rst1(rst));
-agent6 u_agent_6(.clk1(clk),.rst1(rst));
-agent7 u_agent_7(.clk1(clk),.rst1(rst));
-</pre></div>
 <p>
-这个过程略显复杂，如果是emacs版本25.2的话，就可以使用(rectangle-mark-mode)来单独选中要改变的列，然后整体替换就ok了。
-如下图所示。
+Tmux可以理解为是一个terminal控制器，是对我们的terminal的扩展，同时我们可以利用它来建立自己的一套workflow。
+先上一张图，感受一下。
 </p>
-<img src="../../images/emacs-rect.PNG" class="img-thumbnail" width="60%"><img src="../../images/emacs-rect-2.PNG" class="img-thumbnail" width="60%">
+
+<img src="../../images/tmux.png" class="img-thumbnail" width="80%">
 </div>
     <aside class="postpromonav"><nav><ul class="pager">
 <li class="previous">
-                <a href="../2017-09-22-openxmlformat/" rel="prev" title="Use Openxmlformat to Generate WORD DOC">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="../2017-12-06-tmux-part1/" rel="next" title="Tmux introduction">Next post</a>
+                <a href="../2017-10-31-emacs-rectangle/" rel="prev" title="Emacs column edit">Previous post</a>
             </li>
         </ul></nav></aside><section class="comments"><h2>
 <i class="mdi-communication-forum"></i>Comments</h2>
