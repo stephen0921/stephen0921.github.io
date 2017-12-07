@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site</title><link>https://stephen0921.github.io/</link><description>Some tips and notes need to write here.</description><atom:link href="https://stephen0921.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Dec 2017 15:18:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Tmux introduction</title><link>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
-什么是Tmux？
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site</title><link>https://stephen0921.github.io/</link><description>Some tips and notes need to write here.</description><atom:link href="https://stephen0921.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Thu, 07 Dec 2017 15:17:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Tmux introduction</title><link>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
+什么是Tmux?
 &lt;/p&gt;
 
 &lt;p&gt;
-Tmux可以理解为是一个terminal控制器，是对我们的terminal的扩展，同时我们可以利用它来建立自己的一套workflow。
-先上一张图，感受一下。
+Tmux可以理解为是一个terminal控制器,是对我们的terminal的扩展,同时我们可以利用它来建立自己的一套workflow.
+先上一张图,感受一下.
 &lt;/p&gt;
 
-&lt;img src="https://stephen0921.github.io/images/tmux.png" class="img-thumbnail" width="80%"&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</guid><pubDate>Wed, 06 Dec 2017 14:35:32 GMT</pubDate></item><item><title>Emacs column edit</title><link>https://stephen0921.github.io/posts/2017-10-31-emacs-rectangle/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
+&lt;img src="https://stephen0921.github.io/images/tmux.png" class="img-thumbnail" width="80%"&gt;          
+
+&lt;p&gt;
+Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2个部分.
+&lt;/p&gt;
+
+&lt;p&gt;
+为什么要用Tmux?
+&lt;/p&gt;
+
+&lt;p&gt;
+原因一,在一个Terminal上实现了多窗口控制,便于写代码同时调试;
+&lt;/p&gt;
+
+&lt;p&gt;
+原因二,Tmux为我们在后台保存了一个进程,记录了我们当前的窗口状态,即使关闭这个Terminal,只要下次再打开Tmux,立刻恢复退出前的状态.
+&lt;/p&gt;
+
+&lt;p&gt;
+原因三,我们可以给Tmux提供一组配置文件,这样可以在每次建立窗口前,预先设置好环境,提高了工作效率.
+&lt;/p&gt;
+
+&lt;p&gt;
+怎么用Tmux?
+&lt;/p&gt;
+
+&lt;p&gt;
+首先,先建立一个Tmux进程,这里有专门的术语–session.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tmux new-session -t abc
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+我们通过上面的命令得到了一个Tmux session,名字叫abc.
+&lt;/p&gt;
+
+&lt;img src="https://stephen0921.github.io/images/newsession.png" class="img-thumbnail" width="80%"&gt;          
+
+&lt;p&gt;
+这个时候Terminal底部的绿色状态栏提示我们,目前是在一个Tmux的session中.现在我们就可以做一些分割窗口的操作了.Tmux的所有命令都有同样的一个前缀,就是"ctrl+b".我们按"ctrl+b",然后按"%",Terminal就被竖直分成了两个部分.这每一部分称为pane.在pane之间来回移动光标的命令是"前缀-o"
+&lt;/p&gt;
+
+&lt;img src="https://stephen0921.github.io/images/split.png" class="img-thumbnail" width="80%"&gt;          
+
+&lt;p&gt;
+我们先断开session连接,命令是"前缀-d".
+&lt;/p&gt;
+
+&lt;p&gt;
+然后在terminal中输入命令，来查看后台有哪些Tmux的session.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tmux ls
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+结果显示如下,有一个Tmux后台进程,session名为abc.
+&lt;/p&gt;
+&lt;img src="https://stephen0921.github.io/images/tmuxls.png" class="img-thumbnail" width="80%"&gt;          
+
+&lt;p&gt;
+我们再通过下面的命令,重新连接到session abc去.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tmux attach -t abc
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+未完待续.
+&lt;/p&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</guid><pubDate>Wed, 06 Dec 2017 14:35:32 GMT</pubDate></item><item><title>Emacs column edit</title><link>https://stephen0921.github.io/posts/2017-10-31-emacs-rectangle/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
 以前一直觉得emacs的列操作不如vim好用，经过最近一段时间的深入使用，让我的看法有所改变。比如下面的代码我想多加4组agent，那么怎么做呢？
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;agent0 u_agent_0(.clk1(clk),.rst1(rst));
