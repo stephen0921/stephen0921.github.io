@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site</title><link>https://stephen0921.github.io/</link><description>Some tips and notes need to write here.</description><atom:link href="https://stephen0921.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sat, 09 Dec 2017 03:36:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Tmux Introduction III</title><link>https://stephen0921.github.io/posts/2017-12-09-tmux-part3/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site</title><link>https://stephen0921.github.io/</link><description>Some tips and notes need to write here.</description><atom:link href="https://stephen0921.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sat, 09 Dec 2017 09:06:12 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Tmux Introduction III</title><link>https://stephen0921.github.io/posts/2017-12-09-tmux-part3/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
 结合到自己的工作流程中.
+比如我有一个shell脚本针对我的某一个项目的工作, 它帮我预先配置好环境.
 &lt;/p&gt;
-
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class="c1"&gt;# 判断后台是否已经有名为bba的session&lt;/span&gt;
 tmux has-session -t bba
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="c1"&gt;# 如果没有, 那么建立这个session&lt;/span&gt;
 &lt;span class="k"&gt;then&lt;/span&gt;
+  &lt;span class="c1"&gt;# 建立一个名为bba的session, 同时window名为editor&lt;/span&gt;
   tmux new-session -s bba -n editor -d
+  &lt;span class="c1"&gt;# 预先输入一组命令, 提供工作效率, C-m表示回车键&lt;/span&gt;
   tmux send-keys -t bba &lt;span class="s1"&gt;'newgrp kobra'&lt;/span&gt; C-m
   tmux send-keys -t bba &lt;span class="s1"&gt;'cd /vobs/fpga/cobra'&lt;/span&gt; C-m
   tmux send-keys -t bba &lt;span class="s1"&gt;'ct setview ezyaohe_1'&lt;/span&gt; C-m
   tmux send-keys -t bba &lt;span class="s1"&gt;'module add cobra/3.1'&lt;/span&gt; C-m
   tmux send-keys -t bba &lt;span class="s1"&gt;'emacs'&lt;/span&gt; C-m
+  &lt;span class="c1"&gt;# 竖直拆分成2个panes&lt;/span&gt;
   tmux split-window -v -t bba
+  &lt;span class="c1"&gt;# 选择一个布局样式&lt;/span&gt;
   tmux &lt;span class="k"&gt;select&lt;/span&gt;-layout -t bba main-horizontal
+  &lt;span class="c1"&gt;# 向第二个pane里输入一组命令，类似于上面的&lt;/span&gt;
   tmux send-keys -t bba:1.2 &lt;span class="s1"&gt;'newgrp kobra'&lt;/span&gt; C-m
   tmux send-keys -t bba:1.2 &lt;span class="s1"&gt;'cd /vobs/fpga/cobra'&lt;/span&gt; C-m
   tmux send-keys -t bba:1.2 &lt;span class="s1"&gt;'ct setview ezyaohe_1'&lt;/span&gt; C-m
   tmux send-keys -t bba:1.2 &lt;span class="s1"&gt;'module add cobra/3.1'&lt;/span&gt; C-m
+  &lt;span class="c1"&gt;# 新开一个window，名为console&lt;/span&gt;
   tmux new-window -n console -t bba
+  &lt;span class="c1"&gt;# 向第二个window中输入一组命令&lt;/span&gt;
   tmux send-keys -t bba:2 &lt;span class="s1"&gt;'newgrp kobra'&lt;/span&gt; C-m
   tmux send-keys -t bba:2 &lt;span class="s1"&gt;'cd /vobs/fpga/cobra'&lt;/span&gt; C-m
   tmux send-keys -t bba:2 &lt;span class="s1"&gt;'ct setview ezyaohe_1'&lt;/span&gt; C-m
   tmux send-keys -t bba:2 &lt;span class="s1"&gt;'module add cobra/3.1'&lt;/span&gt; C-m
   tmux send-keys -t bba:2 &lt;span class="s1"&gt;'cd /proj/cobra/verif/ezyaohe'&lt;/span&gt; C-m
+  &lt;span class="c1"&gt;# 光标回到第一个window&lt;/span&gt;
   tmux &lt;span class="k"&gt;select&lt;/span&gt;-window -t bba:1
 &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="c1"&gt;# 连接bba这个session&lt;/span&gt;
 tmux attach -t bba
 &lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;
-其中, C-m表示回车.
-&lt;/p&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-09-tmux-part3/</guid><pubDate>Sat, 09 Dec 2017 03:32:32 GMT</pubDate></item><item><title>Tmux Introduction II</title><link>https://stephen0921.github.io/posts/2017-12-09-tmux-part2/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
+&lt;img src="https://stephen0921.github.io/images/tmuxworkflow.png" class="img-thumbnail" width="90%"&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-09-tmux-part3/</guid><pubDate>Sat, 09 Dec 2017 03:32:32 GMT</pubDate></item><item><title>Tmux Introduction II</title><link>https://stephen0921.github.io/posts/2017-12-09-tmux-part2/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
 定制我们的Tmux.
 &lt;/p&gt;
 
@@ -95,51 +104,59 @@ setw -g window-status-current-attr bright
 &lt;span class="nb"&gt;set&lt;/span&gt; -g status-justify centre
 &lt;span class="c1"&gt;# Mouse support&lt;/span&gt;
 set-option -g mouse on
-&lt;span class="c1"&gt;# Move like emacs&lt;/span&gt;
-setw -g mode-keys emacs
+&lt;span class="c1"&gt;# Move like vi&lt;/span&gt;
+setw -g mode-keys vi
 &lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+上一篇介绍提到buffer模式中的移动以及复制, 当我们用命令"setw -g mode-keys vi"时，我们在buffer模式移动时就和vi一样了, 比如"gg"到buffer首端, "G"到buffer末端, 空格开始选择要copy的部分, 回车退出copy部分的选择, "prefix ]"是黏贴.
+&lt;/p&gt;
 
 &lt;p&gt;
 调整好了再看看tmux的样式.
 &lt;/p&gt;
 
-&lt;img src="https://stephen0921.github.io/images/tmuxconf.png" class="img-thumbnail" width="80%"&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-09-tmux-part2/</guid><pubDate>Sat, 09 Dec 2017 03:11:32 GMT</pubDate></item><item><title>Tmux Introduction I</title><link>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
-什么是Tmux?
+&lt;img src="https://stephen0921.github.io/images/tmuxconf.png" class="img-thumbnail" width="90%"&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-09-tmux-part2/</guid><pubDate>Sat, 09 Dec 2017 03:11:32 GMT</pubDate></item><item><title>Tmux Introduction I</title><link>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;什么是Tmux?&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+Tmux可以理解为是一个terminal控制器, 是对我们的terminal的扩展, 同时我们可以利用它来建立自己的一套workflow.
 &lt;/p&gt;
 
 &lt;p&gt;
-Tmux可以理解为是一个terminal控制器,是对我们的terminal的扩展,同时我们可以利用它来建立自己的一套workflow.
 先上一张图,感受一下.
 &lt;/p&gt;
 
-&lt;img src="https://stephen0921.github.io/images/tmux.png" class="img-thumbnail" width="80%"&gt;          
+&lt;img src="https://stephen0921.github.io/images/tmux.png" class="img-thumbnail" width="90%"&gt;
 
 &lt;p&gt;
-Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2个部分.
+Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2个部分.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;为什么要用Tmux?&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;p&gt;
+原因一, 在一个Terminal上实现了多窗口控制,便于写代码同时调试;
 &lt;/p&gt;
 
 &lt;p&gt;
-为什么要用Tmux?
+原因二, Tmux为我们在后台保存了一个进程, 记录了我们当前的窗口状态, 即使关闭这个Terminal, 只要下次再打开Tmux,立刻恢复退出前的状态.
 &lt;/p&gt;
 
 &lt;p&gt;
-原因一,在一个Terminal上实现了多窗口控制,便于写代码同时调试;
+原因三, 我们可以给Tmux提供一组配置文件, 这样可以在每次建立窗口前, 预先设置好环境, 提高了工作效率.
 &lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;怎么用Tmux?&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
 &lt;p&gt;
-原因二,Tmux为我们在后台保存了一个进程,记录了我们当前的窗口状态,即使关闭这个Terminal,只要下次再打开Tmux,立刻恢复退出前的状态.
-&lt;/p&gt;
-
-&lt;p&gt;
-原因三,我们可以给Tmux提供一组配置文件,这样可以在每次建立窗口前,预先设置好环境,提高了工作效率.
-&lt;/p&gt;
-
-&lt;p&gt;
-怎么用Tmux?
-&lt;/p&gt;
-
-&lt;p&gt;
-首先,先建立一个Tmux进程,这里有专门的术语–session.
+首先,先建立一个Tmux进程, 这里有专门的术语session.
 &lt;/p&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tmux new -s abc
@@ -149,16 +166,16 @@ Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2�
 我们通过上面的命令得到了一个Tmux session,名字叫abc.
 &lt;/p&gt;
 
-&lt;img src="https://stephen0921.github.io/images/newsession.png" class="img-thumbnail" width="80%"&gt;          
+&lt;img src="https://stephen0921.github.io/images/newsession.png" class="img-thumbnail" width="90%"&gt;          
 
 &lt;p&gt;
-这个时候Terminal底部的绿色状态栏提示我们,目前是在一个Tmux的session中.现在我们就可以做一些分割窗口的操作了.Tmux的所有命令都有同样的一个前缀,就是"ctrl+b"&lt;sup&gt;&lt;a id="fnr.1" name="fnr.1" class="footref" href="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/#fn.1"&gt;1&lt;/a&gt;&lt;/sup&gt;.我们按"ctrl+b",然后按"%",Terminal就被竖直分成了两个部分.这每一部分称为pane.在pane之间来回移动光标的命令是"前缀-o"&lt;sup&gt;&lt;a id="fnr.2" name="fnr.2" class="footref" href="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/#fn.2"&gt;2&lt;/a&gt;&lt;/sup&gt;.
+这个时候Terminal底部的绿色状态栏提示我们,目前是在一个Tmux的session中.现在我们就可以做一些分割窗口的操作了.Tmux的所有命令都有同样的一个前缀,就是"ctrl-b"&lt;sup&gt;&lt;a id="fnr.1" name="fnr.1" class="footref" href="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/#fn.1"&gt;1&lt;/a&gt;&lt;/sup&gt;. 我们按"ctrl-b", 然后按"%", 为了便于说明我用"prefix %"来表示. Terminal就被竖直分成了两个部分.这每一部分称为pane.在pane之间来回移动光标的命令是"prefix o"&lt;sup&gt;&lt;a id="fnr.2" name="fnr.2" class="footref" href="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/#fn.2"&gt;2&lt;/a&gt;&lt;/sup&gt;.
 &lt;/p&gt;
 
-&lt;img src="https://stephen0921.github.io/images/split.png" class="img-thumbnail" width="80%"&gt;          
+&lt;img src="https://stephen0921.github.io/images/split.png" class="img-thumbnail" width="90%"&gt;          
 
 &lt;p&gt;
-我们先断开session连接,命令是"前缀-d".
+我们先断开session连接, 命令是"prefix d".
 &lt;/p&gt;
 
 &lt;p&gt;
@@ -169,9 +186,9 @@ Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2�
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-结果显示如下,有一个Tmux后台进程,session名为abc.
+结果显示如下, 有一个Tmux后台进程, session名为abc.
 &lt;/p&gt;
-&lt;img src="https://stephen0921.github.io/images/tmuxls.png" class="img-thumbnail" width="80%"&gt;          
+&lt;img src="https://stephen0921.github.io/images/tmuxls.png" class="img-thumbnail" width="90%"&gt;          
 
 &lt;p&gt;
 我们再通过下面的命令,重新连接到session abc去.
@@ -179,20 +196,51 @@ Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2�
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tmux attach -t abc
 &lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;window概念&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;p&gt;
+连接或者新打开一个session, 我们就得到了一个window. window可以被拆成若干pane.
+新建一个window的快捷键是"prefix c", 关闭一个window的快捷键是"prefix &amp;amp;".
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;buffer概念&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;p&gt;
+当我们想copy terminal显示的内容时, 我们需要进入buffer模式, 快捷键是"prefix [".
+&lt;/p&gt;
 
 &lt;p&gt;
-未完待续.
+在buffer中移动以及其他操作我们留在下一篇介绍里说.
 &lt;/p&gt;
+
+&lt;p&gt;
+在非buffer模式, 如果想paste内容, 快捷键是"prefix ]".
+&lt;/p&gt;
+
+&lt;img src="https://stephen0921.github.io/images/tmuxbuf.png" class="img-thumbnail" width="90%"&gt;   
+
+&lt;p&gt;
+注意右上脚的行号显示, 表示我们现在是buffer模式. (按"q"退出buffer模式)
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;div id="footnotes"&gt;
 &lt;h2 class="footnotes"&gt;Footnotes: &lt;/h2&gt;
 &lt;div id="text-footnotes"&gt;
 
 &lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.1" name="fn.1" class="footnum" href="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/#fnr.1"&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;p class="footpara"&gt;
-"+"表示两个键同时按.
+"-"表示两个键同时按.
 &lt;/p&gt;&lt;/div&gt;
 
 &lt;div class="footdef"&gt;&lt;sup&gt;&lt;a id="fn.2" name="fn.2" class="footnum" href="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/#fnr.2"&gt;2&lt;/a&gt;&lt;/sup&gt; &lt;p class="footpara"&gt;
-"-"表示按键依次按.
+" "表示按键依次按.
 &lt;/p&gt;&lt;/div&gt;
 
 

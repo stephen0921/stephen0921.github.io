@@ -68,12 +68,14 @@ set -g status-interval 60
 set -g status-justify centre
 # Mouse support
 set-option -g mouse on
-# Move like emacs
-setw -g mode-keys emacs
+# Move like vi
+setw -g mode-keys vi
 #+END_SRC
+
+上一篇介绍提到buffer模式中的移动以及复制, 当我们用命令"setw -g mode-keys vi"时，我们在buffer模式移动时就和vi一样了, 比如"gg"到buffer首端, "G"到buffer末端, 空格开始选择要copy的部分, 回车退出copy部分的选择, "prefix ]"是黏贴.
 
 调整好了再看看tmux的样式.
 
 #+BEGIN_HTML
- <img src="../../images/tmuxconf.png" class="img-thumbnail" width="80%" >
+ <img src="../../images/tmuxconf.png" class="img-thumbnail" width="90%" >
 #+END_HTML

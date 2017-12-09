@@ -11,33 +11,47 @@
 #+END_COMMENT
 
 结合到自己的工作流程中.
-
+比如我有一个shell脚本针对我的某一个项目的工作, 它帮我预先配置好环境.
 #+BEGIN_SRC sh
 #!/bin/sh
+# 判断后台是否已经有名为bba的session
 tmux has-session -t bba
 if [ $? != 0 ]
+# 如果没有, 那么建立这个session
 then
+  # 建立一个名为bba的session, 同时window名为editor
   tmux new-session -s bba -n editor -d
+  # 预先输入一组命令, 提供工作效率, C-m表示回车键
   tmux send-keys -t bba 'newgrp kobra' C-m
   tmux send-keys -t bba 'cd /vobs/fpga/cobra' C-m
   tmux send-keys -t bba 'ct setview ezyaohe_1' C-m
   tmux send-keys -t bba 'module add cobra/3.1' C-m
   tmux send-keys -t bba 'emacs' C-m
+  # 竖直拆分成2个panes
   tmux split-window -v -t bba
+  # 选择一个布局样式
   tmux select-layout -t bba main-horizontal
+  # 向第二个pane里输入一组命令，类似于上面的
   tmux send-keys -t bba:1.2 'newgrp kobra' C-m
   tmux send-keys -t bba:1.2 'cd /vobs/fpga/cobra' C-m
   tmux send-keys -t bba:1.2 'ct setview ezyaohe_1' C-m
   tmux send-keys -t bba:1.2 'module add cobra/3.1' C-m
+  # 新开一个window，名为console
   tmux new-window -n console -t bba
+  # 向第二个window中输入一组命令
   tmux send-keys -t bba:2 'newgrp kobra' C-m
   tmux send-keys -t bba:2 'cd /vobs/fpga/cobra' C-m
   tmux send-keys -t bba:2 'ct setview ezyaohe_1' C-m
   tmux send-keys -t bba:2 'module add cobra/3.1' C-m
   tmux send-keys -t bba:2 'cd /proj/cobra/verif/ezyaohe' C-m
+  # 光标回到第一个window
   tmux select-window -t bba:1
 fi
+# 连接bba这个session
 tmux attach -t bba
 #+END_SRC
 
-其中, C-m表示回车.
+#+BEGIN_HTML                                                                  
+<img src="../../images/tmuxworkflow.png" class="img-thumbnail" width="90%" >
+#+END_HTML
+
