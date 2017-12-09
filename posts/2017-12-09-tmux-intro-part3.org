@@ -1,0 +1,43 @@
+#+OPTIONS: ^:nil
+#+BEGIN_COMMENT
+.. title: Tmux Introduction III
+.. slug: 2017-12-09-tmux-part3
+.. date: 2017-12-09 11:32:32 UTC+08:00
+.. tag: 
+.. category: misc
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+结合到自己的工作流程中.
+
+#+BEGIN_SRC sh
+#!/bin/sh
+tmux has-session -t bba
+if [ $? != 0 ]
+then
+  tmux new-session -s bba -n editor -d
+  tmux send-keys -t bba 'newgrp kobra' C-m
+  tmux send-keys -t bba 'cd /vobs/fpga/cobra' C-m
+  tmux send-keys -t bba 'ct setview ezyaohe_1' C-m
+  tmux send-keys -t bba 'module add cobra/3.1' C-m
+  tmux send-keys -t bba 'emacs' C-m
+  tmux split-window -v -t bba
+  tmux select-layout -t bba main-horizontal
+  tmux send-keys -t bba:1.2 'newgrp kobra' C-m
+  tmux send-keys -t bba:1.2 'cd /vobs/fpga/cobra' C-m
+  tmux send-keys -t bba:1.2 'ct setview ezyaohe_1' C-m
+  tmux send-keys -t bba:1.2 'module add cobra/3.1' C-m
+  tmux new-window -n console -t bba
+  tmux send-keys -t bba:2 'newgrp kobra' C-m
+  tmux send-keys -t bba:2 'cd /vobs/fpga/cobra' C-m
+  tmux send-keys -t bba:2 'ct setview ezyaohe_1' C-m
+  tmux send-keys -t bba:2 'module add cobra/3.1' C-m
+  tmux send-keys -t bba:2 'cd /proj/cobra/verif/ezyaohe' C-m
+  tmux select-window -t bba:1
+fi
+tmux attach -t bba
+#+END_SRC
+
+其中, C-m表示回车.
