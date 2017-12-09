@@ -149,15 +149,19 @@ setw -g window-status-current-attr bright
 <span class="nb">set</span> -g status-justify centre
 <span class="c1"># Mouse support</span>
 set-option -g mouse on
-<span class="c1"># Move like emacs</span>
-setw -g mode-keys emacs
+<span class="c1"># Move like vi</span>
+setw -g mode-keys vi
 </pre></div>
+
+<p>
+上一篇介绍提到buffer模式中的移动以及复制, 当我们用命令"setw -g mode-keys vi"时，我们在buffer模式移动时就和vi一样了, 比如"gg"到buffer首端, "G"到buffer末端, 空格开始选择要copy的部分, 回车退出copy部分的选择, "prefix ]"是黏贴.
+</p>
 
 <p>
 调整好了再看看tmux的样式.
 </p>
 
-<img src="../../images/tmuxconf.png" class="img-thumbnail" width="80%">
+<img src="../../images/tmuxconf.png" class="img-thumbnail" width="90%">
 </div>
     <aside class="postpromonav"><nav><ul class="pager">
 <li class="previous">

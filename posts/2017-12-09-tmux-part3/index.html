@@ -19,15 +19,16 @@ article: http://ogp.me/ns/article#
 <meta property="og:title" content="Tmux Introduction III">
 <meta property="og:url" content="https://stephen0921.github.io/posts/2017-12-09-tmux-part3/">
 <meta property="og:description" content="结合到自己的工作流程中.
-
+比如我有一个shell脚本针对我的某一个项目的工作, 它帮我预先配置好环境.
 
 #!/bin/sh
+# 判断后台是否已经有名为bba的session
 tmux has-session -t bba
 if [ $? != 0 ]
+# 如果没有, 那么建立这个session
 then
-  tmux new-session -s bba -n editor -d
-  tmux send-keys -t bba 'newgrp kobra' C-m
-  tmux send-keys -t bba 'cd /vobs/fpga/cobra' C-m">
+  # 建立一个名为bba的session, 同时window名为editor
+  tmux">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-12-09T11:32:32+08:00">
 </head>
@@ -82,39 +83,48 @@ then
         <hr></header><div class="e-content entry-content" itemprop="articleBody text">
     <p>
 结合到自己的工作流程中.
+比如我有一个shell脚本针对我的某一个项目的工作, 它帮我预先配置好环境.
 </p>
-
 <div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<span class="c1"># 判断后台是否已经有名为bba的session</span>
 tmux has-session -t bba
 <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span>
+<span class="c1"># 如果没有, 那么建立这个session</span>
 <span class="k">then</span>
+  <span class="c1"># 建立一个名为bba的session, 同时window名为editor</span>
   tmux new-session -s bba -n editor -d
+  <span class="c1"># 预先输入一组命令, 提供工作效率, C-m表示回车键</span>
   tmux send-keys -t bba <span class="s1">'newgrp kobra'</span> C-m
   tmux send-keys -t bba <span class="s1">'cd /vobs/fpga/cobra'</span> C-m
   tmux send-keys -t bba <span class="s1">'ct setview ezyaohe_1'</span> C-m
   tmux send-keys -t bba <span class="s1">'module add cobra/3.1'</span> C-m
   tmux send-keys -t bba <span class="s1">'emacs'</span> C-m
+  <span class="c1"># 竖直拆分成2个panes</span>
   tmux split-window -v -t bba
+  <span class="c1"># 选择一个布局样式</span>
   tmux <span class="k">select</span>-layout -t bba main-horizontal
+  <span class="c1"># 向第二个pane里输入一组命令，类似于上面的</span>
   tmux send-keys -t bba:1.2 <span class="s1">'newgrp kobra'</span> C-m
   tmux send-keys -t bba:1.2 <span class="s1">'cd /vobs/fpga/cobra'</span> C-m
   tmux send-keys -t bba:1.2 <span class="s1">'ct setview ezyaohe_1'</span> C-m
   tmux send-keys -t bba:1.2 <span class="s1">'module add cobra/3.1'</span> C-m
+  <span class="c1"># 新开一个window，名为console</span>
   tmux new-window -n console -t bba
+  <span class="c1"># 向第二个window中输入一组命令</span>
   tmux send-keys -t bba:2 <span class="s1">'newgrp kobra'</span> C-m
   tmux send-keys -t bba:2 <span class="s1">'cd /vobs/fpga/cobra'</span> C-m
   tmux send-keys -t bba:2 <span class="s1">'ct setview ezyaohe_1'</span> C-m
   tmux send-keys -t bba:2 <span class="s1">'module add cobra/3.1'</span> C-m
   tmux send-keys -t bba:2 <span class="s1">'cd /proj/cobra/verif/ezyaohe'</span> C-m
+  <span class="c1"># 光标回到第一个window</span>
   tmux <span class="k">select</span>-window -t bba:1
 <span class="k">fi</span>
+<span class="c1"># 连接bba这个session</span>
 tmux attach -t bba
 </pre></div>
 
-<p>
-其中, C-m表示回车.
-</p>
-    </div>
+<img src="../../images/tmuxworkflow.png" class="img-thumbnail" width="90%">
+</div>
     <aside class="postpromonav"><nav><ul class="pager">
 <li class="previous">
                 <a href="../2017-12-09-tmux-part2/" rel="prev" title="Tmux Introduction II">Previous post</a>
