@@ -6,42 +6,36 @@ article: http://ogp.me/ns/article#
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tmux Introduction I | Yao He's Awesome Site</title>
+<title>Tmux Introduction II | Yao He's Awesome Site</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/">
+<link rel="canonical" href="https://stephen0921.github.io/posts/2017-12-09-tmux-part2/">
 <!--[if lt IE 9]>
             <script src="../../assets/js/html5shiv.min.js"></script>
             <script src="../../assets/js/respond.min.js"></script>
         <![endif]--><meta name="author" content="Yao He">
-<link rel="prev" href="../2017-10-31-emacs-rectangle/" title="Emacs column edit" type="text/html">
-<link rel="next" href="../2017-12-09-tmux-part2/" title="Tmux Introduction II" type="text/html">
+<link rel="prev" href="../2017-12-06-tmux-part1/" title="Tmux Introduction I" type="text/html">
+<link rel="next" href="../2017-12-09-tmux-part3/" title="Tmux Introduction III" type="text/html">
 <meta property="og:site_name" content="Yao He's Awesome Site">
-<meta property="og:title" content="Tmux Introduction I">
-<meta property="og:url" content="https://stephen0921.github.io/posts/2017-12-06-tmux-part1/">
-<meta property="og:description" content="什么是Tmux?
+<meta property="og:title" content="Tmux Introduction II">
+<meta property="og:url" content="https://stephen0921.github.io/posts/2017-12-09-tmux-part2/">
+<meta property="og:description" content="定制我们的Tmux.
 
 
 
-Tmux可以理解为是一个terminal控制器,是对我们的terminal的扩展,同时我们可以利用它来建立自己的一套workflow.
-先上一张图,感受一下.
-
-
-          
-
-
-Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2个部分.
+启动Tmux时，会自动去source ~/.tmux.conf文件. 
 
 
 
-为什么要用Tmux?
+先来看看我的.tmux.conf文件内容.
 
 
-
-原因一,在一个Terminal上实现了多窗口控制,便于写代码同时调试;
-">
+# It is for tmux-2.4
+# Set the base index for windows to 1 instead of 0
+set -g base-index 1
+# Set the base index for panes ">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2017-12-06T22:35:32+08:00">
+<meta property="article:published_time" content="2017-12-09T11:11:32+08:00">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -74,7 +68,7 @@ Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2�
                 </ul>
 <ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
                 <div class="col-xs-12 col-md-11 content-material">
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Tmux Introduction I</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Tmux Introduction II</a></h1>
 <hr>
 <div class="metadata">
             <span class="byline author vcard">
@@ -85,7 +79,7 @@ Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2�
             </span>
             <span class="dateline">
                 <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
-                    <time class="published dt-published" datetime="2017-12-06T22:35:32+08:00" itemprop="datePublished" title="2017-12-06 22:35">2017-12-06 22:35</time></a>
+                    <time class="published dt-published" datetime="2017-12-09T11:11:32+08:00" itemprop="datePublished" title="2017-12-09 11:11">2017-12-09 11:11</time></a>
             </span>
                 <span class="commentline">        
 </span>
@@ -93,103 +87,84 @@ Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2�
         
         <hr></header><div class="e-content entry-content" itemprop="articleBody text">
     <p>
-什么是Tmux?
+定制我们的Tmux.
 </p>
 
 <p>
-Tmux可以理解为是一个terminal控制器,是对我们的terminal的扩展,同时我们可以利用它来建立自己的一套workflow.
-先上一张图,感受一下.
-</p>
-
-<img src="../../images/tmux.png" class="img-thumbnail" width="80%"><p>
-Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2个部分.
+启动Tmux时，会自动去source ~/.tmux.conf文件. 
 </p>
 
 <p>
-为什么要用Tmux?
+先来看看我的.tmux.conf文件内容.
 </p>
 
-<p>
-原因一,在一个Terminal上实现了多窗口控制,便于写代码同时调试;
-</p>
-
-<p>
-原因二,Tmux为我们在后台保存了一个进程,记录了我们当前的窗口状态,即使关闭这个Terminal,只要下次再打开Tmux,立刻恢复退出前的状态.
-</p>
-
-<p>
-原因三,我们可以给Tmux提供一组配置文件,这样可以在每次建立窗口前,预先设置好环境,提高了工作效率.
-</p>
-
-<p>
-怎么用Tmux?
-</p>
-
-<p>
-首先,先建立一个Tmux进程,这里有专门的术语–session.
-</p>
-
-<div class="highlight"><pre><span></span>tmux new -s abc
+<div class="highlight"><pre><span></span><span class="c1"># It is for tmux-2.4</span>
+<span class="c1"># Set the base index for windows to 1 instead of 0</span>
+<span class="nb">set</span> -g base-index <span class="m">1</span>
+<span class="c1"># Set the base index for panes to 1 instead of 0</span>
+setw -g pane-base-index <span class="m">1</span>
+<span class="c1"># Reload the file with Prefix r</span>
+<span class="nb">bind</span> r source-file ~/.tmux.conf <span class="se">\;</span> display <span class="s2">"Reloaded!"</span>
+<span class="c1"># splitting panes</span>
+<span class="nb">bind</span> <span class="p">|</span> split-window -h
+<span class="nb">bind</span> - split-window -v
+<span class="c1"># moving between panes</span>
+<span class="nb">bind</span> h <span class="k">select</span>-pane -L
+<span class="nb">bind</span> j <span class="k">select</span>-pane -D
+<span class="nb">bind</span> k <span class="k">select</span>-pane -U
+<span class="nb">bind</span> l <span class="k">select</span>-pane -R
+<span class="c1"># Pane resizing</span>
+<span class="nb">bind</span> -r H resize-pane -L <span class="m">2</span>
+<span class="nb">bind</span> -r J resize-pane -D <span class="m">2</span>
+<span class="nb">bind</span> -r K resize-pane -U <span class="m">2</span>
+<span class="nb">bind</span> -r L resize-pane -R <span class="m">2</span>
+<span class="c1"># Set the default terminal mode to 256color mode</span>
+<span class="nb">set</span> -g default-terminal <span class="s2">"screen-256color"</span>
+<span class="c1"># set the status line's colors</span>
+<span class="nb">set</span> -g status-fg white
+<span class="nb">set</span> -g status-bg black
+<span class="c1"># set the color of the window list</span>
+setw -g window-status-fg cyan
+setw -g window-status-bg default
+setw -g window-status-attr dim
+<span class="c1"># set colors for the active window</span>
+setw -g window-status-current-fg white
+setw -g window-status-current-bg red
+setw -g window-status-current-attr bright
+<span class="c1"># pane colors</span>
+<span class="nb">set</span> -g pane-border-fg green
+<span class="nb">set</span> -g pane-border-bg black
+<span class="nb">set</span> -g pane-active-border-fg white
+<span class="nb">set</span> -g pane-active-border-bg yellow
+<span class="c1"># Command / message line</span>
+<span class="nb">set</span> -g message-fg white
+<span class="nb">set</span> -g message-bg black
+<span class="nb">set</span> -g message-attr bright
+<span class="c1"># Status line left side</span>
+<span class="nb">set</span> -g status-left-length <span class="m">40</span>
+<span class="nb">set</span> -g status-left <span class="s2">"#[fg=green]Session: #S #[fg=yellow]#I #[fg=cyan]#P"</span>
+<span class="c1"># Update the status bar every sixty seconds</span>
+<span class="nb">set</span> -g status-interval <span class="m">60</span>
+<span class="c1"># Center the window list</span>
+<span class="nb">set</span> -g status-justify centre
+<span class="c1"># Mouse support</span>
+set-option -g mouse on
+<span class="c1"># Move like emacs</span>
+setw -g mode-keys emacs
 </pre></div>
 
 <p>
-我们通过上面的命令得到了一个Tmux session,名字叫abc.
+调整好了再看看tmux的样式.
 </p>
 
-<img src="../../images/newsession.png" class="img-thumbnail" width="80%"><p>
-这个时候Terminal底部的绿色状态栏提示我们,目前是在一个Tmux的session中.现在我们就可以做一些分割窗口的操作了.Tmux的所有命令都有同样的一个前缀,就是"ctrl+b"<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>.我们按"ctrl+b",然后按"%",Terminal就被竖直分成了两个部分.这每一部分称为pane.在pane之间来回移动光标的命令是"前缀-o"<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup>.
-</p>
-
-<img src="../../images/split.png" class="img-thumbnail" width="80%"><p>
-我们先断开session连接,命令是"前缀-d".
-</p>
-
-<p>
-然后在terminal中输入命令，来查看后台有哪些Tmux的session.
-</p>
-
-<div class="highlight"><pre><span></span>tmux ls
-</pre></div>
-
-<p>
-结果显示如下,有一个Tmux后台进程,session名为abc.
-</p>
-<img src="../../images/tmuxls.png" class="img-thumbnail" width="80%"><p>
-我们再通过下面的命令,重新连接到session abc去.
-</p>
-
-<div class="highlight"><pre><span></span>tmux attach -t abc
-</pre></div>
-
-<p>
-未完待续.
-</p>
-<div id="footnotes">
-<h2 class="footnotes">Footnotes: </h2>
-<div id="text-footnotes">
-
-<div class="footdef">
-<sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup><p class="footpara">
-"+"表示两个键同时按.
-</p>
+<img src="../../images/tmuxconf.png" class="img-thumbnail" width="80%">
 </div>
-
-<div class="footdef">
-<sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup><p class="footpara">
-"-"表示按键依次按.
-</p>
-</div>
-
-
-</div>
-</div>
-    </div>
     <aside class="postpromonav"><nav><ul class="pager">
 <li class="previous">
-                <a href="../2017-10-31-emacs-rectangle/" rel="prev" title="Emacs column edit">Previous post</a>
+                <a href="../2017-12-06-tmux-part1/" rel="prev" title="Tmux Introduction I">Previous post</a>
             </li>
             <li class="next">
-                <a href="../2017-12-09-tmux-part2/" rel="next" title="Tmux Introduction II">Next post</a>
+                <a href="../2017-12-09-tmux-part3/" rel="next" title="Tmux Introduction III">Next post</a>
             </li>
         </ul></nav></aside><section class="comments"><h2>
 <i class="mdi-communication-forum"></i>Comments</h2>

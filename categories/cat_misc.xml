@@ -1,5 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about misc)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_misc.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Thu, 07 Dec 2017 15:23:26 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Tmux introduction</title><link>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about misc)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_misc.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sat, 09 Dec 2017 03:36:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Tmux Introduction III</title><link>https://stephen0921.github.io/posts/2017-12-09-tmux-part3/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
+结合到自己的工作流程中.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+tmux has-session -t bba
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;then&lt;/span&gt;
+  tmux new-session -s bba -n editor -d
+  tmux send-keys -t bba &lt;span class="s1"&gt;'newgrp kobra'&lt;/span&gt; C-m
+  tmux send-keys -t bba &lt;span class="s1"&gt;'cd /vobs/fpga/cobra'&lt;/span&gt; C-m
+  tmux send-keys -t bba &lt;span class="s1"&gt;'ct setview ezyaohe_1'&lt;/span&gt; C-m
+  tmux send-keys -t bba &lt;span class="s1"&gt;'module add cobra/3.1'&lt;/span&gt; C-m
+  tmux send-keys -t bba &lt;span class="s1"&gt;'emacs'&lt;/span&gt; C-m
+  tmux split-window -v -t bba
+  tmux &lt;span class="k"&gt;select&lt;/span&gt;-layout -t bba main-horizontal
+  tmux send-keys -t bba:1.2 &lt;span class="s1"&gt;'newgrp kobra'&lt;/span&gt; C-m
+  tmux send-keys -t bba:1.2 &lt;span class="s1"&gt;'cd /vobs/fpga/cobra'&lt;/span&gt; C-m
+  tmux send-keys -t bba:1.2 &lt;span class="s1"&gt;'ct setview ezyaohe_1'&lt;/span&gt; C-m
+  tmux send-keys -t bba:1.2 &lt;span class="s1"&gt;'module add cobra/3.1'&lt;/span&gt; C-m
+  tmux new-window -n console -t bba
+  tmux send-keys -t bba:2 &lt;span class="s1"&gt;'newgrp kobra'&lt;/span&gt; C-m
+  tmux send-keys -t bba:2 &lt;span class="s1"&gt;'cd /vobs/fpga/cobra'&lt;/span&gt; C-m
+  tmux send-keys -t bba:2 &lt;span class="s1"&gt;'ct setview ezyaohe_1'&lt;/span&gt; C-m
+  tmux send-keys -t bba:2 &lt;span class="s1"&gt;'module add cobra/3.1'&lt;/span&gt; C-m
+  tmux send-keys -t bba:2 &lt;span class="s1"&gt;'cd /proj/cobra/verif/ezyaohe'&lt;/span&gt; C-m
+  tmux &lt;span class="k"&gt;select&lt;/span&gt;-window -t bba:1
+&lt;span class="k"&gt;fi&lt;/span&gt;
+tmux attach -t bba
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+其中, C-m表示回车.
+&lt;/p&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-09-tmux-part3/</guid><pubDate>Sat, 09 Dec 2017 03:32:32 GMT</pubDate></item><item><title>Tmux Introduction II</title><link>https://stephen0921.github.io/posts/2017-12-09-tmux-part2/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
+定制我们的Tmux.
+&lt;/p&gt;
+
+&lt;p&gt;
+启动Tmux时，会自动去source ~/.tmux.conf文件. 
+&lt;/p&gt;
+
+&lt;p&gt;
+先来看看我的.tmux.conf文件内容.
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# It is for tmux-2.4&lt;/span&gt;
+&lt;span class="c1"&gt;# Set the base index for windows to 1 instead of 0&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g base-index &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="c1"&gt;# Set the base index for panes to 1 instead of 0&lt;/span&gt;
+setw -g pane-base-index &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="c1"&gt;# Reload the file with Prefix r&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; r source-file ~/.tmux.conf &lt;span class="se"&gt;\;&lt;/span&gt; display &lt;span class="s2"&gt;"Reloaded!"&lt;/span&gt;
+&lt;span class="c1"&gt;# splitting panes&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; split-window -h
+&lt;span class="nb"&gt;bind&lt;/span&gt; - split-window -v
+&lt;span class="c1"&gt;# moving between panes&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; h &lt;span class="k"&gt;select&lt;/span&gt;-pane -L
+&lt;span class="nb"&gt;bind&lt;/span&gt; j &lt;span class="k"&gt;select&lt;/span&gt;-pane -D
+&lt;span class="nb"&gt;bind&lt;/span&gt; k &lt;span class="k"&gt;select&lt;/span&gt;-pane -U
+&lt;span class="nb"&gt;bind&lt;/span&gt; l &lt;span class="k"&gt;select&lt;/span&gt;-pane -R
+&lt;span class="c1"&gt;# Pane resizing&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; -r H resize-pane -L &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; -r J resize-pane -D &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; -r K resize-pane -U &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; -r L resize-pane -R &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="c1"&gt;# Set the default terminal mode to 256color mode&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g default-terminal &lt;span class="s2"&gt;"screen-256color"&lt;/span&gt;
+&lt;span class="c1"&gt;# set the status line's colors&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g status-fg white
+&lt;span class="nb"&gt;set&lt;/span&gt; -g status-bg black
+&lt;span class="c1"&gt;# set the color of the window list&lt;/span&gt;
+setw -g window-status-fg cyan
+setw -g window-status-bg default
+setw -g window-status-attr dim
+&lt;span class="c1"&gt;# set colors for the active window&lt;/span&gt;
+setw -g window-status-current-fg white
+setw -g window-status-current-bg red
+setw -g window-status-current-attr bright
+&lt;span class="c1"&gt;# pane colors&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g pane-border-fg green
+&lt;span class="nb"&gt;set&lt;/span&gt; -g pane-border-bg black
+&lt;span class="nb"&gt;set&lt;/span&gt; -g pane-active-border-fg white
+&lt;span class="nb"&gt;set&lt;/span&gt; -g pane-active-border-bg yellow
+&lt;span class="c1"&gt;# Command / message line&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g message-fg white
+&lt;span class="nb"&gt;set&lt;/span&gt; -g message-bg black
+&lt;span class="nb"&gt;set&lt;/span&gt; -g message-attr bright
+&lt;span class="c1"&gt;# Status line left side&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g status-left-length &lt;span class="m"&gt;40&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g status-left &lt;span class="s2"&gt;"#[fg=green]Session: #S #[fg=yellow]#I #[fg=cyan]#P"&lt;/span&gt;
+&lt;span class="c1"&gt;# Update the status bar every sixty seconds&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g status-interval &lt;span class="m"&gt;60&lt;/span&gt;
+&lt;span class="c1"&gt;# Center the window list&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -g status-justify centre
+&lt;span class="c1"&gt;# Mouse support&lt;/span&gt;
+set-option -g mouse on
+&lt;span class="c1"&gt;# Move like emacs&lt;/span&gt;
+setw -g mode-keys emacs
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+调整好了再看看tmux的样式.
+&lt;/p&gt;
+
+&lt;img src="https://stephen0921.github.io/images/tmuxconf.png" class="img-thumbnail" width="80%"&gt;</description><guid>https://stephen0921.github.io/posts/2017-12-09-tmux-part2/</guid><pubDate>Sat, 09 Dec 2017 03:11:32 GMT</pubDate></item><item><title>Tmux Introduction I</title><link>https://stephen0921.github.io/posts/2017-12-06-tmux-part1/</link><dc:creator>Yao He</dc:creator><description>&lt;p&gt;
 什么是Tmux?
 &lt;/p&gt;
 
@@ -38,7 +142,7 @@ Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2�
 首先,先建立一个Tmux进程,这里有专门的术语–session.
 &lt;/p&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tmux new-session -t abc
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tmux new -s abc
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;

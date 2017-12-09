@@ -6,14 +6,30 @@ article: http://ogp.me/ns/article#
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Posts about misc | Yao He's Awesome Site</title>
+<title>Tmux Introduction III | Yao He's Awesome Site</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="https://stephen0921.github.io/categories/cat_misc/">
+<link rel="canonical" href="https://stephen0921.github.io/posts/2017-12-09-tmux-part3/">
 <!--[if lt IE 9]>
             <script src="../../assets/js/html5shiv.min.js"></script>
             <script src="../../assets/js/respond.min.js"></script>
-        <![endif]--><link rel="alternate" type="application/rss+xml" title="RSS for category misc" href="../cat_misc.xml">
+        <![endif]--><meta name="author" content="Yao He">
+<link rel="prev" href="../2017-12-09-tmux-part2/" title="Tmux Introduction II" type="text/html">
+<meta property="og:site_name" content="Yao He's Awesome Site">
+<meta property="og:title" content="Tmux Introduction III">
+<meta property="og:url" content="https://stephen0921.github.io/posts/2017-12-09-tmux-part3/">
+<meta property="og:description" content="结合到自己的工作流程中.
+
+
+#!/bin/sh
+tmux has-session -t bba
+if [ $? != 0 ]
+then
+  tmux new-session -s bba -n editor -d
+  tmux send-keys -t bba 'newgrp kobra' C-m
+  tmux send-keys -t bba 'cd /vobs/fpga/cobra' C-m">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-12-09T11:32:32+08:00">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -39,66 +55,73 @@ article: http://ogp.me/ns/article#
         <div class="row">
             <nav class="col-xs-12 col-sm-3 menu"><ul>
 <li class="withripple"><a href="../../archive.html">Archive</a></li>
-                <li class="withripple"><a href="../">Tags</a></li>
+                <li class="withripple"><a href="../../categories/">Tags</a></li>
                 <li class="withripple"><a href="../../rss.xml">RSS feed</a></li>
 
                     
                 </ul>
 <ul></ul></nav><div class="posts-material col-xs-12 col-sm-9">
                 <div class="col-xs-12 col-md-11 content-material">
-<article class="tagpage"><header><h1>Posts about misc</h1>
-        <hr>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Tmux Introduction III</a></h1>
+<hr>
 <div class="metadata">
-                <p class="feedlink"><a class="btn btn-raised btn-success" href="../cat_misc.xml" type="application/rss+xml">RSS feed</a></p>
+            <span class="byline author vcard">
+                <a href=".">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </a>
+            </span>
+            <span class="dateline">
+                <a href="." rel="bookmark"><i class="mdi-device-access-time"></i>
+                    <time class="published dt-published" datetime="2017-12-09T11:32:32+08:00" itemprop="datePublished" title="2017-12-09 11:32">2017-12-09 11:32</time></a>
+            </span>
+                <span class="commentline">        
+</span>
         </div>
-    </header><div class="postlist list-group">
-            <div class="list-group-item">
-                <div class="row-action-primary">
-                    <i class="mdi-content-create"></i>
-                </div>
-                <div class="row-content">
-                    <div class="least-content">
-                            <time class="listdate" datetime="2017-12-09T11:32:32+08:00" title="2017-12-09 11:32">2017-12-09 11:32</time>
-</div>
-                    <h4 class="list-group-item-heading">
-                            <a href="../../posts/2017-12-09-tmux-part3/" class="listtitle">Tmux Introduction III</a>
-                    </h4>
-                    <p class="list-group-item-text"></p>
-                </div>
-            </div>
-            <div class="list-group-separator"></div>
-            <div class="list-group-item">
-                <div class="row-action-primary">
-                    <i class="mdi-content-create"></i>
-                </div>
-                <div class="row-content">
-                    <div class="least-content">
-                            <time class="listdate" datetime="2017-12-09T11:11:32+08:00" title="2017-12-09 11:11">2017-12-09 11:11</time>
-</div>
-                    <h4 class="list-group-item-heading">
-                            <a href="../../posts/2017-12-09-tmux-part2/" class="listtitle">Tmux Introduction II</a>
-                    </h4>
-                    <p class="list-group-item-text"></p>
-                </div>
-            </div>
-            <div class="list-group-separator"></div>
-            <div class="list-group-item">
-                <div class="row-action-primary">
-                    <i class="mdi-content-create"></i>
-                </div>
-                <div class="row-content">
-                    <div class="least-content">
-                            <time class="listdate" datetime="2017-12-06T22:35:32+08:00" title="2017-12-06 22:35">2017-12-06 22:35</time>
-</div>
-                    <h4 class="list-group-item-heading">
-                            <a href="../../posts/2017-12-06-tmux-part1/" class="listtitle">Tmux Introduction I</a>
-                    </h4>
-                    <p class="list-group-item-text"></p>
-                </div>
-            </div>
-            <div class="list-group-separator"></div>
+        
+        <hr></header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+结合到自己的工作流程中.
+</p>
+
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+tmux has-session -t bba
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span>
+<span class="k">then</span>
+  tmux new-session -s bba -n editor -d
+  tmux send-keys -t bba <span class="s1">'newgrp kobra'</span> C-m
+  tmux send-keys -t bba <span class="s1">'cd /vobs/fpga/cobra'</span> C-m
+  tmux send-keys -t bba <span class="s1">'ct setview ezyaohe_1'</span> C-m
+  tmux send-keys -t bba <span class="s1">'module add cobra/3.1'</span> C-m
+  tmux send-keys -t bba <span class="s1">'emacs'</span> C-m
+  tmux split-window -v -t bba
+  tmux <span class="k">select</span>-layout -t bba main-horizontal
+  tmux send-keys -t bba:1.2 <span class="s1">'newgrp kobra'</span> C-m
+  tmux send-keys -t bba:1.2 <span class="s1">'cd /vobs/fpga/cobra'</span> C-m
+  tmux send-keys -t bba:1.2 <span class="s1">'ct setview ezyaohe_1'</span> C-m
+  tmux send-keys -t bba:1.2 <span class="s1">'module add cobra/3.1'</span> C-m
+  tmux new-window -n console -t bba
+  tmux send-keys -t bba:2 <span class="s1">'newgrp kobra'</span> C-m
+  tmux send-keys -t bba:2 <span class="s1">'cd /vobs/fpga/cobra'</span> C-m
+  tmux send-keys -t bba:2 <span class="s1">'ct setview ezyaohe_1'</span> C-m
+  tmux send-keys -t bba:2 <span class="s1">'module add cobra/3.1'</span> C-m
+  tmux send-keys -t bba:2 <span class="s1">'cd /proj/cobra/verif/ezyaohe'</span> C-m
+  tmux <span class="k">select</span>-window -t bba:1
+<span class="k">fi</span>
+tmux attach -t bba
+</pre></div>
+
+<p>
+其中, C-m表示回车.
+</p>
     </div>
-</article>
+    <aside class="postpromonav"><nav><ul class="pager">
+<li class="previous">
+                <a href="../2017-12-09-tmux-part2/" rel="prev" title="Tmux Introduction II">Previous post</a>
+            </li>
+        </ul></nav></aside><section class="comments"><h2>
+<i class="mdi-communication-forum"></i>Comments</h2>
+        <hr></section></article>
 </div>
             </div>
         </div>
@@ -123,6 +146,10 @@ article: http://ogp.me/ns/article#
           </div>
         </div>
         <div class="source-button">
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="index.org" title="Source">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
         </div>
 </div>
 

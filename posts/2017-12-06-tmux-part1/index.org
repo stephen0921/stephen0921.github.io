@@ -1,6 +1,6 @@
 #+OPTIONS: ^:nil
 #+BEGIN_COMMENT
-.. title: Tmux introduction
+.. title: Tmux Introduction I
 .. slug: 2017-12-06-tmux-part1
 .. date: 2017-12-06 22:35:32 UTC+08:00
 .. tag: 
@@ -34,7 +34,7 @@ Terminal的上半部分是打开了vim准备编辑,下半部分竖直拆分成2�
 首先,先建立一个Tmux进程,这里有专门的术语--session.
 
 #+BEGIN_SRC sh
-tmux new-session -t abc
+tmux new -s abc
 #+END_SRC
 
 我们通过上面的命令得到了一个Tmux session,名字叫abc.
