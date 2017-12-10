@@ -193,6 +193,19 @@ var idcomments_post_url = "https://stephen0921.github.io/posts/2017-07-13-perl-m
         </script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
     moment.locale("en");
     fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates -->
+    </script><!-- end fancy dates --><div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script><script>
+var gitment = new Gitment({
+  id: '页面 ID', // 可选。默认为 location.href
+  owner: 'stephen0921',
+  repo: 'https://github.com/stephen0921/blogcomments.git',
+  oauth: {
+    client_id: '023e6b0f82c8769a884b',
+    client_secret: '7627cf219ccd3c1eabf6071ca10ff03da3a6df93',
+  },
+})
+gitment.render('container')
+</script>
 </body>
 </html>
