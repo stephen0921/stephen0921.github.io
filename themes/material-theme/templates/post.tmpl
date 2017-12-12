@@ -39,16 +39,20 @@
     {{ helper.html_pager(post) }}
     </nav>
     </aside>
-    {% if not post.meta('nocomments') and site_has_comments %}
-        <section class="comments">
-        <h2><i class="mdi-communication-forum"></i>{{ messages("Comments") }}</h2>
-        <hr />
-        {{ comments.comment_form(post.permalink(absolute=True), post.title(), post._base_path) }}
-        </section>
-    {% endif %}
-    {{ helper.mathjax_script(post) }}
-</article>
-{{ comments.comment_link_script() }}
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: 'stephen0921',
+  repo: 'blogcomments',
+  oauth: {
+    client_id: '023e6b0f82c8769a884b',
+    client_secret: '7627cf219ccd3c1eabf6071ca10ff03da3a6df93',
+  },
+})
+gitment.render('container')
+</script>
 {% endblock %}
 
 {% block sourcelink %}
