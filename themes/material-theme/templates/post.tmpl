@@ -40,6 +40,19 @@
     </nav>
     </aside>
 </article>
+{% endblock %}
+
+{% block sourcelink %}
+{% if show_sourcelink %}
+    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="{{ post.source_link() }}" title="{{ messages("Source") }}">
+        <i class="mdi-file-cloud-download"></i>
+    </a>
+
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
 <div id="container"></div>
 <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
@@ -54,13 +67,4 @@ var gitment = new Gitment({
 })
 gitment.render('container')
 </script>
-{% endblock %}
-
-{% block sourcelink %}
-{% if show_sourcelink %}
-    <a class="btn btn-fab btn-raised btn-material-indigo" target="_blank" href="{{ post.source_link() }}" title="{{ messages("Source") }}">
-        <i class="mdi-file-cloud-download"></i>
-    </a>
-
-{% endif %}
 {% endblock %}
