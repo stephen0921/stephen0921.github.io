@@ -20,7 +20,7 @@
 在perl里面有更漂亮的注释或者文档写法，就是POD格式，一些主流的编辑器都能识别这个格式。比如vim，emacs，sublime。
 
 #+BEGIN_HTML
-<img src="/../images/pod_emacs.png" class="img-thumbnail" width="60%">
+<img src="../../images/pod_emacs.png" class="img-thumbnail" width="60%">
 #+END_HTML
 
 在perl程序中，以“=”开头，一些关键字比如head1，head2然后紧跟着一个空行，都被认为是pod格式的说明注释，可以看到"my $err = '';"这一段也被注释掉了，因为perl默认会去找关键字“=cut”作为pod注释的结束标志。
