@@ -1,0 +1,29 @@
+#+BEGIN_COMMENT
+.. title: Install Perl Module without Root Priviledge
+.. slug: install-perl-module-without-root-priviledge
+.. date: 2018-02-21 19:14:08 UTC+08:00
+.. tags: perl 
+.. category: perl
+.. link: 
+.. description: 
+.. type: text
+#+END_COMMENT
+
+当没有root权限但是又想要安装一个module的时候，可以通过编译module源码的方式来实现.
+比如我想要安装template-toolkit, 那么我就去[[http://www.template-toolkit.org/download/index.html][官网]] 下载源码.
+然后在terminal中依次执行以下命令.
+#+BEGIN_SRC sh
+$ tar zxf Template-Toolkit-2.26.tar.gz
+$ cd Template-Toolkit-2.26
+$ perl Makefile.PL PREFIX=/Users/user/test/local/perl
+$ make
+$ make test
+$ make install
+#+END_SRC
+
+然后在自己的perl文件中，加上一条:
+#+BEGIN_SRC perl
+use lib "/Users/user/test/local/perl/lib/perl5/site_perl/5.18.2/darwin-thread-multi-2level";
+#+END_SRC
+
+这样就可以使用我们新安装的module了。
