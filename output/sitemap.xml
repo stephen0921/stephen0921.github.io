@@ -19,7 +19,7 @@
  </url>
  <url>
   <loc>https://stephen0921.github.io/archive.html</loc>
-  <lastmod>2018-02-21T11:41:00Z</lastmod>
+  <lastmod>2018-07-15T14:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/categories/</loc>
@@ -71,15 +71,15 @@
  </url>
  <url>
   <loc>https://stephen0921.github.io/index-1.html</loc>
-  <lastmod>2018-01-27T03:11:00Z</lastmod>
+  <lastmod>2018-07-15T14:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/index-2.html</loc>
-  <lastmod>2018-02-21T11:53:00Z</lastmod>
+  <lastmod>2018-07-15T14:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/index-3.html</loc>
-  <lastmod>2018-02-21T11:41:00Z</lastmod>
+  <lastmod>2018-07-15T14:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/listings/</loc>
@@ -91,7 +91,7 @@
  </url>
  <url>
   <loc>https://stephen0921.github.io/listings/hello.py.html</loc>
-  <lastmod>2018-01-27T03:11:00Z</lastmod>
+  <lastmod>2018-07-15T14:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/pages/about-nikola/</loc>
@@ -292,6 +292,10 @@
  <url>
   <loc>https://stephen0921.github.io/posts/sv-oop/</loc>
   <lastmod>2017-12-10T08:03:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://stephen0921.github.io/posts/test/</loc>
+  <lastmod>2018-07-15T14:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://stephen0921.github.io/posts/text-processing/</loc>

@@ -1,0 +1,78 @@
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">If Else in Perl</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+if-elsif-else这样的语句在我们的code里再常见不过了。
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s">&quot;John&quot;</span><span class="p">;</span>
+
+<span class="k">sub</span> <span class="nf">name_solute</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$item</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">my</span> <span class="nv">$ret</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$item</span> <span class="ow">eq</span> <span class="s">&quot;Tom&quot;</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$ret</span> <span class="o">=</span> <span class="s">&quot;Hi Tom.&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">elsif</span> <span class="p">(</span><span class="nv">$item</span> <span class="ow">eq</span> <span class="s">&quot;Jerry&quot;</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$ret</span> <span class="o">=</span> <span class="s">&quot;Run! Run!&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">elsif</span> <span class="p">(</span><span class="nv">$item</span> <span class="ow">eq</span> <span class="s">&quot;Lucy&quot;</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nv">$ret</span> <span class="o">=</span> <span class="s">&quot;Where is Lily?&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+	<span class="nv">$ret</span> <span class="o">=</span> <span class="s">&quot;I do not know you.&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">my</span> <span class="nv">$solute</span> <span class="o">=</span> <span class="n">name_solute</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span>
+</pre></div>
+
+<p>
+如果我们换一种方式，比如三元式，可能更好看一点。
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$solute</span> <span class="o">=</span> 
+    <span class="nv">$name</span> <span class="ow">eq</span> <span class="s">&quot;Tom&quot;</span>   <span class="p">?</span>  <span class="s">&quot;Hi Tom.&quot;</span>             <span class="p">:</span>
+    <span class="nv">$name</span> <span class="ow">eq</span> <span class="s">&quot;Jerry&quot;</span> <span class="p">?</span>  <span class="s">&quot;Run! Run!&quot;</span>           <span class="p">:</span>
+    <span class="nv">$name</span> <span class="ow">eq</span> <span class="s">&quot;Lucy&quot;</span>  <span class="p">?</span>  <span class="s">&quot;Where is Lily?&quot;</span>      <span class="p">:</span>
+			<span class="s">&quot;I do not know you.&quot;</span>  <span class="p">;</span>
+</pre></div>
+
+<p>
+另外提一种比较好的数据结构，可以用来实现比较复杂的逻辑或者小环境。
+</p>
+<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$ref_var</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s">&quot;name&quot;</span>               <span class="o">=&gt;</span>  <span class="p">[</span><span class="o">[]</span><span class="p">,</span><span class="o">\&amp;</span><span class="n">name_proc</span><span class="p">]</span> <span class="p">,</span>
+     <span class="s">&quot;address&quot;</span>            <span class="o">=&gt;</span>  <span class="p">[</span><span class="o">[]</span><span class="p">,</span><span class="o">\&amp;</span><span class="n">addr_proc</span><span class="p">]</span> <span class="p">,</span>
+     <span class="s">&quot;mail&quot;</span>               <span class="o">=&gt;</span>  <span class="p">[</span><span class="o">[]</span><span class="p">,</span><span class="o">\&amp;</span><span class="n">mail_proc</span><span class="p">]</span> 
+     <span class="p">};</span>
+
+ <span class="nb">push</span><span class="p">(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">name</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">},</span> <span class="s">&quot;John Smith&quot;</span><span class="p">);</span>
+ <span class="nb">push</span><span class="p">(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">address</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">},</span> <span class="s">&quot;Beijing, China&quot;</span><span class="p">);</span>
+ <span class="nb">push</span><span class="p">(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">mail</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">},</span> <span class="s">&quot;john\@gmail.com&quot;</span><span class="p">);</span>
+
+ <span class="o">&amp;</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">name</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">name</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span> <span class="p">);</span>
+ <span class="o">&amp;</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">address</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">address</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span> <span class="p">);</span>
+ <span class="o">&amp;</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">mail</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">}(</span> <span class="nv">@</span><span class="p">{</span> <span class="nv">$ref_var</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">mail</span><span class="p">}</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span> <span class="p">);</span>
+
+ <span class="k">sub</span> <span class="nf">name_proc</span> <span class="p">{</span>
+     <span class="k">my</span> <span class="nv">$item</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+     <span class="k">print</span> <span class="s">&quot;Hello, $item\n&quot;</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="k">sub</span> <span class="nf">addr_proc</span> <span class="p">{</span>
+     <span class="k">my</span> <span class="nv">$item</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+     <span class="k">print</span> <span class="s">&quot;He lives in $item\n&quot;</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="k">sub</span> <span class="nf">mail_proc</span> <span class="p">{</span>
+     <span class="k">my</span> <span class="nv">$item</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+     <span class="k">print</span> <span class="s">&quot;You can contact to $item\n&quot;</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+
+<p>
+首先，$ref-var是一个hash的<a href="https://perldoc.perl.org/perlreftut.html">reference</a> ，它的各个key所对应的都是一个list的reference。每一个list里面，又分成一个空的list的reference，用来存input变量，以及一个函数指针。这个结构不错呦，我也是从大神那搬过来的，O(∩<sub>∩</sub>)O哈哈~
+</p>
+</div>
+</div>

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about verification)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_verification.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sat, 09 Dec 2017 08:11:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Uvm Reporter Mechanism</title><link>https://stephen0921.github.io/posts/2017-08-07-uvm-reporter/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;UVM Reporter Mechanism&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about verification)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_verification.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sun, 15 Jul 2018 14:04:37 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Uvm Reporter Mechanism</title><link>https://stephen0921.github.io/posts/2017-08-07-uvm-reporter/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-org248b999" class="outline-2"&gt;
+&lt;h2 id="org248b999"&gt;UVM Reporter Mechanism&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org248b999"&gt;
 &lt;p&gt;
 UVM的log打印分为6个等级，如下图所示:
 &lt;/p&gt;
-&lt;img src="https://stephen0921.github.io/images/uvm_verbosity.png" class="img-thumbnail" width="60%"&gt;
+&lt;div class="HTML"&gt;
+&lt;p&gt;
+&amp;lt;img src="../../images/uvm_verbosity.png" class="img-thumbnail" width="60%" &amp;gt;
+&lt;/p&gt;
+
+&lt;/div&gt;
 
 &lt;p&gt;
 由下至上，打印的等级逐级升高。假设在一个task里面有如下的代码，那么即将打印的是后三条。
@@ -18,7 +23,12 @@ UVM的log打印分为6个等级，如下图所示:
 `uvm_info("ID5", "this is none message", UVM_NONE)
 &lt;/pre&gt;&lt;/div&gt;
 
-&lt;img src="https://stephen0921.github.io/images/uvm_log.png" class="img-thumbnail" width="60%"&gt;
+&lt;div class="HTML"&gt;
+&lt;p&gt;
+&amp;lt;img src="../../images/uvm_log.png" class="img-thumbnail" width="60%" &amp;gt;
+&lt;/p&gt;
+
+&lt;/div&gt;
 
 &lt;p&gt;
 因为仿真器默认的verbosity是UVM_MEDIUM，所以ID0~ID2的信息没有打印出来。可以通过命令行来修改打印的verbosity，比如:
@@ -37,14 +47,19 @@ UVM的log打印分为6个等级，如下图所示:
 &lt;a href="http://www.edaplayground.com/x/5xF7"&gt;my simple test&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-07-uvm-reporter/</guid><pubDate>Mon, 07 Aug 2017 07:34:50 GMT</pubDate></item><item><title>Uvm Factory Mechanism</title><link>https://stephen0921.github.io/posts/2017-08-07-uvm-factory/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;UVM的Factory机制&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-07-uvm-reporter/</guid><pubDate>Mon, 07 Aug 2017 07:34:50 GMT</pubDate></item><item><title>Uvm Factory Mechanism</title><link>https://stephen0921.github.io/posts/2017-08-07-uvm-factory/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-org2839e9a" class="outline-2"&gt;
+&lt;h2 id="org2839e9a"&gt;UVM的Factory机制&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2839e9a"&gt;
 &lt;p&gt;
 验证环境要具有比较好的通用性，以及适应性。比如某一种情况下，需要我们发的transaction的某一些位域发生改变，或者dut接口上一些特定行为需要我们改变driver。UVM的factory机制为我们处理这些情况，提供了非常方便的方法。
 典型的验证环境是这样的:
 &lt;/p&gt;
-&lt;img src="https://stephen0921.github.io/images/uvm_env.png" class="img-thumbnail" width="60%"&gt;
+&lt;div class="HTML"&gt;
+&lt;p&gt;
+&amp;lt;img src="../../images/uvm_env.png" class="img-thumbnail" width="60%" &amp;gt;
+&lt;/p&gt;
+
+&lt;/div&gt;
 &lt;p&gt;
 很可能我们想要把发的transaction变成bad_transaction，那么我们就要重写一个bad_sequence，然后再写一个bad_driver，test也要重写。下面的代码请感受一下:
 &lt;/p&gt;
@@ -77,7 +92,12 @@ endclass
 &lt;p&gt;
 Factory机制是指，UVM从两张表里寻找用户注册的信息，然后在实例化具体的组件时做判断到底实例化哪一个class的组件，优先从override注册表里找，然后是class类型注册表。
 &lt;/p&gt;
-&lt;img src="https://stephen0921.github.io/images/uvm_factory.png" class="img-thumbnail" width="60%"&gt;
+&lt;div class="HTML"&gt;
+&lt;p&gt;
+&amp;lt;img src="../../images/uvm_factory.png" class="img-thumbnail" width="60%" &amp;gt;
+&lt;/p&gt;
+
+&lt;/div&gt;
 
 &lt;p&gt;
 这样，如果是irun，我们只需要在仿真时的tcl里做override，就可以最大程度的复用之前的代码。
@@ -114,18 +134,18 @@ endfunction
 endclass
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-07-uvm-factory/</guid><pubDate>Mon, 07 Aug 2017 02:56:38 GMT</pubDate></item><item><title>Indirect Register Access</title><link>https://stephen0921.github.io/posts/2017-08-04-indirect-register-access/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;序&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-07-uvm-factory/</guid><pubDate>Mon, 07 Aug 2017 02:56:38 GMT</pubDate></item><item><title>Indirect Register Access</title><link>https://stephen0921.github.io/posts/2017-08-04-indirect-register-access/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-org5e720e7" class="outline-2"&gt;
+&lt;h2 id="org5e720e7"&gt;序&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5e720e7"&gt;
 &lt;p&gt;
 UVM register model为我们的寄存器验证提供了很大的帮助，多种集成register model的方法，尤其是使用layered register sequencer的方法，方便了间接访问寄存器的验证。
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-sec-2" class="outline-2"&gt;
-&lt;h2 id="sec-2"&gt;uvm_users_guide_1.1的例子分析&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;div id="outline-container-orgf3e63c5" class="outline-2"&gt;
+&lt;h2 id="orgf3e63c5"&gt;uvm_users_guide_1.1的例子分析&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf3e63c5"&gt;
 &lt;p&gt;
 参考第5.9.2.3小节，
 &lt;/p&gt;
@@ -172,9 +192,9 @@ UVM register model为我们的寄存器验证提供了很大的帮助，多种�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-sec-3" class="outline-2"&gt;
-&lt;h2 id="sec-3"&gt;实际问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;div id="outline-container-org517db86" class="outline-2"&gt;
+&lt;h2 id="org517db86"&gt;实际问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org517db86"&gt;
 &lt;p&gt;
 在我的实际应用中，是想把一个寄存器操作，转化为多个寄存器的读和写。这里，我把间接寄存器放在了一个独立的register map上(名为UnAddressedModules)，而不是default map。
 &lt;/p&gt;
@@ -279,16 +299,16 @@ UVM register model为我们的寄存器验证提供了很大的帮助，多种�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-sec-4" class="outline-2"&gt;
-&lt;h2 id="sec-4"&gt;总结&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;div id="outline-container-orgf0ac979" class="outline-2"&gt;
+&lt;h2 id="orgf0ac979"&gt;总结&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf0ac979"&gt;
 &lt;p&gt;
 层次化的集成register model的方法，处理间接访问寄存器，可行有效，但要注意一些小细节，比如关于transaction生命周期的。
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-04-indirect-register-access/</guid><pubDate>Fri, 04 Aug 2017 10:17:15 GMT</pubDate></item><item><title>irun MSIE tips</title><link>https://stephen0921.github.io/posts/2017-08-01-irun-msie/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;irun MSIE&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-04-indirect-register-access/</guid><pubDate>Fri, 04 Aug 2017 10:17:15 GMT</pubDate></item><item><title>irun MSIE tips</title><link>https://stephen0921.github.io/posts/2017-08-01-irun-msie/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-org3727a0b" class="outline-2"&gt;
+&lt;h2 id="org3727a0b"&gt;irun MSIE&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3727a0b"&gt;
 &lt;p&gt;
 前一阵子折腾MSIE的验证环境，现在环境比较稳定了，也是时候来总结一下了。
 &lt;/p&gt;
@@ -301,7 +321,12 @@ MSIE的全称是Multi-Snapshot Incremental Elaboration，是cadence的irun工具
 举一个例子，比如下面的一个验证环境。
 &lt;/p&gt;
 
-&lt;img src="https://stephen0921.github.io/images/msie.png" class="img-thumbnail" width="60%"&gt;
+&lt;div class="HTML"&gt;
+&lt;p&gt;
+&amp;lt;img src="../../images/msie.png" class="img-thumbnail" width="60%" &amp;gt;
+&lt;/p&gt;
+
+&lt;/div&gt;
 
 
 &lt;p&gt;
@@ -325,9 +350,9 @@ MSIE的全称是Multi-Snapshot Incremental Elaboration，是cadence的irun工具
 如果是后仿，还要做sdf反标，就要在compile每一个primary snapshot的时候把sdf文件吃进去，option是-sdf_cmd_file xx.cmd。sdf的拆分需要根据partition情况使用工具ncsdfc来完成。
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-01-irun-msie/</guid><pubDate>Tue, 01 Aug 2017 04:56:41 GMT</pubDate></item><item><title>OOP in Systemverilog</title><link>https://stephen0921.github.io/posts/sv-oop/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;system verilog中的面向对象&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-08-01-irun-msie/</guid><pubDate>Tue, 01 Aug 2017 04:56:41 GMT</pubDate></item><item><title>OOP in Systemverilog</title><link>https://stephen0921.github.io/posts/sv-oop/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-org40e1707" class="outline-2"&gt;
+&lt;h2 id="org40e1707"&gt;system verilog中的面向对象&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org40e1707"&gt;
 &lt;p&gt;
 下面的代码中，bad_tr继承tr，所以bad_tr具有了成员变量num和good的同时，也有自己的变量bad。
 &lt;/p&gt;
@@ -375,9 +400,9 @@ initial begin
 end
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/sv-oop/</guid><pubDate>Tue, 27 Jun 2017 17:19:39 GMT</pubDate></item><item><title>Why we use p_sequencer in UVM?</title><link>https://stephen0921.github.io/posts/uvm-summary-mpseqr/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;p_sequencer&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/sv-oop/</guid><pubDate>Tue, 27 Jun 2017 17:19:39 GMT</pubDate></item><item><title>Why we use p_sequencer in UVM?</title><link>https://stephen0921.github.io/posts/uvm-summary-mpseqr/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-org4c7cd5d" class="outline-2"&gt;
+&lt;h2 id="org4c7cd5d"&gt;p_sequencer&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4c7cd5d"&gt;
 &lt;p&gt;
 经常会看到在sequence和virtual sequence中，使用了宏`uvm_declare_p_sequencer。那么，为什么我们要使用p_sequencer呢？
 &lt;/p&gt;
@@ -443,9 +468,9 @@ end
 上面这段代码就是sequence的片段，可以看到直接访问了p_sequencer的变量tful，如果写成m_sequencer.tful，是一定不成的。
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/uvm-summary-mpseqr/</guid><pubDate>Mon, 19 Jun 2017 17:19:02 GMT</pubDate></item><item><title>Study UVM Source Code with Sublime3</title><link>https://stephen0921.github.io/posts/uvm-source-code-editor/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;UVM和Sublime3&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/uvm-summary-mpseqr/</guid><pubDate>Mon, 19 Jun 2017 17:19:02 GMT</pubDate></item><item><title>Study UVM Source Code with Sublime3</title><link>https://stephen0921.github.io/posts/uvm-source-code-editor/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-org429ec70" class="outline-2"&gt;
+&lt;h2 id="org429ec70"&gt;UVM和Sublime3&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org429ec70"&gt;
 &lt;p&gt;
 学习UVM的很好的一个方法是读源码，去网上下载&lt;a href="http://www.accellera.org/downloads/standards/uvm"&gt;UVM&lt;/a&gt; 源码，然后就可以了。
 很多主流的编辑器，对systemverilog的支持都很一般，我这里推荐使用 &lt;a href="http://www.sublimetext.com/3"&gt;sublime3&lt;/a&gt;。
@@ -454,7 +479,12 @@ end
 打开sublime3，然后在菜单栏里选择File-&amp;gt;open folder，打开UVM的源码目录，好了开工。
 &lt;/p&gt;
 
-&lt;img src="https://stephen0921.github.io/images/uvm_driver.png" class="img-thumbnail" width="60%"&gt;
+&lt;div class="HTML"&gt;
+&lt;p&gt;
+&amp;lt;img src="../../images/uvm&lt;sub&gt;driver.png&lt;/sub&gt;" class="img-thumbnail" width="60%" &amp;gt;
+&lt;/p&gt;
+
+&lt;/div&gt;
 
 &lt;p&gt;
 比如我看到下面这行代码，想看看uvm component的定义，那就在uvm component的位置上按F12。
@@ -466,6 +496,11 @@ end
 我们就能找到它的位置了，如下图所示。
 &lt;/p&gt;
 
-&lt;img src="https://stephen0921.github.io/images/uvm_comp.png" class="img-thumbnail" width="60%"&gt;
+&lt;div class="HTML"&gt;
+&lt;p&gt;
+&amp;lt;img src="../../images/uvm&lt;sub&gt;comp.png&lt;/sub&gt;" class="img-thumbnail" width="60%" &amp;gt;
+&lt;/p&gt;
+
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/uvm-source-code-editor/</guid><pubDate>Thu, 15 Jun 2017 17:17:25 GMT</pubDate></item></channel></rss>

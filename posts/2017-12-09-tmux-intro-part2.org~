@@ -1,0 +1,18 @@
+#+OPTIONS: ^:nil
+#+BEGIN_COMMENT
+.. title: Tmux Introduction II
+.. slug: 2017-12-09-tmux-part2
+.. date: 2017-12-09 11:11:32 UTC+08:00
+.. tag: 
+.. category: misc
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+定制我们的Tmux
+
+启动Tmux时，会自动去source ~/.tmux.conf文件. 
+
+先来看看我的.tmux.conf文件内容.
+

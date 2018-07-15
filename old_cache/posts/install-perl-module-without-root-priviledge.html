@@ -1,0 +1,22 @@
+<p>
+当没有root权限但是又想要安装一个module的时候，可以通过编译module源码的方式来实现.
+比如我想要安装template-toolkit, 那么我就去<a href="http://www.template-toolkit.org/download/index.html">官网</a> 下载源码.
+然后在terminal中依次执行以下命令.
+</p>
+<div class="highlight"><pre><span></span>$ tar zxf Template-Toolkit-2.26.tar.gz
+$ <span class="nb">cd</span> Template-Toolkit-2.26
+$ perl Makefile.PL <span class="nv">PREFIX</span><span class="o">=</span>/Users/user/test/local/perl
+$ make
+$ make <span class="nb">test</span>
+$ make install
+</pre></div>
+
+<p>
+然后在自己的perl文件中，加上一条:
+</p>
+<div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">lib</span> <span class="s">&quot;/Users/user/test/local/perl/lib/perl5/site_perl/5.18.2/darwin-thread-multi-2level&quot;</span><span class="p">;</span>
+</pre></div>
+
+<p>
+这样就可以使用我们新安装的module了。
+</p>

@@ -1,0 +1,19 @@
+#+OPTIONS: ^:nil
+#+BEGIN_COMMENT
+.. title: Tmux introduction
+.. slug: 2017-12-06-tmux-part1
+.. date: 2017-12-06 22:35:32 UTC+08:00
+.. tag: 
+.. category: misc
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+什么是Tmux？
+Tmux可以理解为是一个terminal控制器，是对我们的terminal的扩展，同时我们可以利用它来建立自己的一套workflow。
+先上一张图，感受一下。
+
+#+BEGIN_HTML                                                                  
+  <img src="../../images/tmux.png" class="img-thumbnail" width="80%" >          
+#+END_HTML

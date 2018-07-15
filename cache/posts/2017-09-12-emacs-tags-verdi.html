@@ -1,24 +1,39 @@
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Generate Tags for Emacs by Verdi</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-org9fd8f90" class="outline-2">
+<h2 id="org9fd8f90">Generate Tags for Emacs by Verdi</h2>
+<div class="outline-text-2" id="text-org9fd8f90">
 <p>
 无意中看到SNUG的一个文章，作者通过使用Verdi来生成Emacs以及Vim的tags文件，很棒。我一直没有找到特别好的办法来用Emacs浏览verilog 代码工程，之前也是使用Emacs的插件projectile来grep关键字。我赶紧按照作者的描述操作起来了。
 </p>
 
-<img src="../../images/tags.png" class="img-thumbnail" width="60%" >
+<div class="HTML">
+<p>
+&lt;img src="../../images/tags.png" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
 
 <p>
 作者的tcl脚本是放在<a href="https://www.vc-apps.org/sitepages/downloadList.aspx">这里的</a> ，居然排在第一个。
 </p>
 
-<img src="../../images/vcc.PNG" class="img-thumbnail" width="60%" >
+<div class="HTML">
+<p>
+&lt;img src="../../images/vcc.PNG" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
 
 <p>
 在Verdi打开tcl命令窗口，然后source下载的tcl脚本。
 </p>
 
-<img src="../../images/verdi.PNG" class="img-thumbnail" width="60%" >
+<div class="HTML">
+<p>
+&lt;img src="../../images/verdi.PNG" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
 
 <p>
 生成的vim版本的tags文件是ok的，能用。Emacs版本的TAGS文件居然不能跳转！
@@ -32,38 +47,48 @@
 再看了一遍论文，作者文字描述的格式和他实际脚本生成的TAGS格式不一致，把tag_definition_text丢掉了，所以跳转有问题。
 </p>
 
-<img src="../../images/emacs_tags_format.png" class="img-thumbnail" width="60%" >
+<div class="HTML">
+<p>
+&lt;img src="../../images/emacs_tags_format.png" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
 
 <p>
 去<a href="https://www.vc-apps.org/sitepages/gettingstarted.aspx">官网</a>查到了npi参考手册，fix一下tcl代码。
 </p>
 
-<div class="highlight"><pre><span></span><span class="k">foreach</span> <span class="k">{</span><span class="nv">index</span> tagInfo<span class="k">}</span> <span class="nv">$sorted_ident</span> <span class="k">{</span>
-  <span class="k">set</span> srcFile <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">1</span><span class="k">]</span>
-  <span class="k">if</span> <span class="k">{</span><span class="nv">$fileName</span> <span class="o">==</span> <span class="nv">$srcFile</span><span class="k">}</span> <span class="k">{</span>
-    <span class="k">set</span> tag <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">0</span><span class="k">]</span>
-    <span class="k">set</span> line <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">2</span><span class="k">]</span>
-    <span class="k">set</span> offset <span class="nv">$byteCounts</span><span class="k">(</span><span class="nv">$line</span><span class="k">)</span>
+<div class="highlight"><pre><span></span>  <span class="k">foreach</span> <span class="k">{</span><span class="nv">index</span> tagInfo<span class="k">}</span> <span class="nv">$sorted_ident</span> <span class="k">{</span>
+    <span class="k">set</span> srcFile <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">1</span><span class="k">]</span>
+    <span class="k">if</span> <span class="k">{</span><span class="nv">$fileName</span> <span class="o">==</span> <span class="nv">$srcFile</span><span class="k">}</span> <span class="k">{</span>
+      <span class="k">set</span> tag <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">0</span><span class="k">]</span>
+      <span class="k">set</span> line <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">2</span><span class="k">]</span>
+      <span class="k">set</span> offset <span class="nv">$byteCounts</span><span class="k">(</span><span class="nv">$line</span><span class="k">)</span>
 
-    <span class="c">#======= fix by yaohe begin ===========#</span>
-      <span class="c">#set entry &quot;\x7f$tag\x01,$offset&quot;</span>
-      <span class="k">set</span> file_hdl <span class="k">[</span><span class="nv">npi_text_file_by_name</span> <span class="o">-</span>name <span class="s2">&quot;$srcFile&quot;</span><span class="k">]</span>
-      <span class="k">set</span> line_hdl <span class="k">[</span><span class="nv">npi_text_line_by_number</span> <span class="o">-</span>ref <span class="nv">$file_hdl</span> <span class="o">-</span>number <span class="nv">$line</span><span class="k">]</span>
-      <span class="k">set</span> line_content <span class="k">[</span><span class="nv">npi_text_property_str</span> <span class="o">-</span>type npiTextLineContent <span class="o">-</span>ref <span class="nv">$line_hdl</span><span class="k">]</span>
-      <span class="nb">regsub</span> <span class="k">{</span><span class="err">\</span><span class="nv">n</span><span class="err">$</span><span class="k">}</span> <span class="nv">$line_content</span> <span class="k">{}</span> line_content
-      <span class="k">set</span> entry <span class="s2">&quot;$line_content\x7f$line,$offset&quot;</span>
-    <span class="c">#======= fix by yaohe end ===========#</span>
+      <span class="c">#======= fix by yaohe begin ===========#</span>
+	<span class="c">#set entry &quot;\x7f$tag\x01,$offset&quot;</span>
+	<span class="k">set</span> file_hdl <span class="k">[</span><span class="nv">npi_text_file_by_name</span> <span class="o">-</span>name <span class="s2">&quot;$srcFile&quot;</span><span class="k">]</span>
+	<span class="k">set</span> line_hdl <span class="k">[</span><span class="nv">npi_text_line_by_number</span> <span class="o">-</span>ref <span class="nv">$file_hdl</span> <span class="o">-</span>number <span class="nv">$line</span><span class="k">]</span>
+	<span class="k">set</span> line_content <span class="k">[</span><span class="nv">npi_text_property_str</span> <span class="o">-</span>type npiTextLineContent <span class="o">-</span>ref <span class="nv">$line_hdl</span><span class="k">]</span>
+	<span class="nb">regsub</span> <span class="k">{</span><span class="err">\</span><span class="nv">n</span><span class="err">$</span><span class="k">}</span> <span class="nv">$line_content</span> <span class="k">{}</span> line_content
+	<span class="k">set</span> entry <span class="s2">&quot;$line_content\x7f$line,$offset&quot;</span>
+      <span class="c">#======= fix by yaohe end ===========#</span>
 
-    <span class="nb">append</span> entryList <span class="s2">&quot;\n&quot;</span> <span class="nv">$entry</span>
+      <span class="nb">append</span> entryList <span class="s2">&quot;\n&quot;</span> <span class="nv">$entry</span>
+    <span class="k">}</span>
   <span class="k">}</span>
-<span class="k">}</span>
 </pre></div>
 
 <p>
 终于好用了。
 </p>
 
-<img src="../../images/emacs_tags_ok.png" class="img-thumbnail" width="60%" >
+<div class="HTML">
+<p>
+&lt;img src="../../images/emacs_tags_ok.png" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
 
 <p>
 新的tcl代码我备份我的<a href="https://github.com/stephen0921/GenEmacsTagsByVerdi">github</a>上，因为实在联系不上作者。

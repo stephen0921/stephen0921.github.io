@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about uvm)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_uvm.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sat, 09 Dec 2017 08:11:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>UVM Example Reference 1</title><link>https://stephen0921.github.io/posts/2017-09-11-uvm-ref-flow1/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;UVM Example Reference 1&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-1"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Yao He's Awesome Site (Posts about uvm)</title><link>https://stephen0921.github.io/</link><description></description><atom:link href="https://stephen0921.github.io/categories/cat_uvm.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:stephen0921@gmail.com"&gt;Yao He&lt;/a&gt; </copyright><lastBuildDate>Sun, 15 Jul 2018 14:04:37 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>UVM Example Reference 1</title><link>https://stephen0921.github.io/posts/2017-09-11-uvm-ref-flow1/</link><dc:creator>Yao He</dc:creator><description>&lt;div id="outline-container-orge512098" class="outline-2"&gt;
+&lt;h2 id="orge512098"&gt;UVM Example Reference 1&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge512098"&gt;
 &lt;p&gt;
 uvm_ref_flow_1.2是不错的学习材料，从UT到SOC的环境都可以参考这里面的代码来写，至少可以当做代码的模板来用。
 &lt;/p&gt;
@@ -14,134 +14,139 @@ uvm_ref_flow_1.2是不错的学习材料，从UT到SOC的环境都可以参考�
 还有一个特别值得说明是，在apb_slave_seq_lib.sv中的simple_response_seq通过其p_sequencer的tlm接口addr_trans_port来生成包，不错的应用方法。
 &lt;/p&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;class simple_response_seq extends uvm_sequence #(apb_transfer);
-   // ...
-   virtual task body();
-      `uvm_info(get_type_name(), "Starting...", UVM_MEDIUM)
-      forever begin
-	 p_sequencer.addr_trans_port.peek(util_transfer);
-	 // ...
-      end
-   endtask : body
-endclass : simple_response_seq
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  class simple_response_seq extends uvm_sequence #(apb_transfer);
+     // ...
+     virtual task body();
+	`uvm_info(get_type_name(), "Starting...", UVM_MEDIUM)
+	forever begin
+	   p_sequencer.addr_trans_port.peek(util_transfer);
+	   // ...
+	end
+     endtask : body
+  endclass : simple_response_seq
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
 为了让sequencer能看到发包的情况，建立了一条tlm通道。从总线到apb_collector，再到apb_monitor，最后到apb_slave_sequencer。
 &lt;/p&gt;
-&lt;img src="https://stephen0921.github.io/images/uvm_ref_flow1.png" class="img-thumbnail" width="60%"&gt;
+&lt;div class="HTML"&gt;
+&lt;p&gt;
+&amp;lt;img src="../../images/uvm_ref_flow1.png" class="img-thumbnail" width="60%" &amp;gt;
+&lt;/p&gt;
+
+&lt;/div&gt;
 
 
 &lt;p&gt;
 用事件来在同一个class的两个task之间做同步和信息传递，用peek的tlm通路来层层传递。
 &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;class apb_slave_sequencer extends uvm_sequencer #(apb_transfer);
-   // ...
-   uvm_blocking_peek_port#(apb_transfer) addr_trans_port;
-   // ...
-endclass : apb_slave_sequencer
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  class apb_slave_sequencer extends uvm_sequencer #(apb_transfer);
+     // ...
+     uvm_blocking_peek_port#(apb_transfer) addr_trans_port;
+     // ...
+  endclass : apb_slave_sequencer
 
-class apb_monitor extends uvm_monitor;
-   // ...
-   // Allows the sequencer to look at monitored data for responses
-  uvm_blocking_peek_imp#(apb_transfer,apb_monitor) addr_trans_export;
+  class apb_monitor extends uvm_monitor;
+     // ...
+     // Allows the sequencer to look at monitored data for responses
+    uvm_blocking_peek_imp#(apb_transfer,apb_monitor) addr_trans_export;
 
-  // Allows monitor to look at collector for address information
-  uvm_blocking_peek_port#(apb_transfer) addr_trans_port;
+    // Allows monitor to look at collector for address information
+    uvm_blocking_peek_port#(apb_transfer) addr_trans_port;
 
-  event trans_addr_grabbed;
-endclass : apb_monitor
+    event trans_addr_grabbed;
+  endclass : apb_monitor
 
-  // UVM run_phase
-task apb_monitor::run_phase(uvm_phase phase);
-  forever begin
-    addr_trans_port.peek(trans_collected);
-    `uvm_info(get_type_name(), $sformatf("Address Phase Complete: %h[%s]", trans_collected.addr, trans_collected.direction.name() ), UVM_HIGH)
-    -&amp;gt; trans_addr_grabbed;
-  end
-endtask : run_phase
-
-// FUNCTION: peek - Allows the sequencer to peek at monitor for responses
-task apb_monitor::peek(output apb_transfer trans);
-  @trans_addr_grabbed;
-  trans = trans_collected;
-endtask : peek
-
-class apb_collector extends uvm_component;
-   // ...
-   // TLM Port - Allows sequencer access to transfer during address phase
-  uvm_blocking_peek_imp#(apb_transfer,apb_collector) addr_trans_export;
-  event addr_trans_grabbed;
-endclass : apb_collector
-
-   // UVM run_phase()
-task apb_collector::run_phase(uvm_phase phase);
-    @(posedge vif.preset);
-    `uvm_info(get_type_name(), "Detected Reset Done", UVM_LOW)
-    collect_transactions();
-endtask : run_phase
-
-// collect_transactions
-task apb_collector::collect_transactions();
-  forever begin
-    @(posedge vif.pclock iff (vif.psel != 0));
-    void'(this.begin_tr(trans_collected,"APB_COLLECTOR","UVM Debug","APB collector transaction inside collect_transactions()"));
-    trans_collected.addr = vif.paddr;
-    trans_collected.master = cfg.master_config.name;
-    trans_collected.slave = cfg.get_slave_name_by_addr(trans_collected.addr);
-    case (vif.prwd)
-      1'b0 : trans_collected.direction = APB_READ;
-      1'b1 : trans_collected.direction = APB_WRITE;
-    endcase
-      @(posedge vif.pclock);
-    if(trans_collected.direction == APB_READ)
-      trans_collected.data = vif.prdata;
-    if (trans_collected.direction == APB_WRITE)
-      trans_collected.data = vif.pwdata;
-    -&amp;gt; addr_trans_grabbed;
-    @(posedge vif.pclock);
-    if(trans_collected.direction == APB_READ) begin
-	if(vif.pready != 1'b1)
-	  @(posedge vif.pclock);
-      trans_collected.data = vif.prdata;
-      end
-    this.end_tr(trans_collected);
-    item_collected_port.write(trans_collected);
-    `uvm_info(get_type_name(), $sformatf("Transfer collected :\n%s",
-	      trans_collected.sprint()), UVM_MEDIUM)
-      `ifdef HEAP
-      runq.push_back(trans_collected);
-      `endif
-     num_transactions++;
+    // UVM run_phase
+  task apb_monitor::run_phase(uvm_phase phase);
+    forever begin
+      addr_trans_port.peek(trans_collected);
+      `uvm_info(get_type_name(), $sformatf("Address Phase Complete: %h[%s]", trans_collected.addr, trans_collected.direction.name() ), UVM_HIGH)
+      -&amp;gt; trans_addr_grabbed;
     end
-endtask : collect_transactions
+  endtask : run_phase
 
-task apb_collector::peek(output apb_transfer trans);
-  @addr_trans_grabbed;
-  trans = trans_collected;
-endtask : peek
+  // FUNCTION: peek - Allows the sequencer to peek at monitor for responses
+  task apb_monitor::peek(output apb_transfer trans);
+    @trans_addr_grabbed;
+    trans = trans_collected;
+  endtask : peek
+
+  class apb_collector extends uvm_component;
+     // ...
+     // TLM Port - Allows sequencer access to transfer during address phase
+    uvm_blocking_peek_imp#(apb_transfer,apb_collector) addr_trans_export;
+    event addr_trans_grabbed;
+  endclass : apb_collector
+
+     // UVM run_phase()
+  task apb_collector::run_phase(uvm_phase phase);
+      @(posedge vif.preset);
+      `uvm_info(get_type_name(), "Detected Reset Done", UVM_LOW)
+      collect_transactions();
+  endtask : run_phase
+
+  // collect_transactions
+  task apb_collector::collect_transactions();
+    forever begin
+      @(posedge vif.pclock iff (vif.psel != 0));
+      void'(this.begin_tr(trans_collected,"APB_COLLECTOR","UVM Debug","APB collector transaction inside collect_transactions()"));
+      trans_collected.addr = vif.paddr;
+      trans_collected.master = cfg.master_config.name;
+      trans_collected.slave = cfg.get_slave_name_by_addr(trans_collected.addr);
+      case (vif.prwd)
+	1'b0 : trans_collected.direction = APB_READ;
+	1'b1 : trans_collected.direction = APB_WRITE;
+      endcase
+	@(posedge vif.pclock);
+      if(trans_collected.direction == APB_READ)
+	trans_collected.data = vif.prdata;
+      if (trans_collected.direction == APB_WRITE)
+	trans_collected.data = vif.pwdata;
+      -&amp;gt; addr_trans_grabbed;
+      @(posedge vif.pclock);
+      if(trans_collected.direction == APB_READ) begin
+	  if(vif.pready != 1'b1)
+	    @(posedge vif.pclock);
+	trans_collected.data = vif.prdata;
+	end
+      this.end_tr(trans_collected);
+      item_collected_port.write(trans_collected);
+      `uvm_info(get_type_name(), $sformatf("Transfer collected :\n%s",
+		trans_collected.sprint()), UVM_MEDIUM)
+	`ifdef HEAP
+	runq.push_back(trans_collected);
+	`endif
+       num_transactions++;
+      end
+  endtask : collect_transactions
+
+  task apb_collector::peek(output apb_transfer trans);
+    @addr_trans_grabbed;
+    trans = trans_collected;
+  endtask : peek
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
 再看一下连接关系。
 &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;// UVM connect_phase
-function void apb_env::connect_phase(uvm_phase phase);
-  super.connect_phase(phase);
-  // Get the virtual interface if set via get_config
-  if (!uvm_config_db#(virtual apb_if)::get(this, "", "vif", vif))
-    `uvm_error("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"})
-  bus_collector.item_collected_port.connect(bus_monitor.coll_mon_port);
-  bus_monitor.addr_trans_port.connect(bus_collector.addr_trans_export);
-  master.monitor = bus_monitor;
-  master.collector = bus_collector;
-  foreach(slaves[i]) begin
-    slaves[i].monitor = bus_monitor;
-    slaves[i].collector = bus_collector;
-    if (slaves[i].is_active == UVM_ACTIVE)
-      slaves[i].sequencer.addr_trans_port.connect(bus_monitor.addr_trans_export);
-  end
-endfunction : connect_phase
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  // UVM connect_phase
+  function void apb_env::connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
+    // Get the virtual interface if set via get_config
+    if (!uvm_config_db#(virtual apb_if)::get(this, "", "vif", vif))
+      `uvm_error("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"})
+    bus_collector.item_collected_port.connect(bus_monitor.coll_mon_port);
+    bus_monitor.addr_trans_port.connect(bus_collector.addr_trans_export);
+    master.monitor = bus_monitor;
+    master.collector = bus_collector;
+    foreach(slaves[i]) begin
+      slaves[i].monitor = bus_monitor;
+      slaves[i].collector = bus_collector;
+      if (slaves[i].is_active == UVM_ACTIVE)
+	slaves[i].sequencer.addr_trans_port.connect(bus_monitor.addr_trans_export);
+    end
+  endfunction : connect_phase
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><guid>https://stephen0921.github.io/posts/2017-09-11-uvm-ref-flow1/</guid><pubDate>Mon, 11 Sep 2017 07:05:32 GMT</pubDate></item></channel></rss>

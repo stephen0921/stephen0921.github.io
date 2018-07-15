@@ -1,0 +1,45 @@
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">有趣的Fibonacci数列</h2>
+<div class="outline-text-2" id="text-1">
+<div class="highlight"><pre><span></span><span class="m">0</span>,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765,10946,...
+</pre></div>
+
+<p>
+这样的数字序列满足公式F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub>，其中F<sub>n</sub>表示第n个数字，这就是大名鼎鼎的<a href="http://www.mathsisfun.com/numbers/fibonacci-sequence.html">Fibonacci数列</a>。 
+如果把每一个数字的当作正方形的边长，然后把这些正方形堆砌在一起，就可以绘制出美丽的螺旋曲线。
+</p>
+
+<img src="../../images/fibonacci-spiral.gif" class="img-thumbnail" width="60%" >
+<p>
+如果把这个序列变化成函数，比如系数依然满足F<sub>n</sub>(z) = F<sub>n-1</sub>(z) + F<sub>n-2</sub>(z)。也就是说这样的函数：
+f(z)      = 0 + z + z<sup>2</sup> + 2z<sup>3</sup> + 3z<sup>4</sup> + 5z<sup>5</sup> + 8z<sup>6</sup> + &#x2026;
+</p>
+
+<p>
+那么我们能知道：
+</p>
+
+<p>
+zf(z)     =     0 + z<sup>2</sup> + z<sup>3</sup>  + 2z<sup>4</sup> + 3z<sup>5</sup> + 5z<sup>5</sup> + &#x2026;
+</p>
+
+<p>
+z<sup>2</sup>f(z) =             0 + z<sup>3</sup>  +  z<sup>4</sup> + 2z<sup>5</sup> + 3z<sup>5</sup> + &#x2026;
+</p>
+
+<p>
+由此我们得到关系式：
+</p>
+
+<p>
+f(z) = z + zf(z) + z<sup>2</sup>f(z)
+</p>
+
+<p>
+进一步推导，
+</p>
+
+<img src="../../images/fibonacci.png" class="img-thumbnail" width="60%" >
+</div>
+</div>

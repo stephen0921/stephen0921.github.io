@@ -1,15 +1,13 @@
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Code Generation</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-orgdd34479" class="outline-2">
+<h2 id="orgdd34479">Code Generation</h2>
+<div class="outline-text-2" id="text-orgdd34479">
 <p>
 生成代码或者小环境，我比较喜欢的方法，我总结如下。
 </p>
 <ul class="org-ul">
-<li>用JSON格式文件控制输入变量
-</li>
-<li>使用Template Toolkit，控制展示出来的代码样式
-</li>
+<li>用JSON格式文件控制输入变量</li>
+<li>使用Template Toolkit，控制展示出来的代码样式</li>
 </ul>
 
 <p>
@@ -21,25 +19,32 @@
 我们把这个任务划分成几部分考虑。
 </p>
 <ul class="org-ul">
-<li>逻辑表达式需要怎么样的格式呢？
-</li>
-<li>需要哪些变量控制我们最后生成的module的样式？
-</li>
-<li>用怎么样的方式，把这个流程串起来，同时能便于以后的维护呢？逻辑表达式的变化，要可以重新生成代码，同时不需要手动去修改。
-</li>
+<li>逻辑表达式需要怎么样的格式呢？</li>
+<li>需要哪些变量控制我们最后生成的module的样式？</li>
+<li>用怎么样的方式，把这个流程串起来，同时能便于以后的维护呢？逻辑表达式的变化，要可以重新生成代码，同时不需要手动去修改。</li>
 </ul>
 
 <p>
 第一个问题，逻辑表达式需要怎么样的格式？因为我对Emacs比较情有独钟，恰好我觉得使用<a href="http://orgmode.org">org-mode</a> 来书写简单的组合逻辑特别合适。先看一下下面的贴图感受一下。 
 </p>
 
-<img src="../../images/org.png" class="img-thumbnail" width="60%" >
+<div class="HTML">
+<p>
+&lt;img src="../../images/org.png" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
 
 <p>
 上图是Emacs编辑器显示出来的，其实里面纯文本，是这样的：
 </p>
 
-<img src="../../images/org_text.png" class="img-thumbnail" width="60%" >
+<div class="HTML">
+<p>
+&lt;img src="../../images/org_text.png" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
 
 <p>
 处理这个不是很复杂，可以看作对树形节点的处理。

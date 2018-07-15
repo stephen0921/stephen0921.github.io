@@ -1,0 +1,43 @@
+<p>
+结合到自己的工作流程中.
+比如我有一个shell脚本针对我的某一个项目的工作, 它帮我预先配置好环境.
+</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<span class="c1"># 判断后台是否已经有名为bba的session</span>
+tmux has-session -t bba
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> !<span class="o">=</span> <span class="m">0</span> <span class="o">]</span>
+<span class="c1"># 如果没有, 那么建立这个session</span>
+<span class="k">then</span>
+  <span class="c1"># 建立一个名为bba的session, 同时window名为editor</span>
+  tmux new-session -s bba -n editor -d
+  <span class="c1"># 预先输入一组命令, 提供工作效率, C-m表示回车键</span>
+  tmux send-keys -t bba <span class="s1">&#39;newgrp kobra&#39;</span> C-m
+  tmux send-keys -t bba <span class="s1">&#39;cd /vobs/fpga/cobra&#39;</span> C-m
+  tmux send-keys -t bba <span class="s1">&#39;ct setview ezyaohe_1&#39;</span> C-m
+  tmux send-keys -t bba <span class="s1">&#39;module add cobra/3.1&#39;</span> C-m
+  tmux send-keys -t bba <span class="s1">&#39;emacs&#39;</span> C-m
+  <span class="c1"># 竖直拆分成2个panes</span>
+  tmux split-window -v -t bba
+  <span class="c1"># 选择一个布局样式</span>
+  tmux <span class="k">select</span>-layout -t bba main-horizontal
+  <span class="c1"># 向第二个pane里输入一组命令，类似于上面的</span>
+  tmux send-keys -t bba:1.2 <span class="s1">&#39;newgrp kobra&#39;</span> C-m
+  tmux send-keys -t bba:1.2 <span class="s1">&#39;cd /vobs/fpga/cobra&#39;</span> C-m
+  tmux send-keys -t bba:1.2 <span class="s1">&#39;ct setview ezyaohe_1&#39;</span> C-m
+  tmux send-keys -t bba:1.2 <span class="s1">&#39;module add cobra/3.1&#39;</span> C-m
+  <span class="c1"># 新开一个window，名为console</span>
+  tmux new-window -n console -t bba
+  <span class="c1"># 向第二个window中输入一组命令</span>
+  tmux send-keys -t bba:2 <span class="s1">&#39;newgrp kobra&#39;</span> C-m
+  tmux send-keys -t bba:2 <span class="s1">&#39;cd /vobs/fpga/cobra&#39;</span> C-m
+  tmux send-keys -t bba:2 <span class="s1">&#39;ct setview ezyaohe_1&#39;</span> C-m
+  tmux send-keys -t bba:2 <span class="s1">&#39;module add cobra/3.1&#39;</span> C-m
+  tmux send-keys -t bba:2 <span class="s1">&#39;cd /proj/cobra/verif/ezyaohe&#39;</span> C-m
+  <span class="c1"># 光标回到第一个window</span>
+  tmux <span class="k">select</span>-window -t bba:1
+<span class="k">fi</span>
+<span class="c1"># 连接bba这个session</span>
+tmux attach -t bba
+</pre></div>
+
+<img src="../../images/tmuxworkflow.png" class="img-thumbnail" width="90%" >
