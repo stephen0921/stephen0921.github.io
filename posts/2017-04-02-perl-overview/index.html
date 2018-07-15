@@ -22,6 +22,7 @@ article: http://ogp.me/ns/article#
 <meta property="og:description" content='Perl coding tips
 
 
+
 打开pipe或者访问文件的时候，最好使用die
 
 open FILE, "a_file" or die "Can not open file a_file: $!";
@@ -35,7 +36,7 @@ close FILE;
 
 use Carp;
 a("a_file"); #resume that a_file does exist
-a("b_file"'>
+a("b_file'>
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-04-02T18:35:15+08:00">
 </head>
@@ -86,22 +87,22 @@ a("b_file"'>
         </div>
         
         <hr></header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Perl coding tips</h2>
-<div class="outline-text-2" id="text-1">
+    <div id="outline-container-orgc3665d4" class="outline-2">
+<h2 id="orgc3665d4">Perl coding tips</h2>
+<div class="outline-text-2" id="text-orgc3665d4">
 </div>
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">打开pipe或者访问文件的时候，最好使用die</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-org560b527" class="outline-3">
+<h3 id="org560b527">打开pipe或者访问文件的时候，最好使用die</h3>
+<div class="outline-text-3" id="text-org560b527">
 <div class="highlight"><pre><span></span><span class="nb">open</span> <span class="n">FILE</span><span class="p">,</span> <span class="s">"a_file"</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">"Can not open file a_file: $!"</span><span class="p">;</span>
 <span class="nb">close</span> <span class="n">FILE</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">比die更好用的是croak</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-org41edffd" class="outline-3">
+<h3 id="org41edffd">比die更好用的是croak</h3>
+<div class="outline-text-3" id="text-org41edffd">
 <div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">Carp</span><span class="p">;</span>
 <span class="n">a</span><span class="p">(</span><span class="s">"a_file"</span><span class="p">);</span> <span class="c1">#resume that a_file does exist</span>
 <span class="n">a</span><span class="p">(</span><span class="s">"b_file"</span><span class="p">);</span> <span class="c1">#resume that b_file does not exist</span>
@@ -114,9 +115,9 @@ a("b_file"'>
 </div>
 </div>
 
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">用dumper来print复杂的数据结构，便于debug</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-org63cbd5c" class="outline-3">
+<h3 id="org63cbd5c">用dumper来print复杂的数据结构，便于debug</h3>
+<div class="outline-text-3" id="text-org63cbd5c">
 <div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">Data::Dumper</span><span class="p">;</span>
 
 <span class="nv">$var</span> <span class="o">=</span> <span class="p">{</span><span class="s">"name"</span> <span class="o">=&gt;</span> <span class="s">"hello"</span><span class="p">,</span> <span class="s">"action"</span> <span class="o">=&gt;</span> <span class="s">"speak"</span> <span class="p">};</span>
@@ -125,9 +126,9 @@ a("b_file"'>
 </div>
 </div>
 
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4">用grep和map可以节省很多代码</h3>
-<div class="outline-text-3" id="text-1-4">
+<div id="outline-container-orga7efb3f" class="outline-3">
+<h3 id="orga7efb3f">用grep和map可以节省很多代码</h3>
+<div class="outline-text-3" id="text-orga7efb3f">
 <div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">@foos</span> <span class="o">=</span> <span class="nb">grep</span> <span class="p">{</span><span class="o">!</span><span class="sr">/^#/</span><span class="p">}</span> <span class="nv">@bars</span><span class="p">;</span>    <span class="c1"># weed out comments</span>
 
 <span class="k">my</span> <span class="nv">%hash</span> <span class="o">=</span> <span class="nb">map</span> <span class="p">{</span>  <span class="nb">lc</span><span class="p">(</span><span class="nv">$_</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="mi">1</span>  <span class="p">}</span> <span class="nv">@array</span>
@@ -137,9 +138,9 @@ a("b_file"'>
 </div>
 </div>
 
-<div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5">使用qq代替双引号，使用q代替单引号，list赋值使用qw</h3>
-<div class="outline-text-3" id="text-1-5">
+<div id="outline-container-orgc5cde22" class="outline-3">
+<h3 id="orgc5cde22">使用qq代替双引号，使用q代替单引号，list赋值使用qw</h3>
+<div class="outline-text-3" id="text-orgc5cde22">
 <div class="highlight"><pre><span></span><span class="nv">$a</span> <span class="o">=</span> <span class="sx">qq{"}</span><span class="p">;</span> <span class="c1">#{} is used for boundary</span>
 <span class="nv">$b</span> <span class="o">=</span> <span class="sx">qq!"!</span><span class="p">;</span> <span class="c1">#!! is the same</span>
 
@@ -150,9 +151,9 @@ a("b_file"'>
 </div>
 
 
-<div id="outline-container-sec-1-6" class="outline-3">
-<h3 id="sec-1-6">使用list的内置函数，不要重新发明轮子</h3>
-<div class="outline-text-3" id="text-1-6">
+<div id="outline-container-orgd092422" class="outline-3">
+<h3 id="orgd092422">使用list的内置函数，不要重新发明轮子</h3>
+<div class="outline-text-3" id="text-orgd092422">
 <div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">List::Util</span> <span class="sx">qw(max)</span><span class="p">;</span>
 
 <span class="k">my</span> <span class="nv">@vars</span> <span class="o">=</span> <span class="sx">qw(1 2 3)</span><span class="p">;</span>
@@ -161,9 +162,9 @@ a("b_file"'>
 </div>
 </div>
 
-<div id="outline-container-sec-1-7" class="outline-3">
-<h3 id="sec-1-7">打印多行的信息</h3>
-<div class="outline-text-3" id="text-1-7">
+<div id="outline-container-orga693bf6" class="outline-3">
+<h3 id="orga693bf6">打印多行的信息</h3>
+<div class="outline-text-3" id="text-orga693bf6">
 <div class="highlight"><pre><span></span><span class="nv">$a</span> <span class="o">=</span> <span class="s">"hello"</span><span class="p">;</span>
 <span class="k">print</span> <span class="s">&lt;&lt;</span><span class="dl">ENDOFPRINT</span><span class="s">;</span>
 <span class="s">Dear Lee,</span>
@@ -179,52 +180,52 @@ a("b_file"'>
 </div>
 </div>
 
-<div id="outline-container-sec-1-8" class="outline-3">
-<h3 id="sec-1-8">只想做语法检查</h3>
-<div class="outline-text-3" id="text-1-8">
+<div id="outline-container-orgb813683" class="outline-3">
+<h3 id="orgb813683">只想做语法检查</h3>
+<div class="outline-text-3" id="text-orgb813683">
 <div class="highlight"><pre><span></span>perl -cwT test.pl
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-9" class="outline-3">
-<h3 id="sec-1-9">查看Perl默认的include路径</h3>
-<div class="outline-text-3" id="text-1-9">
+<div id="outline-container-org625155e" class="outline-3">
+<h3 id="org625155e">查看Perl默认的include路径</h3>
+<div class="outline-text-3" id="text-org625155e">
 <div class="highlight"><pre><span></span>perl -e <span class="s2">"print join(qq{\n}, @INC);"</span>
 </pre></div>
 </div>
 </div>
 
 
-<div id="outline-container-sec-1-10" class="outline-3">
-<h3 id="sec-1-10">使用自己的local路径下的库</h3>
-<div class="outline-text-3" id="text-1-10">
+<div id="outline-container-orgd2b4957" class="outline-3">
+<h3 id="orgd2b4957">使用自己的local路径下的库</h3>
+<div class="outline-text-3" id="text-orgd2b4957">
 <div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">lib</span> <span class="s">'/home/xx/eda_scripts/pm'</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-11" class="outline-3">
-<h3 id="sec-1-11">查看perl的pod格式的说明</h3>
-<div class="outline-text-3" id="text-1-11">
+<div id="outline-container-orgc09cf6e" class="outline-3">
+<h3 id="orgc09cf6e">查看perl的pod格式的说明</h3>
+<div class="outline-text-3" id="text-orgc09cf6e">
 <div class="highlight"><pre><span></span>perldoc rvp.pm
 perldoc perldoc
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-12" class="outline-3">
-<h3 id="sec-1-12">Perl5.8之后的版本，可以在数据中间加下划线</h3>
-<div class="outline-text-3" id="text-1-12">
+<div id="outline-container-org4cad7a1" class="outline-3">
+<h3 id="org4cad7a1">Perl5.8之后的版本，可以在数据中间加下划线</h3>
+<div class="outline-text-3" id="text-org4cad7a1">
 <div class="highlight"><pre><span></span><span class="nv">$a</span> <span class="o">=</span> <span class="mi">111_222</span><span class="p">;</span>
 <span class="k">print</span> <span class="s">"a = "</span><span class="p">,</span> <span class="nv">$a</span> <span class="p">,</span> <span class="s">"\n"</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-13" class="outline-3">
-<h3 id="sec-1-13">调用其他shell命令，同时获得shell命令的STDERR以及STDOUT信息</h3>
-<div class="outline-text-3" id="text-1-13">
+<div id="outline-container-org030bd1f" class="outline-3">
+<h3 id="org030bd1f">调用其他shell命令，同时获得shell命令的STDERR以及STDOUT信息</h3>
+<div class="outline-text-3" id="text-org030bd1f">
 <div class="highlight"><pre><span></span><span class="nv">$pid</span> <span class="o">=</span> <span class="nb">open</span> <span class="nv">$readme</span><span class="p">,</span> <span class="s">"-|"</span><span class="p">,</span> <span class="s">"$cmd 2&gt;&amp;1"</span><span class="p">;</span>
 <span class="k">while</span> <span class="p">(</span><span class="sr">&lt;$readme&gt;</span><span class="p">)</span> <span class="p">{</span>
     <span class="nb">push</span><span class="p">(</span><span class="nv">@out</span><span class="p">,</span> <span class="nv">$_</span><span class="p">);</span>
@@ -235,9 +236,9 @@ perldoc perldoc
 </div>
 
 
-<div id="outline-container-sec-1-14" class="outline-3">
-<h3 id="sec-1-14">Perl使用子线程，获得子线程的STDERR信息</h3>
-<div class="outline-text-3" id="text-1-14">
+<div id="outline-container-orgfc00965" class="outline-3">
+<h3 id="orgfc00965">Perl使用子线程，获得子线程的STDERR信息</h3>
+<div class="outline-text-3" id="text-orgfc00965">
 <div class="highlight"><pre><span></span><span class="nb">pipe</span><span class="p">(</span><span class="n">READER</span><span class="p">,</span> <span class="n">WRITER</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">"pipe no good: $!"</span><span class="p">;</span>
 <span class="k">my</span> <span class="nv">$pid</span> <span class="o">=</span> <span class="nb">fork</span><span class="p">();</span>
 <span class="nb">die</span> <span class="s">"Can no fork: $!"</span> <span class="k">unless</span> <span class="nb">defined</span> <span class="nv">$pid</span><span class="p">;</span>
@@ -258,129 +259,129 @@ perldoc perldoc
 </div>
 </div>
 
-<div id="outline-container-sec-1-15" class="outline-3">
-<h3 id="sec-1-15">多线程</h3>
-<div class="outline-text-3" id="text-1-15">
+<div id="outline-container-org2351573" class="outline-3">
+<h3 id="org2351573">多线程</h3>
+<div class="outline-text-3" id="text-org2351573">
 </div>
-<div id="outline-container-sec-1-15-1" class="outline-4">
-<h4 id="sec-1-15-1">因为fork是复制出一个完全一样的进程，所以“go on”会被print 2 次。</h4>
-<div class="outline-text-4" id="text-1-15-1">
-<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$pid</span> <span class="o">=</span> <span class="nb">fork</span><span class="p">();</span>
-<span class="k">if</span><span class="p">(</span><span class="nv">$pid</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">#parent</span>
-    <span class="k">print</span> <span class="s">"in parent\n"</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="k">else</span> <span class="p">{</span>
-    <span class="c1">#child</span>
-    <span class="k">print</span> <span class="s">"in child\n"</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="k">print</span> <span class="s">"go on\n"</span><span class="p">;</span>
+<div id="outline-container-orgb0e2510" class="outline-4">
+<h4 id="orgb0e2510">因为fork是复制出一个完全一样的进程，所以“go on”会被print 2 次。</h4>
+<div class="outline-text-4" id="text-orgb0e2510">
+<div class="highlight"><pre><span></span> <span class="k">my</span> <span class="nv">$pid</span> <span class="o">=</span> <span class="nb">fork</span><span class="p">();</span>
+ <span class="k">if</span><span class="p">(</span><span class="nv">$pid</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">#parent</span>
+     <span class="k">print</span> <span class="s">"in parent\n"</span><span class="p">;</span>
+ <span class="p">}</span>
+ <span class="k">else</span> <span class="p">{</span>
+     <span class="c1">#child</span>
+     <span class="k">print</span> <span class="s">"in child\n"</span><span class="p">;</span>
+ <span class="p">}</span>
+ <span class="k">print</span> <span class="s">"go on\n"</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-15-2" class="outline-4">
-<h4 id="sec-1-15-2">child process中途退出了，所以 “go on”只被print 1次</h4>
-<div class="outline-text-4" id="text-1-15-2">
-<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$pid</span> <span class="o">=</span> <span class="nb">fork</span><span class="p">();</span>
-<span class="k">if</span><span class="p">(</span><span class="nv">$pid</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">#parent</span>
-    <span class="k">print</span> <span class="s">"in parent\n"</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="k">else</span> <span class="p">{</span>
-    <span class="c1">#child</span>
-    <span class="k">print</span> <span class="s">"in child\n"</span><span class="p">;</span>
-    <span class="nb">exit</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="k">print</span> <span class="s">"go on\n"</span><span class="p">;</span>
+<div id="outline-container-org09233fb" class="outline-4">
+<h4 id="org09233fb">child process中途退出了，所以 “go on”只被print 1次</h4>
+<div class="outline-text-4" id="text-org09233fb">
+<div class="highlight"><pre><span></span> <span class="k">my</span> <span class="nv">$pid</span> <span class="o">=</span> <span class="nb">fork</span><span class="p">();</span>
+ <span class="k">if</span><span class="p">(</span><span class="nv">$pid</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">#parent</span>
+     <span class="k">print</span> <span class="s">"in parent\n"</span><span class="p">;</span>
+ <span class="p">}</span>
+ <span class="k">else</span> <span class="p">{</span>
+     <span class="c1">#child</span>
+     <span class="k">print</span> <span class="s">"in child\n"</span><span class="p">;</span>
+     <span class="nb">exit</span><span class="p">;</span>
+ <span class="p">}</span>
+ <span class="k">print</span> <span class="s">"go on\n"</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-15-3" class="outline-4">
-<h4 id="sec-1-15-3">child process通过exec，替换掉当前process，所以 “never print this”不会被print</h4>
-<div class="outline-text-4" id="text-1-15-3">
-<div class="highlight"><pre><span></span><span class="k">my</span> <span class="nv">$pid</span> <span class="o">=</span> <span class="nb">fork</span><span class="p">();</span>
+<div id="outline-container-orgf0acb67" class="outline-4">
+<h4 id="orgf0acb67">child process通过exec，替换掉当前process，所以 “never print this”不会被print</h4>
+<div class="outline-text-4" id="text-orgf0acb67">
+<div class="highlight"><pre><span></span>  <span class="k">my</span> <span class="nv">$pid</span> <span class="o">=</span> <span class="nb">fork</span><span class="p">();</span>
 
-<span class="k">if</span><span class="p">(</span><span class="nv">$pid</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">#parent</span>
-    <span class="k">print</span> <span class="s">"in parent\n"</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="k">else</span> <span class="p">{</span>
-    <span class="c1">#child</span>
-    <span class="k">print</span> <span class="s">"in child\n"</span><span class="p">;</span>
-    <span class="nb">exec</span><span class="p">(</span><span class="s">"ls"</span><span class="p">);</span>
-    <span class="k">print</span> <span class="s">"never print this.\n"</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="k">print</span> <span class="s">"go on\n"</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="nv">$pid</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">#parent</span>
+      <span class="k">print</span> <span class="s">"in parent\n"</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">#child</span>
+      <span class="k">print</span> <span class="s">"in child\n"</span><span class="p">;</span>
+      <span class="nb">exec</span><span class="p">(</span><span class="s">"ls"</span><span class="p">);</span>
+      <span class="k">print</span> <span class="s">"never print this.\n"</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">print</span> <span class="s">"go on\n"</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-15-4" class="outline-4">
-<h4 id="sec-1-15-4">eval{}是一种保护性写法。eval的运行结果放在$@里。可以结合alarm handler来完成很多应用</h4>
-<div class="outline-text-4" id="text-1-15-4">
-<div class="highlight"><pre><span></span><span class="k">print</span> <span class="bp">STDERR</span> <span class="s">"type your password: "</span><span class="p">;</span>
-<span class="k">my</span> <span class="nv">$password</span> <span class="o">=</span>
-<span class="nb">eval</span> <span class="p">{</span>
-<span class="nb">local</span> <span class="nv">$SIG</span><span class="p">{</span><span class="n">ALRM</span><span class="p">}</span> <span class="o">=</span> <span class="k">sub</span> <span class="p">{</span> <span class="nb">die</span> <span class="s">"timeout\n"</span> <span class="p">};</span>
-<span class="nb">alarm</span> <span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="c1"># five second timeout</span>
-<span class="k">return</span> <span class="sr">&lt;STDIN&gt;</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="nb">alarm</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="k">print</span> <span class="bp">STDERR</span> <span class="s">"you timed out\n"</span> <span class="k">if</span> <span class="vg">$@</span> <span class="o">=~</span><span class="sr"> /timeout/</span><span class="p">;</span>
+<div id="outline-container-orgb7dfdba" class="outline-4">
+<h4 id="orgb7dfdba">eval{}是一种保护性写法。eval的运行结果放在$@里。可以结合alarm handler来完成很多应用</h4>
+<div class="outline-text-4" id="text-orgb7dfdba">
+<div class="highlight"><pre><span></span>  <span class="k">print</span> <span class="bp">STDERR</span> <span class="s">"type your password: "</span><span class="p">;</span>
+  <span class="k">my</span> <span class="nv">$password</span> <span class="o">=</span>
+  <span class="nb">eval</span> <span class="p">{</span>
+  <span class="nb">local</span> <span class="nv">$SIG</span><span class="p">{</span><span class="n">ALRM</span><span class="p">}</span> <span class="o">=</span> <span class="k">sub</span> <span class="p">{</span> <span class="nb">die</span> <span class="s">"timeout\n"</span> <span class="p">};</span>
+  <span class="nb">alarm</span> <span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="c1"># five second timeout</span>
+  <span class="k">return</span> <span class="sr">&lt;STDIN&gt;</span><span class="p">;</span>
+  <span class="p">};</span>
+  <span class="nb">alarm</span> <span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="k">print</span> <span class="bp">STDERR</span> <span class="s">"you timed out\n"</span> <span class="k">if</span> <span class="vg">$@</span> <span class="o">=~</span><span class="sr"> /timeout/</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-15-5" class="outline-4">
-<h4 id="sec-1-15-5">reaper函数，非阻塞式（WNOHANG）的处理所有子进程，$kid等于-1的时候，表示没有需要回收的进程，跳出reaper函数</h4>
-<div class="outline-text-4" id="text-1-15-5">
-<div class="highlight"><pre><span></span><span class="k">use</span> <span class="nn">POSIX</span> <span class="s">'WNOHANG'</span><span class="p">;</span>
-<span class="nv">$SIG</span><span class="p">{</span><span class="n">CHLD</span><span class="p">}</span> <span class="o">=</span> <span class="o">\&amp;</span><span class="n">reaper</span><span class="p">;</span>
-<span class="k">sub</span> <span class="nf">reaper</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">((</span><span class="k">my</span> <span class="nv">$kid</span> <span class="o">=</span> <span class="nb">waitpid</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">WNOHANG</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nb">warn</span> <span class="s">"Reaped child with PID $kid\n"</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div id="outline-container-org1a077cb" class="outline-4">
+<h4 id="org1a077cb">reaper函数，非阻塞式（WNOHANG）的处理所有子进程，$kid等于-1的时候，表示没有需要回收的进程，跳出reaper函数</h4>
+<div class="outline-text-4" id="text-org1a077cb">
+<div class="highlight"><pre><span></span>  <span class="k">use</span> <span class="nn">POSIX</span> <span class="s">'WNOHANG'</span><span class="p">;</span>
+  <span class="nv">$SIG</span><span class="p">{</span><span class="n">CHLD</span><span class="p">}</span> <span class="o">=</span> <span class="o">\&amp;</span><span class="n">reaper</span><span class="p">;</span>
+  <span class="k">sub</span> <span class="nf">reaper</span> <span class="p">{</span>
+      <span class="k">while</span> <span class="p">((</span><span class="k">my</span> <span class="nv">$kid</span> <span class="o">=</span> <span class="nb">waitpid</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">WNOHANG</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nb">warn</span> <span class="s">"Reaped child with PID $kid\n"</span><span class="p">;</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-16" class="outline-3">
-<h3 id="sec-1-16">reference</h3>
-<div class="outline-text-3" id="text-1-16">
+<div id="outline-container-org92a9a5d" class="outline-3">
+<h3 id="org92a9a5d">reference</h3>
+<div class="outline-text-3" id="text-org92a9a5d">
 <p>
 类似c语言的指针
 </p>
 
-<div class="highlight"><pre><span></span><span class="nv">@vars</span> <span class="o">=</span> <span class="p">();</span>
-<span class="nv">$vars_ref</span> <span class="o">=</span> <span class="o">\</span><span class="nv">@vars</span><span class="p">;</span>
+<div class="highlight"><pre><span></span> <span class="nv">@vars</span> <span class="o">=</span> <span class="p">();</span>
+ <span class="nv">$vars_ref</span> <span class="o">=</span> <span class="o">\</span><span class="nv">@vars</span><span class="p">;</span>
 
-<span class="nv">$a_href</span> <span class="o">=</span> <span class="p">{};</span>
-<span class="nv">$b_href</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"name"</span> <span class="o">=&gt;</span> <span class="s">"b"</span><span class="p">,</span> <span class="s">"action"</span> <span class="o">=&gt;</span> <span class="s">"speak"</span><span class="p">,</span> <span class="p">};</span>
-<span class="nv">$c_href</span> <span class="o">=</span> <span class="p">{</span><span class="nv">%</span><span class="p">{</span><span class="nv">$b_href</span><span class="p">}};</span>
+ <span class="nv">$a_href</span> <span class="o">=</span> <span class="p">{};</span>
+ <span class="nv">$b_href</span> <span class="o">=</span> <span class="p">{</span> <span class="s">"name"</span> <span class="o">=&gt;</span> <span class="s">"b"</span><span class="p">,</span> <span class="s">"action"</span> <span class="o">=&gt;</span> <span class="s">"speak"</span><span class="p">,</span> <span class="p">};</span>
+ <span class="nv">$c_href</span> <span class="o">=</span> <span class="p">{</span><span class="nv">%</span><span class="p">{</span><span class="nv">$b_href</span><span class="p">}};</span>
 
 
-<span class="nv">$tmp</span> <span class="o">=</span> <span class="s">"name"</span><span class="p">;</span>
-<span class="k">print</span> <span class="nv">$c_href</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$tmp</span><span class="p">},</span> <span class="s">"\n"</span><span class="p">;</span> <span class="c1">#This is called a symbolic reference</span>
+ <span class="nv">$tmp</span> <span class="o">=</span> <span class="s">"name"</span><span class="p">;</span>
+ <span class="k">print</span> <span class="nv">$c_href</span><span class="o">-&gt;</span><span class="p">{</span><span class="nv">$tmp</span><span class="p">},</span> <span class="s">"\n"</span><span class="p">;</span> <span class="c1">#This is called a symbolic reference</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-17" class="outline-3">
-<h3 id="sec-1-17">安装module</h3>
-<div class="outline-text-3" id="text-1-17">
-<div class="highlight"><pre><span></span>cpan install Template
-cpan install XML::Rabbit
+<div id="outline-container-orgf80a402" class="outline-3">
+<h3 id="orgf80a402">安装module</h3>
+<div class="outline-text-3" id="text-orgf80a402">
+<div class="highlight"><pre><span></span> cpan install Template
+ cpan install XML::Rabbit
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-18" class="outline-3">
-<h3 id="sec-1-18">好用的module</h3>
-<div class="outline-text-3" id="text-1-18">
+<div id="outline-container-orgac31b16" class="outline-3">
+<h3 id="orgac31b16">好用的module</h3>
+<div class="outline-text-3" id="text-orgac31b16">
 <p>
 <a href="http://template-toolkit.org/docs/">Template Toolkit</a>
 </p>
@@ -409,18 +410,18 @@ cpan install XML::Rabbit
 </div>
 
 
-<div id="outline-container-sec-1-19" class="outline-3">
-<h3 id="sec-1-19">Perl 在验证中的应用</h3>
-<div class="outline-text-3" id="text-1-19">
+<div id="outline-container-orgf01e281" class="outline-3">
+<h3 id="orgf01e281">Perl 在验证中的应用</h3>
+<div class="outline-text-3" id="text-orgf01e281">
 <p>
 <a href="http://www.doulos.com/content/events/easierUVM.php">easier UVM</a>
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-20" class="outline-3">
-<h3 id="sec-1-20">Perl 参考网站</h3>
-<div class="outline-text-3" id="text-1-20">
+<div id="outline-container-orgc1e1cd9" class="outline-3">
+<h3 id="orgc1e1cd9">Perl 参考网站</h3>
+<div class="outline-text-3" id="text-orgc1e1cd9">
 <p>
 <a href="http://perldoc.perl.org/">perldoc</a>
 </p>

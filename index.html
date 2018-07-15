@@ -15,7 +15,7 @@ article: http://ogp.me/ns/article#
 <!--[if lt IE 9]>
             <script src="assets/js/html5shiv.min.js"></script>
             <script src="assets/js/respond.min.js"></script>
-        <![endif]--><link rel="prefetch" href="posts/install-perl-module-without-root-priviledge/" type="text/html">
+        <![endif]--><link rel="prefetch" href="posts/test/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -51,7 +51,21 @@ article: http://ogp.me/ns/article#
 
     <div class="postindex well post-material ">
     
-        <article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/install-perl-module-without-root-priviledge/" class="u-url">Install Perl Module without Root Priviledge</a></h1>
+        <article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/test/" class="u-url">I am back</a></h1>
+            <div class="metadata">
+                <span class="byline author vcard">
+                        <i class="mdi-action-face-unlock"></i>
+                    Yao He
+                </span>
+                <span class="dateline"><a href="posts/test/" rel="bookmark">
+                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2018-07-15T19:14:08+08:00" title="2018-07-15 19:14">2018-07-15 19:14</time></a></span>
+            </div>
+            <hr></header><div class="e-content entry-content">
+        <p>
+Long time no see.
+</p>
+        </div>
+        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/install-perl-module-without-root-priviledge/" class="u-url">Install Perl Module without Root Priviledge</a></h1>
             <div class="metadata">
                 <span class="byline author vcard">
                         <i class="mdi-action-face-unlock"></i>
@@ -164,8 +178,13 @@ tmux has-session -t bba
 tmux attach -t bba
 </pre></div>
 
-<img src="images/tmuxworkflow.png" class="img-thumbnail" width="90%">
+<div class="HTML">
+<p>
+&lt;img src="../../images/tmuxworkflow.png" class="img-thumbnail" width="90%" &gt;
+</p>
+
 </div>
+        </div>
         </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-12-09-tmux-part2/" class="u-url">Tmux Introduction II</a></h1>
             <div class="metadata">
                 <span class="byline author vcard">
@@ -251,8 +270,13 @@ setw -g mode-keys vi
 调整好了再看看tmux的样式.
 </p>
 
-<img src="images/tmuxconf.png" class="img-thumbnail" width="90%">
+<div class="HTML">
+<p>
+&lt;img src="../../images/tmuxconf.png" class="img-thumbnail" width="90%" &gt;
+</p>
+
 </div>
+        </div>
         </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-12-06-tmux-part1/" class="u-url">Tmux Introduction I</a></h1>
             <div class="metadata">
                 <span class="byline author vcard">
@@ -263,9 +287,9 @@ setw -g mode-keys vi
                     <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-12-06T22:35:32+08:00" title="2017-12-06 22:35">2017-12-06 22:35</time></a></span>
             </div>
             <hr></header><div class="e-content entry-content">
-        <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">什么是Tmux?</h2>
-<div class="outline-text-2" id="text-1">
+        <div id="outline-container-org53f476c" class="outline-2">
+<h2 id="org53f476c">什么是Tmux?</h2>
+<div class="outline-text-2" id="text-org53f476c">
 <p>
 Tmux可以理解为是一个terminal控制器, 是对我们的terminal的扩展, 同时我们可以利用它来建立自己的一套workflow.
 </p>
@@ -274,15 +298,22 @@ Tmux可以理解为是一个terminal控制器, 是对我们的terminal的扩展,
 先上一张图,感受一下.
 </p>
 
-<img src="images/tmux.png" class="img-thumbnail" width="90%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/tmux.png" class="img-thumbnail" width="90%" &gt;
+</p>
+
+</div>
+
+<p>
 Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2个部分.
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">为什么要用Tmux?</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orga23646f" class="outline-2">
+<h2 id="orga23646f">为什么要用Tmux?</h2>
+<div class="outline-text-2" id="text-orga23646f">
 <p>
 原因一, 在一个Terminal上实现了多窗口控制,便于写代码同时调试;
 </p>
@@ -297,9 +328,9 @@ Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">怎么用Tmux?</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-org05bf749" class="outline-2">
+<h2 id="org05bf749">怎么用Tmux?</h2>
+<div class="outline-text-2" id="text-org05bf749">
 <p>
 首先,先建立一个Tmux进程, 这里有专门的术语session.
 </p>
@@ -311,11 +342,25 @@ Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2
 我们通过上面的命令得到了一个Tmux session,名字叫abc.
 </p>
 
-<img src="images/newsession.png" class="img-thumbnail" width="90%"><p>
-这个时候Terminal底部的绿色状态栏提示我们,目前是在一个Tmux的session中.现在我们就可以做一些分割窗口的操作了.Tmux的所有命令都有同样的一个前缀,就是"ctrl-b"<sup><a id="fnr.1" name="fnr.1" class="footref" href="posts/2017-12-06-tmux-part1/#fn.1">1</a></sup>. 我们按"ctrl-b", 然后按"%", 为了便于说明我用"prefix %"来表示. Terminal就被竖直分成了两个部分.这每一部分称为pane.在pane之间来回移动光标的命令是"prefix o"<sup><a id="fnr.2" name="fnr.2" class="footref" href="posts/2017-12-06-tmux-part1/#fn.2">2</a></sup>.
+<div class="HTML">
+<p>
+&lt;img src="../../images/newsession.png" class="img-thumbnail" width="90%" &gt;          
 </p>
 
-<img src="images/split.png" class="img-thumbnail" width="90%"><p>
+</div>
+
+<p>
+这个时候Terminal底部的绿色状态栏提示我们,目前是在一个Tmux的session中.现在我们就可以做一些分割窗口的操作了.Tmux的所有命令都有同样的一个前缀,就是"ctrl-b"<sup><a id="fnr.1" class="footref" href="posts/2017-12-06-tmux-part1/#fn.1">1</a></sup>. 我们按"ctrl-b", 然后按"%", 为了便于说明我用"prefix %"来表示. Terminal就被竖直分成了两个部分.这每一部分称为pane.在pane之间来回移动光标的命令是"prefix o"<sup><a id="fnr.2" class="footref" href="posts/2017-12-06-tmux-part1/#fn.2">2</a></sup>.
+</p>
+
+<div class="HTML">
+<p>
+&lt;img src="../../images/split.png" class="img-thumbnail" width="90%" &gt;          
+</p>
+
+</div>
+
+<p>
 我们先断开session连接, 命令是"prefix d".
 </p>
 
@@ -329,7 +374,14 @@ Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2
 <p>
 结果显示如下, 有一个Tmux后台进程, session名为abc.
 </p>
-<img src="images/tmuxls.png" class="img-thumbnail" width="90%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/tmuxls.png" class="img-thumbnail" width="90%" &gt;          
+</p>
+
+</div>
+
+<p>
 我们再通过下面的命令,重新连接到session abc去.
 </p>
 
@@ -338,9 +390,9 @@ Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">window概念</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-org720a7e9" class="outline-2">
+<h2 id="org720a7e9">window概念</h2>
+<div class="outline-text-2" id="text-org720a7e9">
 <p>
 连接或者新打开一个session, 我们就得到了一个window. window可以被拆成若干pane.
 新建一个window的快捷键是"prefix c", 关闭一个window的快捷键是"prefix &amp;".
@@ -348,9 +400,9 @@ Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">buffer概念</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orgd5e3c0c" class="outline-2">
+<h2 id="orgd5e3c0c">buffer概念</h2>
+<div class="outline-text-2" id="text-orgd5e3c0c">
 <p>
 当我们想copy terminal显示的内容时, 我们需要进入buffer模式, 快捷键是"prefix [".
 </p>
@@ -363,7 +415,14 @@ Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2
 在非buffer模式, 如果想paste内容, 快捷键是"prefix ]".
 </p>
 
-<img src="images/tmuxbuf.png" class="img-thumbnail" width="90%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/tmuxbuf.png" class="img-thumbnail" width="90%" &gt;   
+</p>
+
+</div>
+
+<p>
 注意右上脚的行号显示, 表示我们现在是buffer模式. (按"q"退出buffer模式)
 </p>
 </div>
@@ -373,15 +432,15 @@ Terminal的上半部分是打开了vim准备编辑, 下半部分竖直拆分成2
 <div id="text-footnotes">
 
 <div class="footdef">
-<sup><a id="fn.1" name="fn.1" class="footnum" href="posts/2017-12-06-tmux-part1/#fnr.1">1</a></sup><p class="footpara">
+<sup><a id="fn.1" class="footnum" href="posts/2017-12-06-tmux-part1/#fnr.1">1</a></sup><div class="footpara"><p class="footpara">
 "-"表示两个键同时按.
-</p>
+</p></div>
 </div>
 
 <div class="footdef">
-<sup><a id="fn.2" name="fn.2" class="footnum" href="posts/2017-12-06-tmux-part1/#fnr.2">2</a></sup><p class="footpara">
+<sup><a id="fn.2" class="footnum" href="posts/2017-12-06-tmux-part1/#fnr.2">2</a></sup><div class="footpara"><p class="footpara">
 " "表示按键依次按.
-</p>
+</p></div>
 </div>
 
 
@@ -435,7 +494,14 @@ agent3 u_agent_3(.clk1(clk),.rst1(rst));
 如图所示。
 </p>
 
-<img src="images/emacs.PNG" class="img-thumbnail" width="60%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/emacs.PNG" class="img-thumbnail" width="60%" &gt;          
+</p>
+
+</div>
+
+<p>
 经过4轮的"yynn"后就得到了下面的代码。
 </p>
 <div class="highlight"><pre><span></span>agent0 u_agent_0(.clk1(clk),.rst1(rst));
@@ -453,8 +519,19 @@ agent7 u_agent_7(.clk1(clk),.rst1(rst));
 这个过程略显复杂，如果是emacs版本25.2的话，就可以使用(rectangle-mark-mode)来单独选中要改变的列，然后整体替换就ok了。
 如下图所示。
 </p>
-<img src="images/emacs-rect.PNG" class="img-thumbnail" width="60%"><img src="images/emacs-rect-2.PNG" class="img-thumbnail" width="60%">
+<div class="HTML">
+<p>
+&lt;img src="../../images/emacs-rect.PNG" class="img-thumbnail" width="60%" &gt;
+</p>
+
 </div>
+<div class="HTML">
+<p>
+&lt;img src="../../images/emacs-rect-2.PNG" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
+        </div>
         </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-09-22-openxmlformat/" class="u-url">Use Openxmlformat to Generate WORD DOC</a></h1>
             <div class="metadata">
                 <span class="byline author vcard">
@@ -465,9 +542,9 @@ agent7 u_agent_7(.clk1(clk),.rst1(rst));
                     <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-09-22T11:55:32+08:00" title="2017-09-22 11:55">2017-09-22 11:55</time></a></span>
             </div>
             <hr></header><div class="e-content entry-content">
-        <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Generating MS-WORD doc using openxmlformat</h2>
-<div class="outline-text-2" id="text-1">
+        <div id="outline-container-org3314c38" class="outline-2">
+<h2 id="org3314c38">Generating MS-WORD doc using openxmlformat</h2>
+<div class="outline-text-2" id="text-org3314c38">
 <p>
 使用openxmlformat格式来描述，可以用WORD打开的xml文档。
 </p>
@@ -484,22 +561,43 @@ agent7 u_agent_7(.clk1(clk),.rst1(rst));
                     <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-09-12T10:35:32+08:00" title="2017-09-12 10:35">2017-09-12 10:35</time></a></span>
             </div>
             <hr></header><div class="e-content entry-content">
-        <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Generate Tags for Emacs by Verdi</h2>
-<div class="outline-text-2" id="text-1">
+        <div id="outline-container-org9fd8f90" class="outline-2">
+<h2 id="org9fd8f90">Generate Tags for Emacs by Verdi</h2>
+<div class="outline-text-2" id="text-org9fd8f90">
 <p>
 无意中看到SNUG的一个文章，作者通过使用Verdi来生成Emacs以及Vim的tags文件，很棒。我一直没有找到特别好的办法来用Emacs浏览verilog 代码工程，之前也是使用Emacs的插件projectile来grep关键字。我赶紧按照作者的描述操作起来了。
 </p>
 
-<img src="images/tags.png" class="img-thumbnail" width="60%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/tags.png" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
+
+<p>
 作者的tcl脚本是放在<a href="https://www.vc-apps.org/sitepages/downloadList.aspx">这里的</a> ，居然排在第一个。
 </p>
 
-<img src="images/vcc.PNG" class="img-thumbnail" width="60%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/vcc.PNG" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
+
+<p>
 在Verdi打开tcl命令窗口，然后source下载的tcl脚本。
 </p>
 
-<img src="images/verdi.PNG" class="img-thumbnail" width="60%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/verdi.PNG" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
+
+<p>
 生成的vim版本的tags文件是ok的，能用。Emacs版本的TAGS文件居然不能跳转！
 </p>
 
@@ -511,192 +609,52 @@ agent7 u_agent_7(.clk1(clk),.rst1(rst));
 再看了一遍论文，作者文字描述的格式和他实际脚本生成的TAGS格式不一致，把tag_definition_text丢掉了，所以跳转有问题。
 </p>
 
-<img src="images/emacs_tags_format.png" class="img-thumbnail" width="60%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/emacs_tags_format.png" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
+
+<p>
 去<a href="https://www.vc-apps.org/sitepages/gettingstarted.aspx">官网</a>查到了npi参考手册，fix一下tcl代码。
 </p>
 
-<div class="highlight"><pre><span></span><span class="k">foreach</span> <span class="k">{</span><span class="nv">index</span> tagInfo<span class="k">}</span> <span class="nv">$sorted_ident</span> <span class="k">{</span>
-  <span class="k">set</span> srcFile <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">1</span><span class="k">]</span>
-  <span class="k">if</span> <span class="k">{</span><span class="nv">$fileName</span> <span class="o">==</span> <span class="nv">$srcFile</span><span class="k">}</span> <span class="k">{</span>
-    <span class="k">set</span> tag <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">0</span><span class="k">]</span>
-    <span class="k">set</span> line <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">2</span><span class="k">]</span>
-    <span class="k">set</span> offset <span class="nv">$byteCounts</span><span class="k">(</span><span class="nv">$line</span><span class="k">)</span>
+<div class="highlight"><pre><span></span>  <span class="k">foreach</span> <span class="k">{</span><span class="nv">index</span> tagInfo<span class="k">}</span> <span class="nv">$sorted_ident</span> <span class="k">{</span>
+    <span class="k">set</span> srcFile <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">1</span><span class="k">]</span>
+    <span class="k">if</span> <span class="k">{</span><span class="nv">$fileName</span> <span class="o">==</span> <span class="nv">$srcFile</span><span class="k">}</span> <span class="k">{</span>
+      <span class="k">set</span> tag <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">0</span><span class="k">]</span>
+      <span class="k">set</span> line <span class="k">[</span><span class="nb">lindex</span> <span class="k">[</span><span class="nb">split</span> <span class="nv">$tagInfo</span><span class="k">]</span> <span class="mi">2</span><span class="k">]</span>
+      <span class="k">set</span> offset <span class="nv">$byteCounts</span><span class="k">(</span><span class="nv">$line</span><span class="k">)</span>
 
-    <span class="c">#======= fix by yaohe begin ===========#</span>
-      <span class="c">#set entry "\x7f$tag\x01,$offset"</span>
-      <span class="k">set</span> file_hdl <span class="k">[</span><span class="nv">npi_text_file_by_name</span> <span class="o">-</span>name <span class="s2">"$srcFile"</span><span class="k">]</span>
-      <span class="k">set</span> line_hdl <span class="k">[</span><span class="nv">npi_text_line_by_number</span> <span class="o">-</span>ref <span class="nv">$file_hdl</span> <span class="o">-</span>number <span class="nv">$line</span><span class="k">]</span>
-      <span class="k">set</span> line_content <span class="k">[</span><span class="nv">npi_text_property_str</span> <span class="o">-</span>type npiTextLineContent <span class="o">-</span>ref <span class="nv">$line_hdl</span><span class="k">]</span>
-      <span class="nb">regsub</span> <span class="k">{</span><span class="err">\</span><span class="nv">n</span><span class="err">$</span><span class="k">}</span> <span class="nv">$line_content</span> <span class="k">{}</span> line_content
-      <span class="k">set</span> entry <span class="s2">"$line_content\x7f$line,$offset"</span>
-    <span class="c">#======= fix by yaohe end ===========#</span>
+      <span class="c">#======= fix by yaohe begin ===========#</span>
+	<span class="c">#set entry "\x7f$tag\x01,$offset"</span>
+	<span class="k">set</span> file_hdl <span class="k">[</span><span class="nv">npi_text_file_by_name</span> <span class="o">-</span>name <span class="s2">"$srcFile"</span><span class="k">]</span>
+	<span class="k">set</span> line_hdl <span class="k">[</span><span class="nv">npi_text_line_by_number</span> <span class="o">-</span>ref <span class="nv">$file_hdl</span> <span class="o">-</span>number <span class="nv">$line</span><span class="k">]</span>
+	<span class="k">set</span> line_content <span class="k">[</span><span class="nv">npi_text_property_str</span> <span class="o">-</span>type npiTextLineContent <span class="o">-</span>ref <span class="nv">$line_hdl</span><span class="k">]</span>
+	<span class="nb">regsub</span> <span class="k">{</span><span class="err">\</span><span class="nv">n</span><span class="err">$</span><span class="k">}</span> <span class="nv">$line_content</span> <span class="k">{}</span> line_content
+	<span class="k">set</span> entry <span class="s2">"$line_content\x7f$line,$offset"</span>
+      <span class="c">#======= fix by yaohe end ===========#</span>
 
-    <span class="nb">append</span> entryList <span class="s2">"\n"</span> <span class="nv">$entry</span>
+      <span class="nb">append</span> entryList <span class="s2">"\n"</span> <span class="nv">$entry</span>
+    <span class="k">}</span>
   <span class="k">}</span>
-<span class="k">}</span>
 </pre></div>
 
 <p>
 终于好用了。
 </p>
 
-<img src="images/emacs_tags_ok.png" class="img-thumbnail" width="60%"><p>
+<div class="HTML">
+<p>
+&lt;img src="../../images/emacs_tags_ok.png" class="img-thumbnail" width="60%" &gt;
+</p>
+
+</div>
+
+<p>
 新的tcl代码我备份我的<a href="https://github.com/stephen0921/GenEmacsTagsByVerdi">github</a>上，因为实在联系不上作者。
 </p>
-</div>
-</div>
-        </div>
-        </article><article class="h-entry post-text"><header><h1 class="p-name entry-title header"><a href="posts/2017-09-11-uvm-ref-flow1/" class="u-url">UVM Example Reference 1</a></h1>
-            <div class="metadata">
-                <span class="byline author vcard">
-                        <i class="mdi-action-face-unlock"></i>
-                    Yao He
-                </span>
-                <span class="dateline"><a href="posts/2017-09-11-uvm-ref-flow1/" rel="bookmark">
-                    <i class="mdi-device-access-time"></i><time class="published dt-published" datetime="2017-09-11T15:05:32+08:00" title="2017-09-11 15:05">2017-09-11 15:05</time></a></span>
-            </div>
-            <hr></header><div class="e-content entry-content">
-        <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">UVM Example Reference 1</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-uvm_ref_flow_1.2是不错的学习材料，从UT到SOC的环境都可以参考这里面的代码来写，至少可以当做代码的模板来用。
-</p>
-
-<p>
-和我之前一般看到的做法不同，monitor被完全实现在了transaction level，signal level的东西放在了一个叫collector的class里面。
-</p>
-
-<p>
-还有一个特别值得说明是，在apb_slave_seq_lib.sv中的simple_response_seq通过其p_sequencer的tlm接口addr_trans_port来生成包，不错的应用方法。
-</p>
-
-<div class="highlight"><pre><span></span>class simple_response_seq extends uvm_sequence #(apb_transfer);
-   // ...
-   virtual task body();
-      `uvm_info(get_type_name(), "Starting...", UVM_MEDIUM)
-      forever begin
-	 p_sequencer.addr_trans_port.peek(util_transfer);
-	 // ...
-      end
-   endtask : body
-endclass : simple_response_seq
-</pre></div>
-
-<p>
-为了让sequencer能看到发包的情况，建立了一条tlm通道。从总线到apb_collector，再到apb_monitor，最后到apb_slave_sequencer。
-</p>
-<img src="images/uvm_ref_flow1.png" class="img-thumbnail" width="60%"><p>
-用事件来在同一个class的两个task之间做同步和信息传递，用peek的tlm通路来层层传递。
-</p>
-<div class="highlight"><pre><span></span>class apb_slave_sequencer extends uvm_sequencer #(apb_transfer);
-   // ...
-   uvm_blocking_peek_port#(apb_transfer) addr_trans_port;
-   // ...
-endclass : apb_slave_sequencer
-
-class apb_monitor extends uvm_monitor;
-   // ...
-   // Allows the sequencer to look at monitored data for responses
-  uvm_blocking_peek_imp#(apb_transfer,apb_monitor) addr_trans_export;
-
-  // Allows monitor to look at collector for address information
-  uvm_blocking_peek_port#(apb_transfer) addr_trans_port;
-
-  event trans_addr_grabbed;
-endclass : apb_monitor
-
-  // UVM run_phase
-task apb_monitor::run_phase(uvm_phase phase);
-  forever begin
-    addr_trans_port.peek(trans_collected);
-    `uvm_info(get_type_name(), $sformatf("Address Phase Complete: %h[%s]", trans_collected.addr, trans_collected.direction.name() ), UVM_HIGH)
-    -&gt; trans_addr_grabbed;
-  end
-endtask : run_phase
-
-// FUNCTION: peek - Allows the sequencer to peek at monitor for responses
-task apb_monitor::peek(output apb_transfer trans);
-  @trans_addr_grabbed;
-  trans = trans_collected;
-endtask : peek
-
-class apb_collector extends uvm_component;
-   // ...
-   // TLM Port - Allows sequencer access to transfer during address phase
-  uvm_blocking_peek_imp#(apb_transfer,apb_collector) addr_trans_export;
-  event addr_trans_grabbed;
-endclass : apb_collector
-
-   // UVM run_phase()
-task apb_collector::run_phase(uvm_phase phase);
-    @(posedge vif.preset);
-    `uvm_info(get_type_name(), "Detected Reset Done", UVM_LOW)
-    collect_transactions();
-endtask : run_phase
-
-// collect_transactions
-task apb_collector::collect_transactions();
-  forever begin
-    @(posedge vif.pclock iff (vif.psel != 0));
-    void'(this.begin_tr(trans_collected,"APB_COLLECTOR","UVM Debug","APB collector transaction inside collect_transactions()"));
-    trans_collected.addr = vif.paddr;
-    trans_collected.master = cfg.master_config.name;
-    trans_collected.slave = cfg.get_slave_name_by_addr(trans_collected.addr);
-    case (vif.prwd)
-      1'b0 : trans_collected.direction = APB_READ;
-      1'b1 : trans_collected.direction = APB_WRITE;
-    endcase
-      @(posedge vif.pclock);
-    if(trans_collected.direction == APB_READ)
-      trans_collected.data = vif.prdata;
-    if (trans_collected.direction == APB_WRITE)
-      trans_collected.data = vif.pwdata;
-    -&gt; addr_trans_grabbed;
-    @(posedge vif.pclock);
-    if(trans_collected.direction == APB_READ) begin
-	if(vif.pready != 1'b1)
-	  @(posedge vif.pclock);
-      trans_collected.data = vif.prdata;
-      end
-    this.end_tr(trans_collected);
-    item_collected_port.write(trans_collected);
-    `uvm_info(get_type_name(), $sformatf("Transfer collected :\n%s",
-	      trans_collected.sprint()), UVM_MEDIUM)
-      `ifdef HEAP
-      runq.push_back(trans_collected);
-      `endif
-     num_transactions++;
-    end
-endtask : collect_transactions
-
-task apb_collector::peek(output apb_transfer trans);
-  @addr_trans_grabbed;
-  trans = trans_collected;
-endtask : peek
-</pre></div>
-
-<p>
-再看一下连接关系。
-</p>
-<div class="highlight"><pre><span></span>// UVM connect_phase
-function void apb_env::connect_phase(uvm_phase phase);
-  super.connect_phase(phase);
-  // Get the virtual interface if set via get_config
-  if (!uvm_config_db#(virtual apb_if)::get(this, "", "vif", vif))
-    `uvm_error("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"})
-  bus_collector.item_collected_port.connect(bus_monitor.coll_mon_port);
-  bus_monitor.addr_trans_port.connect(bus_collector.addr_trans_export);
-  master.monitor = bus_monitor;
-  master.collector = bus_collector;
-  foreach(slaves[i]) begin
-    slaves[i].monitor = bus_monitor;
-    slaves[i].collector = bus_collector;
-    if (slaves[i].is_active == UVM_ACTIVE)
-      slaves[i].sequencer.addr_trans_port.connect(bus_monitor.addr_trans_export);
-  end
-endfunction : connect_phase
-</pre></div>
 </div>
 </div>
         </div>
